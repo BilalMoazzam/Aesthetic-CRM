@@ -31,3 +31,9 @@ postcss.config.js
 tailwind.config.js
 vite.config.js
 RUN_VLAS.bat
+
+.continue/
+.history/
+.claude/
+.antigravity
+.agent/
