@@ -130,7 +130,7 @@ export default function Login() {
           {/* Signup Link */}
           <div className="mt-8 text-center">
             <p className="text-xs text-slate-500 font-medium">
-              Don't have a staff account?{' '}
+              If Don't have a staff account?{' '}
               <Link 
                 to="/signup" 
                 className="font-bold underline hover:opacity-80 transition-opacity"
