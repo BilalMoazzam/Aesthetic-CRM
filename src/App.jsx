@@ -10,6 +10,8 @@ import DealsManager from './pages/DealsManager';
 import VoucherManager from './pages/VoucherManager';
 import SettingsManager from './pages/SettingsManager';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
+import NotificationBell from './components/NotificationBell';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -114,22 +116,19 @@ const Sidebar = () => {
 const Layout = ({ children }) => {
   const { settings } = useStore();
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex">
+    <div className="min-h-screen bg-[#f8fafc] flex" style={{ '--theme-primary': settings.primaryAccent || '#148f70' }}>
       <Sidebar />
       <main className="flex-1 lg:pl-64 min-w-0">
         <header className="sticky top-0 z-30 bg-white/60 backdrop-blur-xl border-b border-slate-200">
           <div className="max-w-[1600px] mx-auto px-8 h-16 flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="hidden lg:flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-wider">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                <span>Live Data Stream Active</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-100 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Live Sync</span>
               </div>
             </div>
             <div className="flex items-center gap-6">
-              <button className="relative text-slate-400 hover:text-slate-600 transition-colors">
-                <span className="material-symbols-outlined">notifications</span>
-                <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
-              </button>
+              <NotificationBell />
               <div className="h-8 w-px bg-slate-200" />
               <div className="flex items-center gap-3 text-slate-700">
                 <span className="text-sm font-bold">{settings.brandName || 'VLAS Clinic'}</span>
@@ -149,22 +148,35 @@ const Layout = ({ children }) => {
 };
 
 function App() {
-  const { isAuthenticated, initializeStore } = useStore();
+  const { isAuthenticated, initializeStore, fetchBookings, fetchCustomers } = useStore();
 
   useEffect(() => {
     initializeStore();
   }, [initializeStore]);
+
+  // Real-time polling: refresh bookings & customers every 5 seconds
+  // so new client bookings appear immediately in the admin CRM
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const interval = setInterval(() => {
+      fetchBookings();
+      fetchCustomers();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isAuthenticated, fetchBookings, fetchCustomers]);
 
   return (
     <Routes>
       {!isAuthenticated ? (
         <>
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>
       ) : (
         <>
           <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/signup" element={<Navigate to="/" replace />} />
           <Route path="/" element={<Layout><Dashboard /></Layout>} />
           <Route path="/schedule" element={<Layout><ScheduleManager /></Layout>} />
           <Route path="/bookings" element={<Layout><BookingManager /></Layout>} />

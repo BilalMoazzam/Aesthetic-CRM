@@ -1,80 +1,149 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const login = useStore(state => state.login);
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, settings } = useStore();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // Reset fields when component mounts to avoid stale data
+  useEffect(() => {
+    setUsername('');
+    setPassword('');
+    setError('');
+    setIsLoading(false);
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = login(username, password);
-    if (success) {
+    setError('');
+    setIsLoading(true);
+    
+    const res = await login(username, password);
+    setIsLoading(false);
+    
+    if (res.success) {
       navigate('/');
+    } else if (res.reason === 'pending') {
+      setError('Your account is pending administrator approval.');
     } else {
-      setError('Invalid credentials. Please use admin / vlas2024');
+      setError('Invalid credentials. Please verify your username and password.');
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden">
-      {/* Decorative Blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-3xl -mr-64 -mt-64" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-100/50 rounded-full blur-3xl -ml-64 -mb-64" />
+  const primaryAccent = settings.primaryAccent || '#148f70';
 
-      <div className="w-full max-w-md px-6 relative z-10">
-        <div className="bg-white p-10 rounded-3xl shadow-2xl border border-slate-200 animate-page-entrance">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden font-sans">
+      {/* Soft Ambient Background Elements */}
+      <div 
+        className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-20 animate-pulse duration-[6000ms]"
+        style={{ backgroundColor: primaryAccent }}
+      />
+      <div 
+        className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-10 animate-pulse duration-[8000ms]"
+        style={{ backgroundColor: primaryAccent }}
+      />
+
+      <div className="w-full max-w-lg px-6 relative z-10">
+        {/* Main Card Wrapper */}
+        <div className="bg-white p-10 md:p-14 rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100 relative overflow-hidden transition-all hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)]">
+          {/* Accent Border Line */}
+          <div 
+            className="absolute top-0 left-0 right-0 h-[4px]"
+            style={{ backgroundColor: primaryAccent }}
+          />
+
+          {/* Header */}
           <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-100 mx-auto mb-6">
-              <span className="material-symbols-outlined text-3xl">health_metrics</span>
+            <div 
+              className="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-lg mx-auto mb-6 transition-transform hover:rotate-12 duration-300"
+              style={{ backgroundColor: primaryAccent }}
+            >
+              <span className="material-symbols-outlined text-3xl font-light">health_metrics</span>
             </div>
-            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">VLAS Admin</h1>
-            <p className="text-slate-500 text-sm mt-1">Enterprise Management Protocol</p>
+            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{settings.brandName || 'Vlas AESTHETIC'}</h1>
+            <p className="text-slate-500 text-xs font-bold uppercase tracking-[0.25em] mt-2">Enterprise Administration</p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-rose-50 border border-rose-100 text-rose-600 rounded-xl text-xs font-bold text-center">
+            <div className="mb-8 p-4 bg-rose-50 border border-rose-100 text-rose-600 rounded-2xl text-xs font-semibold text-center leading-relaxed">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
+            {/* Username Input */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Username</label>
-              <input 
-                required 
-                type="text" 
-                value={username} 
-                onChange={e => setUsername(e.target.value)} 
-                className="input-pro" 
-                placeholder="admin"
-              />
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Username</label>
+              <div className="relative group">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-700 transition-colors duration-300 text-xl font-light">person</span>
+                <input 
+                  required 
+                  type="text" 
+                  value={username} 
+                  onChange={e => setUsername(e.target.value)} 
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-slate-300 text-slate-900 rounded-2xl pl-14 pr-4 py-4 text-sm font-medium transition-all focus:outline-none focus:ring-4 focus:ring-slate-100" 
+                  autoComplete="off"
+                />
+              </div>
             </div>
+
+            {/* Password Input */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Password</label>
-              <input 
-                required 
-                type="password" 
-                value={password} 
-                onChange={e => setPassword(e.target.value)} 
-                className="input-pro" 
-                placeholder="••••••••"
-              />
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Password</label>
+              <div className="relative group">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-700 transition-colors duration-300 text-xl font-light">lock</span>
+                <input 
+                  required 
+                  type="password" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-slate-300 text-slate-900 rounded-2xl pl-14 pr-4 py-4 text-sm font-medium transition-all focus:outline-none focus:ring-4 focus:ring-slate-100" 
+                  autoComplete="new-password"
+                />
+              </div>
             </div>
+
+            {/* Submit Button */}
             <button 
               type="submit" 
-              className="w-full py-4 bg-blue-600 text-white rounded-xl text-sm font-bold tracking-widest uppercase hover:bg-blue-700 active:scale-[0.98] transition-all shadow-xl shadow-blue-100 mt-4"
+              disabled={isLoading}
+              className="w-full py-4 text-white rounded-2xl text-xs font-black tracking-[0.2em] uppercase transition-all duration-300 transform active:scale-[0.98] shadow-md disabled:opacity-50 flex items-center justify-center gap-2 mt-8 hover:opacity-90"
+              style={{ backgroundColor: primaryAccent }}
             >
-              Sign In
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <span className="material-symbols-outlined text-base font-light">east</span>
+                </>
+              )}
             </button>
           </form>
 
-          <div className="mt-10 pt-8 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-400 font-medium italic">
-              VLAS Core v3.2.0 • Secure Access Only
+          {/* Signup Link */}
+          <div className="mt-8 text-center">
+            <p className="text-xs text-slate-500 font-medium">
+              Don't have a staff account?{' '}
+              <Link 
+                to="/signup" 
+                className="font-bold underline hover:opacity-80 transition-opacity"
+                style={{ color: primaryAccent }}
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-slate-100 text-center">
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+              VLAS Core v3.2.0 • Secure Access
             </p>
           </div>
         </div>

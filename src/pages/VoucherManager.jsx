@@ -99,9 +99,9 @@ export default function VoucherManager() {
                 <tr className="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-100">
                   <th className="px-8 py-5">Voucher Code</th>
                   <th className="px-8 py-5">Value</th>
-                  <th className="px-8 py-5">Assigned To</th>
                   <th className="px-8 py-5">Expiry Date</th>
                   <th className="px-8 py-5">Status</th>
+                  <th className="px-8 py-5">Assigned To</th>
                   <th className="px-8 py-5 text-right">Actions</th>
                 </tr>
               </thead>
@@ -122,35 +122,38 @@ export default function VoucherManager() {
                       </span>
                     </td>
                     <td className="px-8 py-6">
+                      <p className="text-sm font-medium text-slate-700">{voucher.expiryDate}</p>
+                    </td>
+                    <td className="px-8 py-6">
+                      <span className={`badge-${voucher.status}`}>{voucher.status}</span>
+                    </td>
+                    <td className="px-8 py-6">
                       <div className="flex items-center gap-2">
                         <span className={`text-xs font-bold ${voucher.assignedClientId ? 'text-slate-900' : 'text-slate-400 italic'}`}>
                           {getClientName(voucher.assignedClientId)}
                         </span>
                         <button 
                           onClick={() => { setSelectedVoucher(voucher); setIsAssignModalOpen(true); }}
-                          className="w-6 h-6 rounded-md bg-slate-100 flex items-center justify-center text-slate-400 hover:text-primary transition-colors"
+                          className="w-7 h-7 rounded-md bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                          title="Assign to client"
                         >
-                          <span className="material-symbols-outlined text-xs">person_add</span>
+                          <span className="material-symbols-outlined text-sm">person_add</span>
                         </button>
                       </div>
                     </td>
-                    <td className="px-8 py-6">
-                      <p className="text-sm font-medium text-slate-700">{voucher.expiryDate}</p>
-                    </td>
-                    <td className="px-8 py-6">
-                      <span className={`badge-${voucher.status}`}>{voucher.status}</span>
-                    </td>
                     <td className="px-8 py-6 text-right">
-                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-end gap-2">
                         <button 
                           onClick={() => handleOpenModal(voucher)}
-                          className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          className="w-9 h-9 flex items-center justify-center rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                          title="Edit voucher"
                         >
                           <span className="material-symbols-outlined text-xl">edit</span>
                         </button>
                         <button 
                           onClick={() => { if(window.confirm('Delete voucher?')) deleteVoucher(voucher.id); }}
-                          className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                          className="w-9 h-9 flex items-center justify-center rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors"
+                          title="Delete voucher"
                         >
                           <span className="material-symbols-outlined text-xl">delete</span>
                         </button>
@@ -173,7 +176,7 @@ export default function VoucherManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Voucher Code</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Voucher Code*</label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">qr_code</span>
               <input required value={formData.code} onChange={e=>setFormData({...formData, code: e.target.value.toUpperCase()})} className="input-pro pl-12 font-mono tracking-widest" placeholder="e.g. SUMMER24" />
@@ -193,13 +196,13 @@ export default function VoucherManager() {
               </select>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Discount Value</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Discount Value*</label>
               <input required type="number" value={formData.value} onChange={e=>setFormData({...formData, value: e.target.value})} className="input-pro" placeholder="e.g. 15" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Expiry Date</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Expiry Date*</label>
               <input required type="date" value={formData.expiryDate} onChange={e=>setFormData({...formData, expiryDate: e.target.value})} className="input-pro" />
             </div>
             <div className="space-y-3">

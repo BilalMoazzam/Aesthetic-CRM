@@ -147,13 +147,15 @@ export default function DealsManager() {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => handleOpenModal(deal)}
-                      className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                      className="w-10 h-10 flex items-center justify-center rounded-xl text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                      title="Edit deal"
                     >
                       <span className="material-symbols-outlined">edit</span>
                     </button>
                     <button 
                       onClick={() => { if(window.confirm('Delete deal?')) deleteDeal(deal.id); }}
-                      className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                      className="w-10 h-10 flex items-center justify-center rounded-xl text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors"
+                      title="Delete deal"
                     >
                       <span className="material-symbols-outlined">delete</span>
                     </button>
@@ -174,7 +176,7 @@ export default function DealsManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Deal Title</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Deal Title*</label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">loyalty</span>
               <input required type="text" value={formData.title} onChange={e=>setFormData({...formData, title: e.target.value})} className="input-pro pl-12" placeholder="e.g. Refresh & Renew Bundle" />
@@ -189,14 +191,14 @@ export default function DealsManager() {
           </div>
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Original Value ($)</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Original Value ($)*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">payments</span>
                 <input required type="number" value={formData.originalPrice} onChange={e=>setFormData({...formData, originalPrice: e.target.value})} className="input-pro pl-12" placeholder="200" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Deal Price ($)</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Deal Price ($)*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">sell</span>
                 <input required type="number" value={formData.discountPrice} onChange={e=>setFormData({...formData, discountPrice: e.target.value})} className="input-pro pl-12" placeholder="149" />
@@ -205,10 +207,19 @@ export default function DealsManager() {
           </div>
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Bundle Duration</label>
-              <div className="relative">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Bundle Duration*</label>
+              <div className="relative flex items-center">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">timer</span>
-                <input required type="text" value={formData.duration} onChange={e=>setFormData({...formData, duration: e.target.value})} className="input-pro pl-12" placeholder="e.g. 90 min" />
+                <input 
+                  required 
+                  type="number" 
+                  min="1" 
+                  value={formData.duration ? formData.duration.replace(/\D/g, '') : ''} 
+                  onChange={e=>setFormData({...formData, duration: e.target.value ? `${e.target.value} min` : ''})} 
+                  className="input-pro pl-12 pr-20" 
+                  placeholder="90" 
+                />
+                <span className="absolute right-4 text-xs font-bold text-slate-400 uppercase">minutes</span>
               </div>
             </div>
             <div className="space-y-3">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 
 export default function SettingsManager() {
-  const { settings, updateSettings } = useStore();
+  const { settings, updateSettings, users, toggleUserApproval, services, deals, addBooking, customers, fetchServices, fetchDeals, fetchCustomers } = useStore();
   const [formData, setFormData] = useState({
     workingHoursStart: '09:00 AM',
     workingHoursEnd: '05:00 PM',
@@ -18,16 +18,67 @@ export default function SettingsManager() {
   });
   const [isSaved, setIsSaved] = useState(false);
 
+  // Fake booking state
+  const [fakeForm, setFakeForm] = useState({
+    clientName: '',
+    serviceId: '',
+    date: '',
+    time: '',
+    count: 1
+  });
+  const [fakeToast, setFakeToast] = useState('');
+
+  useEffect(() => {
+    fetchServices();
+    fetchDeals();
+    fetchCustomers();
+  }, [fetchServices, fetchDeals, fetchCustomers]);
+
   useEffect(() => {
     if (settings) {
       setFormData(prev => ({ ...prev, ...settings }));
     }
   }, [settings]);
 
-  const handleSave = () => {
-    updateSettings(formData);
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 2000);
+    // After saving, persist to localStorage for client sync and reload the page to reflect changes
+    const handleSave = () => {
+      updateSettings(formData);
+      // Store the updated settings locally so client can read without stale fallback
+      localStorage.setItem('vlas_settings', JSON.stringify(formData));
+      // Reload the page to ensure client fetches the latest settings
+      window.location.reload();
+    };
+
+  const FAKE_NAMES = ['Alex Johnson','Maria Garcia','David Kim','Sophie Chen','James Wilson','Emma Davis','Liam Brown','Olivia Martinez'];
+  const TIME_SLOTS = ['09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM','05:00 PM','06:00 PM'];
+
+  const handleCreateFakeBooking = () => {
+    const name = fakeForm.clientName || FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)];
+    const selectedService = fakeForm.serviceId ? services.find(s => s.id === fakeForm.serviceId) : services[Math.floor(Math.random() * services.length)];
+    const today = new Date();
+    const randomDays = Math.floor(Math.random() * 14);
+    const bookingDate = fakeForm.date || new Date(today.getFullYear(), today.getMonth(), today.getDate() + randomDays).toISOString().split('T')[0];
+    const time = fakeForm.time || TIME_SLOTS[Math.floor(Math.random() * TIME_SLOTS.length)];
+
+    for (let i = 0; i < (fakeForm.count || 1); i++) {
+      const offsetDate = new Date(bookingDate);
+      offsetDate.setDate(offsetDate.getDate() + i);
+      addBooking({
+        clientDetails: { name: i === 0 ? name : FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)], email: '', phone: '' },
+        serviceId: selectedService?.id || '',
+        serviceName: selectedService?.title || 'Signature Protocol',
+        date: offsetDate.toISOString().split('T')[0],
+        time,
+        totalPrice: selectedService?.price || 0,
+        duration: selectedService?.duration || '60 min',
+        status: 'confirmed',
+        isFake: true
+      });
+    }
+
+    setFakeToast(`✓ ${fakeForm.count || 1} fake booking${(fakeForm.count || 1) > 1 ? 's' : ''} created successfully!`);
+    setTimeout(() => setFakeToast(''), 3000);
+    setFakeForm({ clientName: '', serviceId: '', date: '', time: '', count: 1 });
   };
 
   return (
@@ -179,6 +230,50 @@ export default function SettingsManager() {
               </div>
             </div>
           </div>
+
+          {/* Staff Approvals & Account Control */}
+          <div className="card-pro p-8">
+            <h3 className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
+              <span className="material-symbols-outlined text-base text-blue-600" style={{ color: settings.primaryAccent }}>manage_accounts</span>
+              Staff Access & Approvals
+            </h3>
+            {users && users.length > 0 ? (
+              <div className="divide-y divide-slate-100">
+                {users.map(u => (
+                  <div key={u.id} className="py-4 flex items-center justify-between first:pt-0 last:pb-0">
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">{u.name}</p>
+                      <p className="text-xs text-slate-505 font-medium text-slate-400">@{u.username} • {u.role}</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
+                        u.isApproved 
+                          ? 'bg-emerald-50 text-emerald-700' 
+                          : 'bg-amber-50 text-amber-700'
+                      }`}>
+                        {u.isApproved ? 'Approved' : 'Pending'}
+                      </span>
+                      {u.username !== 'admin' && (
+                        <button
+                          type="button"
+                          onClick={() => toggleUserApproval(u.id)}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                            u.isApproved 
+                              ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' 
+                              : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+                          }`}
+                        >
+                          {u.isApproved ? 'Revoke' : 'Approve'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-400 italic">No registered staff users found.</p>
+            )}
+          </div>
         </div>
 
         {/* Right Column - Appearance & Metadata */}
@@ -223,24 +318,124 @@ export default function SettingsManager() {
             </div>
           </div>
 
-          <div className="card-pro p-8 bg-blue-600 text-white border-none shadow-blue-200">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <span className="material-symbols-outlined">verified</span>
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100">System Status</p>
-                <p className="text-sm font-bold">All services active</p>
-              </div>
+          {/* System Status removed - not needed */}
+        </div>
+      </div>
+
+      {/* ========== FAKE BOOKING GENERATOR ========== */}
+      <div className="card-pro p-8 border-2 border-dashed border-orange-200 bg-orange-50/30">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
+            <span className="material-symbols-outlined text-orange-600">science</span>
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">Fake Booking Generator</h3>
+            <p className="text-xs text-slate-500 mt-0.5">Create test bookings that appear on the admin calendar but <strong>don't block real client slots</strong>.</p>
+          </div>
+          <span className="ml-auto text-[10px] font-black bg-orange-100 text-orange-700 px-3 py-1 rounded-full uppercase tracking-wider border border-orange-200">Admin Only</span>
+        </div>
+
+        {fakeToast && (
+          <div className="mb-4 flex items-center gap-2 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-700 text-sm font-bold animate-page-entrance">
+            <span className="material-symbols-outlined text-lg">check_circle</span>
+            {fakeToast}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Client Name */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Client Name (optional)</label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">person</span>
+              <input
+                type="text"
+                value={fakeForm.clientName}
+                onChange={e => setFakeForm({ ...fakeForm, clientName: e.target.value })}
+                className="input-pro pl-12"
+                placeholder="Leave blank for random name"
+              />
             </div>
-            <p className="text-xs text-blue-100 leading-relaxed mb-6">
-              The system configuration is synchronized with the main database. Changes will be reflected immediately across all client applications.
-            </p>
-            <button className="w-full py-3 bg-white text-blue-600 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-blue-50 transition-colors">
-              View System Logs
+          </div>
+
+          {/* Service */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Service (optional)</label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">medical_services</span>
+              <select
+                value={fakeForm.serviceId}
+                onChange={e => setFakeForm({ ...fakeForm, serviceId: e.target.value })}
+                className="input-pro pl-12 appearance-none"
+              >
+                <option value="">Random service</option>
+                {services.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+              </select>
+            </div>
+          </div>
+
+          {/* Date */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Date (optional)</label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
+              <input
+                type="date"
+                value={fakeForm.date}
+                onChange={e => setFakeForm({ ...fakeForm, date: e.target.value })}
+                className="input-pro pl-12"
+              />
+            </div>
+          </div>
+
+          {/* Time */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Time (optional)</label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">schedule</span>
+              <select
+                value={fakeForm.time}
+                onChange={e => setFakeForm({ ...fakeForm, time: e.target.value })}
+                className="input-pro pl-12 appearance-none"
+              >
+                <option value="">Random time slot</option>
+                {['09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM','05:00 PM','06:00 PM'].map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+          </div>
+
+          {/* Count */}
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Number of Bookings</label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">numbers</span>
+              <input
+                type="number"
+                min="1"
+                max="20"
+                value={fakeForm.count}
+                onChange={e => setFakeForm({ ...fakeForm, count: parseInt(e.target.value) || 1 })}
+                className="input-pro pl-12"
+              />
+            </div>
+          </div>
+
+          {/* Generate button */}
+          <div className="flex items-end">
+            <button
+              onClick={handleCreateFakeBooking}
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl transition-all shadow-lg shadow-orange-200 active:scale-95"
+            >
+              <span className="material-symbols-outlined text-xl">add_circle</span>
+              Generate Fake Booking{fakeForm.count > 1 ? 's' : ''}
             </button>
           </div>
         </div>
+
+        <p className="text-[10px] text-slate-400 mt-4 flex items-center gap-1.5">
+          <span className="material-symbols-outlined text-sm">info</span>
+          Fake bookings are tagged with an orange <strong>Test</strong> badge on the calendar and excluded from client slot blocking. Use them to simulate busy days or test scheduling logic.
+        </p>
       </div>
     </div>
   );

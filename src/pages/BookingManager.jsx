@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useStore } from '../store/useStore';
 import Modal from '../components/Modal';
 
@@ -16,8 +16,37 @@ export default function BookingManager() {
     updateBooking, 
     deleteBooking, 
     addMessage, 
-    settings 
+    settings,
+    deals,
+    addCustomer
   } = useStore();
+
+  // Generate time slots from settings (same as ScheduleManager)
+  const timeSlots = useMemo(() => {
+    const start = settings.workingHoursStart || '09:00 AM';
+    const end = settings.workingHoursEnd || '08:00 PM';
+    const slots = [];
+    const parseTime = (timeStr) => {
+      try {
+        const parts = timeStr.split(' ');
+        const time = parts[0];
+        const modifier = (parts[1] || 'AM').toUpperCase();
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+        if (hours === 12 && modifier === 'AM') hours = 0;
+        if (modifier === 'PM' && hours !== 12) hours += 12;
+        return hours;
+      } catch (e) { return 9; }
+    };
+    const startH = parseTime(start);
+    const endH = parseTime(end);
+    for (let h = startH; h <= endH; h++) {
+      const displayH = h % 12 || 12;
+      const ampm = h < 12 ? 'AM' : 'PM';
+      slots.push(`${String(displayH).padStart(2, '0')}:00 ${ampm}`);
+    }
+    return slots;
+  }, [settings]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -25,15 +54,86 @@ export default function BookingManager() {
   const [sendNotification, setSendNotification] = useState(true);
   const [dispatchOverlay, setDispatchOverlay] = useState(false);
 
+  const [clientMode, setClientMode] = useState('new');
   const [formData, setFormData] = useState({ 
     clientName: '', 
     clientEmail: '', 
     clientPhone: '', 
     serviceId: '', 
+    dealId: '',
     date: '', 
     time: '', 
-    status: 'confirmed' 
+    status: 'confirmed',
+    isFake: false 
   });
+
+  // Robust duration parser to handle "1 hour", "90 min", etc.
+  const parseDuration = (durStr) => {
+    if (!durStr) return 0;
+    const str = durStr.toString().toLowerCase();
+    const num = parseInt(str.replace(/[^0-9]/g, '')) || 0;
+    if (str.includes('hour') || str.includes('hr')) return num * 60;
+    return num || 0;
+  };
+
+  // Helper to parse time string (e.g. "09:00 AM") to minutes from midnight
+  const timeToMinutes = (timeStr) => {
+    if (!timeStr) return 0;
+    const match = timeStr.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+    if (!match) return 0;
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const ampm = match[3].toUpperCase();
+    if (hours === 12 && ampm === 'AM') hours = 0;
+    if (ampm === 'PM' && hours !== 12) hours += 12;
+    return hours * 60 + minutes;
+  };
+
+  // Get duration of booking
+  const getBookingDuration = (booking) => {
+    if (booking.duration) return parseDuration(booking.duration);
+    if (booking.serviceId) {
+      const s = services.find(x => x.id === booking.serviceId);
+      if (s) return parseDuration(s.duration);
+    }
+    if (booking.dealId) {
+      const d = deals.find(x => x.id === booking.dealId);
+      if (d) return parseDuration(d.duration);
+    }
+    return 60;
+  };
+
+  const bufferTime = Number(settings.bufferTime) || 0;
+
+  const isSlotBooked = (slotTimeStr) => {
+    if (!formData.date) return false;
+    
+    const selectedService = services.find(s => s.id === formData.serviceId);
+    const selectedDeal = deals.find(d => d.id === formData.dealId);
+    const currentDuration = 
+      (selectedService ? parseDuration(selectedService.duration) : 0) +
+      (selectedDeal ? parseDuration(selectedDeal.duration) : 0) || 60;
+
+    const slotStart = timeToMinutes(slotTimeStr);
+    const slotEnd = slotStart + currentDuration;
+
+    // Bookings on selected date
+    const dayBookings = bookings.filter(b => b.date === formData.date && b.status !== 'cancelled');
+
+    for (const b of dayBookings) {
+      const bStart = timeToMinutes(b.time);
+      const bDur = getBookingDuration(b);
+      const bEnd = bStart + bDur + bufferTime;
+
+      // Don't count overlap if editing the same booking
+      if (editingId && b.id === editingId) continue;
+
+      if (slotStart < bEnd && slotEnd > bStart) {
+        return true; // Conflict
+      }
+    }
+    return false;
+  };
 
   useEffect(() => {
     fetchBookings();
@@ -66,22 +166,28 @@ export default function BookingManager() {
         clientEmail: booking.clientDetails?.email || '',
         clientPhone: booking.clientDetails?.phone || '',
         serviceId: booking.serviceId || '',
+        dealId: booking.dealId || '',
         date: booking.date || '',
         time: booking.time || '',
-        status: booking.status || 'confirmed'
+        status: booking.status || 'confirmed',
+        isFake: booking.isFake || false
       });
       setEditingId(booking.id);
+      setClientMode('existing'); // Default to existing when editing
     } else {
       setFormData({ 
         clientName: '', 
         clientEmail: '', 
         clientPhone: '', 
         serviceId: '', 
+        dealId: '',
         date: '', 
         time: '', 
-        status: 'confirmed' 
+        status: 'confirmed',
+        isFake: false 
       });
       setEditingId(null);
+      setClientMode('new');
     }
     setIsModalOpen(true);
   };
@@ -103,16 +209,25 @@ export default function BookingManager() {
       date: formData.date,
       time: formData.time,
       totalPrice: price,
-      status: formData.status
+      status: formData.status,
+      isFake: formData.isFake || false
     };
 
     if (editingId) {
       updateBooking(editingId, bookingData);
     } else {
+      if (clientMode === 'new' && formData.clientName) {
+        addCustomer({
+          name: formData.clientName,
+          email: formData.clientEmail,
+          phone: formData.clientPhone,
+          tier: 'Standard'
+        });
+      }
       addBooking(bookingData);
 
       if (sendNotification) {
-        const smsMessage = `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing VLAS!`;
+        const smsMessage = `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing Vlas AESTHETIC!`;
         addMessage({
           clientName: formData.clientName,
           clientPhone: formData.clientPhone,
@@ -141,7 +256,7 @@ export default function BookingManager() {
   const filteredBookings = bookings.filter(b => {
     if (activeTab === 'all') return true;
     return b.status === activeTab;
-  });
+  }).sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const selectedService = services.find(s => s.id === formData.serviceId);
   const serviceTitle = selectedService ? selectedService.title : 'Signature Protocol';
@@ -290,22 +405,22 @@ export default function BookingManager() {
                           {booking.status === 'pending' && (
                             <button 
                               onClick={() => updateBooking(booking.id, { status: 'confirmed' })}
-                              className="w-9 h-9 flex items-center justify-center rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors"
-                              title="Confirm"
+                              className="w-9 h-9 flex items-center justify-center rounded-lg text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                              title="Confirm Booking"
                             >
                               <span className="material-symbols-outlined text-xl">check_circle</span>
                             </button>
                           )}
                           <button 
                             onClick={() => handleOpenModal(booking)}
-                            className="w-9 h-9 flex items-center justify-center rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
-                            title="Edit"
+                            className="w-9 h-9 flex items-center justify-center rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                            title="Edit Booking"
                           >
                             <span className="material-symbols-outlined text-xl">edit</span>
                           </button>
                           <button 
                             onClick={() => { if(window.confirm('Delete this booking?')) deleteBooking(booking.id); }}
-                            className="w-9 h-9 flex items-center justify-center rounded-lg text-rose-500 hover:bg-rose-50 transition-colors"
+                            className="w-9 h-9 flex items-center justify-center rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors"
                             title="Delete Booking"
                           >
                             <span className="material-symbols-outlined text-xl">delete</span>
@@ -337,114 +452,195 @@ export default function BookingManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* OPTIONAL CUSTOMER SELECTOR */}
+          {/* CLIENT TYPE SELECTOR */}
           {!editingId && (
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Assign Existing Client (Optional)</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">group</span>
-                <select 
-                  onChange={e => handleSelectCustomer(e.target.value)} 
-                  className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Association</label>
+              <div className="grid grid-cols-2 gap-4 bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setClientMode('new');
+                    setFormData(prev => ({ ...prev, clientName: '', clientEmail: '', clientPhone: '' }));
+                  }}
+                  className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'new' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
-                  <option value="">-- Create Custom / New Client --</option>
-                  {customers.map(c => <option key={c.id} value={c.id}>{c.name} ({c.email || c.phone || 'No Contact'})</option>)}
-                </select>
+                  Create New Client
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setClientMode('existing');
+                    setFormData(prev => ({ ...prev, clientName: '', clientEmail: '', clientPhone: '' }));
+                  }}
+                  className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'existing' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                >
+                  Existing Client
+                </button>
               </div>
             </div>
           )}
 
-          {/* CLIENT FULL NAME */}
+          {/* OPTIONAL CUSTOMER SELECTOR IF EXISTING */}
+          {clientMode === 'existing' || editingId ? (
+            <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-page-entrance">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Select Client Profile*</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">group</span>
+                <select 
+                  required
+                  onChange={e => handleSelectCustomer(e.target.value)} 
+                  className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
+                >
+                  <option value="">-- Choose Profile --</option>
+                  {customers.map(c => <option key={c.id} value={c.id}>{c.name} ({c.email || c.phone || 'No Contact'})</option>)}
+                </select>
+              </div>
+
+              {formData.clientName && (
+                <div className="mt-4 pt-4 border-t border-slate-200/50 grid grid-cols-2 gap-2 text-xs text-slate-500 font-medium">
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Name</span>
+                    <span className="text-slate-800 font-bold">{formData.clientName}</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Contact</span>
+                    <span className="text-slate-800 font-bold truncate block">{formData.clientPhone || formData.clientEmail}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-6 animate-page-entrance">
+              {/* CLIENT FULL NAME */}
+              <div className="space-y-3">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Full Name*</label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">person</span>
+                  <input 
+                    required 
+                    className="input-pro pl-12" 
+                    placeholder="e.g. John Doe" 
+                    type="text" 
+                    value={formData.clientName}
+                    onChange={e => setFormData({...formData, clientName: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              {/* CONTACT INFO: EMAIL & PHONE (RESPONSIVE GRID) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Email*</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">mail</span>
+                    <input 
+                      required 
+                      type="email"
+                      value={formData.clientEmail} 
+                      onChange={e=>setFormData({...formData, clientEmail: e.target.value})} 
+                      className="input-pro pl-12" 
+                      placeholder="client@example.com" 
+                    />
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Phone*</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">phone</span>
+                    <input 
+                      required 
+                      value={formData.clientPhone} 
+                      onChange={e=>setFormData({...formData, clientPhone: e.target.value})} 
+                      className="input-pro pl-12" 
+                      placeholder="e.g. +1 (555) 000-0000" 
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* SERVICE & DEAL PICKER */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Treatment</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">medical_services</span>
+                <select 
+                  className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
+                  value={formData.serviceId}
+                  onChange={e => setFormData({...formData, serviceId: e.target.value})}
+                >
+                  <option value="">-- Choose Service --</option>
+                  {services.map(s => <option key={s.id} value={s.id}>{s.title} (${s.price})</option>)}
+                </select>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Promotional Deal</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">loyalty</span>
+                <select 
+                  className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
+                  value={formData.dealId}
+                  onChange={e => setFormData({...formData, dealId: e.target.value})}
+                >
+                  <option value="">-- Choose Deal --</option>
+                  {deals.map(d => <option key={d.id} value={d.id}>{d.title} (${d.discountPrice})</option>)}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* APPOINTMENT DATE */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Full Name</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Appointment Date*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">person</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">calendar_today</span>
               <input 
                 required 
-                value={formData.clientName} 
-                onChange={e=>setFormData({...formData, clientName: e.target.value})} 
                 className="input-pro pl-12" 
-                placeholder="e.g. John Doe" 
+                type="date" 
+                value={formData.date}
+                onChange={e => setFormData({...formData, date: e.target.value})}
               />
             </div>
           </div>
 
-          {/* CONTACT INFO: EMAIL & PHONE (RESPONSIVE GRID) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Email</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">mail</span>
-                <input 
-                  required 
-                  type="email"
-                  value={formData.clientEmail} 
-                  onChange={e=>setFormData({...formData, clientEmail: e.target.value})} 
-                  className="input-pro pl-12" 
-                  placeholder="client@example.com" 
-                />
-              </div>
-            </div>
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Phone</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">phone</span>
-                <input 
-                  required 
-                  value={formData.clientPhone} 
-                  onChange={e=>setFormData({...formData, clientPhone: e.target.value})} 
-                  className="input-pro pl-12" 
-                  placeholder="e.g. +1 (555) 000-0000" 
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* SERVICE SELECTOR */}
+          {/* PREFERRED TIME BUTTON GRID */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Treatment</label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">medical_services</span>
-              <select 
-                required 
-                value={formData.serviceId} 
-                onChange={e=>setFormData({...formData, serviceId: e.target.value})} 
-                className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
-              >
-                <option value="">Select a service</option>
-                {services.map(s => <option key={s.id} value={s.id}>{s.title} (${s.price})</option>)}
-              </select>
-            </div>
-          </div>
-
-          {/* APPOINTMENT DATE & TIME (RESPONSIVE GRID) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Appointment Date</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">calendar_today</span>
-                <input 
-                  required 
-                  value={formData.date} 
-                  onChange={e=>setFormData({...formData, date: e.target.value})} 
-                  className="input-pro pl-12" 
-                  type="date" 
-                />
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Preferred Time Slot*</label>
+            {!formData.date ? (
+              <div className="p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-center text-xs text-slate-400">
+                Please choose an appointment date to reveal timeline windows.
               </div>
-            </div>
-            <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Appointment Time</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">schedule</span>
-                <input 
-                  required 
-                  value={formData.time} 
-                  onChange={e=>setFormData({...formData, time: e.target.value})} 
-                  className="input-pro pl-12" 
-                  placeholder="e.g. 10:00 AM" 
-                />
+            ) : (
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-white">
+                {timeSlots.map(t => {
+                  const booked = isSlotBooked(t);
+                  const selected = formData.time === t;
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setFormData({...formData, time: t})}
+                      disabled={booked}
+                      className={`
+                        py-3 px-2 rounded-xl text-xs font-bold transition-all border 
+                        ${booked ? 'opacity-40 bg-slate-50 border-slate-200 cursor-not-allowed text-slate-400' 
+                          : selected ? 'bg-blue-600 text-white border-blue-600 shadow-md scale-[1.02]' 
+                          : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'}
+                      `}
+                      style={selected ? { backgroundColor: settings.primaryAccent, borderColor: settings.primaryAccent } : {}}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
               </div>
-            </div>
+            )}
           </div>
 
           {/* STATUS SELECTOR */}
@@ -464,6 +660,18 @@ export default function BookingManager() {
                 <option value="cancelled">Cancelled</option>
               </select>
             </div>
+          </div>
+
+          {/* FAKE BOOKING CHECK */}
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="fakeBookingMgr"
+              checked={formData.isFake || false}
+              onChange={e => setFormData({ ...formData, isFake: e.target.checked })}
+              className="w-4 h-4 text-primaryAccent border-gray-300 rounded"
+            />
+            <label htmlFor="fakeBookingMgr" className="text-sm text-slate-600">Mark as Fake Booking (for testing)</label>
           </div>
 
           {/* SEND NOTIFICATION TOGGLE */}
@@ -496,7 +704,7 @@ export default function BookingManager() {
                 <p className="text-[10px] font-extrabold text-blue-400 mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
                 <p className="text-xs text-slate-200 leading-relaxed font-semibold">
                   {formData.clientName 
-                    ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing VLAS!`
+                    ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing Vlas AESTHETIC!`
                     : "Fill client name & details to generate preview..."}
                 </p>
                 <span className="block text-[8px] text-right text-slate-500 mt-2 font-bold uppercase tracking-widest">Neural Link Sync • Instant Delivery</span>
@@ -531,7 +739,7 @@ export default function BookingManager() {
             <div className="mt-4 bg-white/5 rounded-2xl p-4 border border-white/5 w-full text-left font-sans">
               <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Outbound Body</p>
               <p className="text-xs text-slate-200 mt-1 italic leading-relaxed font-medium">
-                "Dear {formData.clientName}, your booking for {serviceTitle} on {formData.date} at {formData.time} is booked. Thank you for choosing VLAS!"
+                {`"Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing Vlas AESTHETIC!"`}
               </p>
             </div>
           </div>

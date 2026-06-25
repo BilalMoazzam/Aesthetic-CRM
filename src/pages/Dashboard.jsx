@@ -19,7 +19,7 @@ export default function Dashboard() {
   
   const totalRevenue = bookings.reduce((acc, booking) => {
     const service = services.find(s => s.id === booking.serviceId);
-    return acc + Number(booking.price || service?.price || 0);
+    return acc + Number(booking.totalPrice || booking.price || service?.price || 0);
   }, 0);
 
   const stats = [
@@ -116,7 +116,7 @@ export default function Dashboard() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center justify-end gap-2">
                           <Link to="/bookings" className="p-1.5 text-slate-400 hover:text-blue-600">
                             <span className="material-symbols-outlined text-lg">edit</span>
                           </Link>
@@ -156,7 +156,7 @@ export default function Dashboard() {
                   <p className="text-sm font-bold text-slate-900 truncate">{customer.name}</p>
                   <p className="text-xs text-slate-500 truncate">{customer.email || customer.phone}</p>
                 </div>
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-2">
                   <Link to="/customers" className="text-slate-400 hover:text-blue-600">
                     <span className="material-symbols-outlined text-lg">chat_bubble</span>
                   </Link>

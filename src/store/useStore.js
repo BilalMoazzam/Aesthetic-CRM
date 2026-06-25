@@ -68,21 +68,6 @@ const FALLBACK_BOOKINGS = [
     "voucherCode": null,
     "status": "pending",
     "id": "8a3EwTizA1g"
-  },
-  {
-    "serviceId": "2",
-    "serviceName": "Velvet Massage",
-    "clientDetails": {
-      "name": "Tatheer fatima",
-      "email": "alexandra@editorial.com",
-      "phone": "0011223344"
-    },
-    "date": "2026-05-15",
-    "time": "12:45 PM",
-    "totalPrice": 185,
-    "voucherCode": null,
-    "status": "pending",
-    "id": "8crVYHKkUX8"
   }
 ];
 
@@ -93,13 +78,6 @@ const FALLBACK_CUSTOMERS = [
     "phone": "+923017175262",
     "tier": "Elite",
     "id": "FGIN-pw1eLA"
-  },
-  {
-    "name": "Tatheer fatima",
-    "email": "alexandra@editorial.com",
-    "phone": "0011223344",
-    "tier": "Elite",
-    "id": "Wem1epx7TD4"
   },
   {
     "name": "ALI Ahamd",
@@ -123,7 +101,7 @@ const FALLBACK_VOUCHERS = [
 ];
 
 const FALLBACK_SETTINGS = {
-  "brandName": "TF AESTHETIC",
+  "brandName": "Vlas AESTHETIC",
   "primaryAccent": "#0e74a0",
   "typography": "Playfair Display",
   "workingHoursStart": "09:00 AM",
@@ -137,28 +115,127 @@ const FALLBACK_SETTINGS = {
 };
 
 export const useStore = create((set, get) => ({
-  services: [],
-  deals: [],
-  bookings: [],
-  customers: [],
-  vouchers: [],
-  messages: [],
-  settings: FALLBACK_SETTINGS,
+  // Immediately seed from localStorage cache so UI renders with real data on first paint
+  // (API will then refresh these in the background within ~100ms)
+  services:  (() => { try { const d = localStorage.getItem('vlas_services');  return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  deals:     (() => { try { const d = localStorage.getItem('vlas_deals');    return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  bookings:  (() => { try { const d = localStorage.getItem('vlas_bookings'); return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  customers: (() => { try { const d = localStorage.getItem('vlas_customers');return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  vouchers:  (() => { try { const d = localStorage.getItem('vlas_vouchers'); return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  messages:  (() => { try { const d = localStorage.getItem('vlas_messages'); return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  users:     (() => { try { const d = localStorage.getItem('vlas_users');    return d ? JSON.parse(d) : []; } catch { return []; } })(),
+  settings:  (() => { try { const d = localStorage.getItem('vlas_settings');  return d ? JSON.parse(d) : FALLBACK_SETTINGS; } catch { return FALLBACK_SETTINGS; } })(),
   isAuthenticated: localStorage.getItem('vlas_auth') === 'true',
+  currentUser: localStorage.getItem('vlas_current_user') ? JSON.parse(localStorage.getItem('vlas_current_user')) : null,
   isLoading: false,
 
-  login: (username, password) => {
-    if (username === 'admin' && password === 'vlas2024') {
-      localStorage.setItem('vlas_auth', 'true');
-      set({ isAuthenticated: true });
+  fetchUsers: async () => {
+    try {
+      const res = await fetch(`${API_URL}/users`);
+      if (!res.ok) throw new Error("API failed");
+      const data = await res.json();
+      set({ users: data });
+      localStorage.setItem('vlas_users', JSON.stringify(data));
+    } catch (e) {
+      console.warn("Using offline fallback for users");
+      const local = localStorage.getItem('vlas_users');
+      if (local) {
+        set({ users: JSON.parse(local) });
+      } else {
+        const defaultUsers = [
+          {
+            "id": "1",
+            "username": "admin",
+            "password": "vlas2024",
+            "name": "System Admin",
+            "role": "Admin",
+            "isApproved": true
+          }
+        ];
+        set({ users: defaultUsers });
+        localStorage.setItem('vlas_users', JSON.stringify(defaultUsers));
+      }
+    }
+  },
+
+  login: async (username, password) => {
+    await get().fetchUsers();
+    const matchedUser = get().users.find(u => u.username === username && u.password === password);
+    if (!matchedUser) {
+      return { success: false, reason: 'invalid' };
+    }
+    if (!matchedUser.isApproved) {
+      return { success: false, reason: 'pending' };
+    }
+    localStorage.setItem('vlas_auth', 'true');
+    localStorage.setItem('vlas_current_user', JSON.stringify(matchedUser));
+    set({ isAuthenticated: true, currentUser: matchedUser });
+    return { success: true };
+  },
+
+  signup: async (user) => {
+    const newUser = {
+      ...user,
+      id: Date.now().toString(),
+      isApproved: false,
+      role: 'Staff'
+    };
+    try {
+      const res = await fetch(`${API_URL}/users`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser)
+      });
+      if (!res.ok) throw new Error("API failed");
+      await get().fetchUsers();
+      return true;
+    } catch (e) {
+      console.warn("Offline: registered user locally");
+      const current = [...get().users, newUser];
+      set({ users: current });
+      localStorage.setItem('vlas_users', JSON.stringify(current));
       return true;
     }
-    return false;
+  },
+
+  toggleUserApproval: async (id) => {
+    const user = get().users.find(u => u.id === id);
+    if (!user) return;
+    const updatedUser = { ...user, isApproved: !user.isApproved };
+    try {
+      const res = await fetch(`${API_URL}/users/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isApproved: updatedUser.isApproved })
+      });
+      if (!res.ok) throw new Error("API failed");
+      await get().fetchUsers();
+    } catch (e) {
+      console.warn("Offline: updated user approval locally");
+      const current = get().users.map(u => u.id === id ? updatedUser : u);
+      set({ users: current });
+      localStorage.setItem('vlas_users', JSON.stringify(current));
+    }
   },
 
   logout: () => {
     localStorage.removeItem('vlas_auth');
-    set({ isAuthenticated: false });
+    localStorage.removeItem('vlas_current_user');
+    set({ isAuthenticated: false, currentUser: null });
+  },
+
+  // ==========================================
+  // IMAGE PRELOADER FOR EXTREMELY FAST RENDERS
+  // ==========================================
+  preloadImages: (list) => {
+    if (typeof window !== 'undefined') {
+      list.forEach(item => {
+        if (item.image) {
+          const img = new Image();
+          img.src = item.image;
+        }
+      });
+    }
   },
 
   // ==========================================
@@ -170,14 +247,18 @@ export const useStore = create((set, get) => ({
       if (!res.ok) throw new Error("API failed");
       const data = await res.json();
       set({ services: data });
+      get().preloadImages(data);
       localStorage.setItem('vlas_services', JSON.stringify(data));
     } catch (e) {
       console.warn("Using offline fallback for services");
       const local = localStorage.getItem('vlas_services');
       if (local) {
-        set({ services: JSON.parse(local) });
+        const parsed = JSON.parse(local);
+        set({ services: parsed });
+        get().preloadImages(parsed);
       } else {
         set({ services: FALLBACK_SERVICES });
+        get().preloadImages(FALLBACK_SERVICES);
         localStorage.setItem('vlas_services', JSON.stringify(FALLBACK_SERVICES));
       }
     }
@@ -247,14 +328,18 @@ export const useStore = create((set, get) => ({
       if (!res.ok) throw new Error("API failed");
       const data = await res.json();
       set({ deals: data });
+      get().preloadImages(data);
       localStorage.setItem('vlas_deals', JSON.stringify(data));
     } catch (e) {
       console.warn("Using offline fallback for deals");
       const local = localStorage.getItem('vlas_deals');
       if (local) {
-        set({ deals: JSON.parse(local) });
+        const parsed = JSON.parse(local);
+        set({ deals: parsed });
+        get().preloadImages(parsed);
       } else {
         set({ deals: FALLBACK_DEALS });
+        get().preloadImages(FALLBACK_DEALS);
         localStorage.setItem('vlas_deals', JSON.stringify(FALLBACK_DEALS));
       }
     }
@@ -648,6 +733,7 @@ export const useStore = create((set, get) => ({
   // INITIALIZE STORE
   // ==========================================
   initializeStore: () => {
+    get().fetchUsers();
     get().fetchServices();
     get().fetchDeals();
     get().fetchBookings();

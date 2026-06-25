@@ -138,14 +138,14 @@ export default function ServicesManager() {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Title</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Title*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">label</span>
                 <input required type="text" value={formData.title} onChange={e=>setFormData({...formData, title: e.target.value})} className="input-pro pl-12" placeholder="e.g. Skin Rejuvenation" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Category</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Category*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">category</span>
                 <input required type="text" value={formData.category} onChange={e=>setFormData({...formData, category: e.target.value})} className="input-pro pl-12" placeholder="e.g. Skincare" />
@@ -154,17 +154,26 @@ export default function ServicesManager() {
           </div>
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Price ($)</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Price ($)*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">payments</span>
                 <input required type="number" value={formData.price} onChange={e=>setFormData({...formData, price: e.target.value})} className="input-pro pl-12" placeholder="150" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Expected Duration</label>
-              <div className="relative">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Expected Duration*</label>
+              <div className="relative flex items-center">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">timer</span>
-                <input required type="text" value={formData.duration} onChange={e=>setFormData({...formData, duration: e.target.value})} className="input-pro pl-12" placeholder="e.g. 60 min" />
+                <input 
+                  required 
+                  type="number" 
+                  min="1" 
+                  value={formData.duration ? formData.duration.replace(/\D/g, '') : ''} 
+                  onChange={e=>setFormData({...formData, duration: e.target.value ? `${e.target.value} min` : ''})} 
+                  className="input-pro pl-12 pr-20" 
+                  placeholder="60" 
+                />
+                <span className="absolute right-4 text-xs font-bold text-slate-400 uppercase">minutes</span>
               </div>
             </div>
           </div>
