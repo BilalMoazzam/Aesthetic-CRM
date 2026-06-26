@@ -13,9 +13,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NotificationBell from './components/NotificationBell';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
   const { logout, settings } = useStore();
 
   const menuItems = [
@@ -31,27 +30,19 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Toggle */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-[60] bg-white p-2 rounded-lg shadow-lg text-slate-600 border border-slate-200"
-      >
-        <span className="material-symbols-outlined">{isOpen ? 'close' : 'menu'}</span>
-      </button>
-
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 transform transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white/90 backdrop-blur-xl border-r border-slate-200 transform transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="h-full flex flex-col">
           {/* Logo */}
-          <div className="p-8">
-            <Link to="/" className="flex items-center gap-3 group">
+          <div className="p-6 lg:p-8">
+            <Link to="/" className="flex items-center gap-3 group" onClick={() => setIsOpen(false)}>
               <div 
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"
+                className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform animate-pulse"
                 style={{ backgroundColor: settings.primaryAccent || '#2563eb' }}
               >
                 <span className="material-symbols-outlined text-2xl">health_metrics</span>
               </div>
-              <span className="text-xl font-bold tracking-tight text-slate-900">{settings.brandName || 'VLAS Admin'}</span>
+              <span className="text-xl font-bold tracking-tight text-slate-900 truncate">{settings.brandName || 'VLAS Admin'}</span>
             </Link>
           </div>
 
@@ -106,7 +97,7 @@ const Sidebar = () => {
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 bg-slate-900/20 backdrop-blur-md z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-40 lg:hidden"
         />
       )}
     </>
@@ -115,29 +106,39 @@ const Sidebar = () => {
 
 const Layout = ({ children }) => {
   const { settings } = useStore();
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] flex" style={{ '--theme-primary': settings.primaryAccent || '#148f70' }}>
-      <Sidebar />
-      <main className="flex-1 lg:pl-64 min-w-0">
-        <header className="sticky top-0 z-30 bg-white/60 backdrop-blur-xl border-b border-slate-200">
-          <div className="max-w-[1600px] mx-auto px-8 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-4">
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      <main className="flex-1 lg:pl-64 min-w-0 flex flex-col">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200">
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+            <div className="flex items-center gap-3 sm:gap-4">
+              {/* Mobile Toggle Button inside Header */}
+              <button 
+                onClick={() => setIsOpen(!isOpen)}
+                className="lg:hidden bg-slate-50 p-2 rounded-xl text-slate-600 border border-slate-200 hover:bg-slate-100 transition-colors active:scale-95 flex items-center justify-center"
+              >
+                <span className="material-symbols-outlined">{isOpen ? 'close' : 'menu'}</span>
+              </button>
+
               <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-100 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Live Sync</span>
+                <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Live Sync</span>
               </div>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3 sm:gap-6">
               <NotificationBell />
               <div className="h-8 w-px bg-slate-200" />
-              <div className="flex items-center gap-3 text-slate-700">
-                <span className="text-sm font-bold">{settings.brandName || 'VLAS Clinic'}</span>
-                <span className="material-symbols-outlined text-base" style={{ color: settings.primaryAccent || '#2563eb' }}>verified</span>
+              <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
+                <span className="text-xs sm:text-sm font-bold truncate max-w-[100px] sm:max-w-none">{settings.brandName || 'VLAS Clinic'}</span>
+                <span className="material-symbols-outlined text-sm sm:text-base shrink-0" style={{ color: settings.primaryAccent || '#2563eb' }}>verified</span>
               </div>
             </div>
           </div>
         </header>
-        <div className="p-8 lg:p-12">
+        <div className="p-4 sm:p-8 lg:p-12 flex-1">
           <div className="max-w-[1400px] mx-auto animate-page-entrance">
             {children}
           </div>

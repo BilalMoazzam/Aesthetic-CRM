@@ -34,37 +34,37 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Dashboard Overview</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Dashboard Overview</h1>
           <p className="text-slate-500 text-sm mt-1">Real-time business insights and recent activities.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="btn-secondary">
-            <span className="material-symbols-outlined text-xl">download</span>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <button className="btn-secondary flex-1 sm:flex-none py-2 px-4 text-xs sm:text-sm">
+            <span className="material-symbols-outlined text-lg sm:text-xl">download</span>
             Export Report
           </button>
-          <Link to="/bookings" className="btn-primary">
-            <span className="material-symbols-outlined text-xl">add</span>
+          <Link to="/bookings" className="btn-primary flex-1 sm:flex-none py-2 px-4 text-xs sm:text-sm">
+            <span className="material-symbols-outlined text-lg sm:text-xl">add</span>
             New Booking
           </Link>
         </div>
       </div>
 
       {/* KPI Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="card-pro p-6 flex flex-col gap-4">
+          <div key={i} className="card-pro p-5 sm:p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <div className={`w-12 h-12 ${stat.bg} ${stat.color} rounded-xl flex items-center justify-center`}>
-                <span className="material-symbols-outlined text-2xl">{stat.icon}</span>
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 ${stat.bg} ${stat.color} rounded-xl flex items-center justify-center`}>
+                <span className="material-symbols-outlined text-xl sm:text-2xl">{stat.icon}</span>
               </div>
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full flex items-center gap-1">
-                <span className="material-symbols-outlined text-sm">trending_up</span>
+              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full flex items-center gap-1">
+                <span className="material-symbols-outlined text-xs sm:text-sm">trending_up</span>
                 Live
               </span>
             </div>
             <div>
-              <p className="text-slate-500 text-xs font-bold uppercase tracking-wider">{stat.label}</p>
-              <h3 className="text-3xl font-bold text-slate-900 mt-1">{stat.value}</h3>
+              <p className="text-slate-505 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400">{stat.label}</p>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">{stat.value}</h3>
             </div>
           </div>
         ))}

@@ -456,7 +456,7 @@ export default function BookingManager() {
           {!editingId && (
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Association</label>
-              <div className="grid grid-cols-2 gap-4 bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
                 <button
                   type="button"
                   onClick={() => {
@@ -617,7 +617,7 @@ export default function BookingManager() {
                 Please choose an appointment date to reveal timeline windows.
               </div>
             ) : (
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-white">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-white">
                 {timeSlots.map(t => {
                   const booked = isSlotBooked(t);
                   const selected = formData.time === t;

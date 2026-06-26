@@ -339,7 +339,7 @@ export default function CustomerManager() {
               <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="input-pro pl-12" placeholder="e.g. John Doe" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
               <div className="relative">
@@ -388,18 +388,18 @@ export default function CustomerManager() {
           {selectedBookings.length > 0 ? (
             <>
               {/* Summary bar */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
-                  <p className="text-xl font-black text-slate-900">{selectedBookings.length}</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Bookings</p>
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+                <div className="bg-slate-50 rounded-2xl p-3 sm:p-4 text-center border border-slate-100">
+                  <p className="text-lg sm:text-xl font-black text-slate-900">{selectedBookings.length}</p>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Bookings</p>
                 </div>
-                <div className="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
-                  <p className="text-xl font-black text-slate-900">${totalSpend}</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Spend</p>
+                <div className="bg-slate-50 rounded-2xl p-3 sm:p-4 text-center border border-slate-100">
+                  <p className="text-lg sm:text-xl font-black text-slate-900">${totalSpend}</p>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Spend</p>
                 </div>
-                <div className="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
-                  <p className="text-xl font-black text-slate-900">{selectedBookings.filter(b => b.status === 'completed').length}</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Completed</p>
+                <div className="bg-slate-50 rounded-2xl p-3 sm:p-4 text-center border border-slate-100">
+                  <p className="text-lg sm:text-xl font-black text-slate-900">{selectedBookings.filter(b => b.status === 'completed').length}</p>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Done</p>
                 </div>
               </div>
               {/* Booking list */}
@@ -408,11 +408,11 @@ export default function CustomerManager() {
                   const sc = STATUS_COLORS[booking.status] || STATUS_COLORS.pending;
                   const svcName = getServiceName(booking);
                   return (
-                    <div key={i} className={`flex gap-5 items-start p-5 rounded-2xl border ${sc.bg}`}>
-                      <div className={`w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-sm border border-current/10 shrink-0`}>
+                    <div key={i} className={`flex flex-col sm:flex-row gap-3 sm:gap-5 items-start sm:items-center p-4 sm:p-5 rounded-2xl border ${sc.bg}`}>
+                      <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white flex items-center justify-center shadow-sm border border-current/10 shrink-0`}>
                         <span className="material-symbols-outlined text-slate-500">spa</span>
                       </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 w-full">
                         <div className="flex justify-between items-start gap-4 mb-1">
                           <h4 className="font-bold text-slate-900 text-sm truncate">{svcName}</h4>
                           <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${sc.bg} ${sc.text} border border-current/10`}>

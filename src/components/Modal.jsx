@@ -17,21 +17,21 @@ const Modal = ({ isOpen, onClose, title, subtitle, children }) => {
         />
         
         {/* Modal Content */}
-        <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-200 animate-modal-entrance flex flex-col max-h-[90vh]">
-          <div className="p-8 pb-4 border-b border-slate-100 flex justify-between items-start bg-slate-50/50 flex-shrink-0">
-            <div className="pr-12">
-              <h3 className="text-2xl font-bold text-slate-900 tracking-tight leading-tight">{title}</h3>
-              {subtitle && <p className="text-sm text-slate-500 mt-1.5 font-medium leading-relaxed">{subtitle}</p>}
+        <div className="relative bg-white w-full max-w-xl rounded-[1.5rem] sm:rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-200 animate-modal-entrance flex flex-col max-h-[95vh] sm:max-h-[90vh]">
+          <div className="p-5 sm:p-8 pb-4 border-b border-slate-100 flex justify-between items-start bg-slate-50/50 flex-shrink-0 relative">
+            <div className="pr-10">
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-tight">{title}</h3>
+              {subtitle && <p className="text-xs sm:text-sm text-slate-500 mt-1 sm:mt-1.5 font-medium leading-relaxed">{subtitle}</p>}
             </div>
             <button 
               onClick={onClose} 
-              className="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-white border border-slate-100 shadow-sm hover:bg-slate-50 transition-all text-slate-400 hover:text-slate-600 active:scale-90"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white border border-slate-100 shadow-sm hover:bg-slate-50 transition-all text-slate-400 hover:text-slate-600 active:scale-90"
             >
-              <span className="material-symbols-outlined text-xl">close</span>
+              <span className="material-symbols-outlined text-lg sm:text-xl">close</span>
             </button>
           </div>
           
-          <div className="p-10 overflow-y-auto custom-scrollbar">
+          <div className="p-5 sm:p-8 md:p-10 overflow-y-auto custom-scrollbar">
             {children}
           </div>
         </div>

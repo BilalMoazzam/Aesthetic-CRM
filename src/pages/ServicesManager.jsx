@@ -136,7 +136,7 @@ export default function ServicesManager() {
         subtitle="Configure the treatment specifications, pricing, and display aesthetics."
       >
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Title*</label>
               <div className="relative">
@@ -152,7 +152,7 @@ export default function ServicesManager() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Price ($)*</label>
               <div className="relative">

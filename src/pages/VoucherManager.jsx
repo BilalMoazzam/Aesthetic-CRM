@@ -182,7 +182,7 @@ export default function VoucherManager() {
               <input required value={formData.code} onChange={e=>setFormData({...formData, code: e.target.value.toUpperCase()})} className="input-pro pl-12 font-mono tracking-widest" placeholder="e.g. SUMMER24" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Discount Type</label>
               <select 
@@ -200,7 +200,7 @@ export default function VoucherManager() {
               <input required type="number" value={formData.value} onChange={e=>setFormData({...formData, value: e.target.value})} className="input-pro" placeholder="e.g. 15" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Expiry Date*</label>
               <input required type="date" value={formData.expiryDate} onChange={e=>setFormData({...formData, expiryDate: e.target.value})} className="input-pro" />

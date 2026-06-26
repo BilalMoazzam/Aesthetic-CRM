@@ -546,98 +546,100 @@ export default function ScheduleManager() {
       {/* Calendar Grid */}
       {viewMode === 'calendar' && (
       <div className="card-pro flex-1 min-h-[500px] lg:min-h-[700px] overflow-hidden flex flex-col">
-        {/* Responsive day columns */}
-        <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] bg-slate-50 border-b border-slate-200 sticky top-0 z-20">
-          <div className="p-3 sm:p-6 flex items-center justify-center text-slate-400 border-r border-slate-200">
-            <span className="material-symbols-outlined text-lg sm:text-xl">schedule</span>
-          </div>
-          {weekDays.map((date, i) => {
-            const isToday = new Date().toDateString() === date.toDateString();
-            const isPastDay = date < new Date() && !isToday;
-            const dateStr = date.toLocaleDateString('en-CA');
-            const dayCount = bookings.filter(b => b.date === dateStr).length;
-            return (
-              <div key={i} className={`py-3 px-1 sm:p-4 lg:p-6 text-center border-l border-slate-200 flex flex-col justify-center items-center relative ${isToday ? 'bg-blue-50/60' : isPastDay ? 'bg-slate-50/40' : ''}`}>
-                <p className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${isToday ? 'text-blue-600' : isPastDay ? 'text-slate-400' : 'text-slate-500'}`}>
-                  {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                </p>
-                <div className="mt-1">
-                  <span
-                    className={`inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full font-bold text-sm ${
-                      isToday ? 'text-white shadow-md' : isPastDay ? 'text-slate-400' : 'text-slate-900'
-                    }`}
-                    style={isToday ? { backgroundColor: settings.primaryAccent } : undefined}
-                  >
-                    {date.getDate()}
-                  </span>
-                </div>
-                {dayCount > 0 && (
-                  <span className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full text-white text-[9px] font-black flex items-center justify-center shadow-sm" style={{ backgroundColor: settings.primaryAccent }}>
-                    {dayCount}
-                  </span>
-                )}
+        <div className="flex-1 overflow-auto relative custom-scrollbar">
+          <div className="min-w-[800px] sm:min-w-[1000px] flex flex-col h-full">
+            {/* Responsive day columns */}
+            <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] bg-slate-50 border-b border-slate-200 sticky top-0 z-20">
+              <div className="p-3 sm:p-6 flex items-center justify-center text-slate-400 border-r border-slate-200">
+                <span className="material-symbols-outlined text-lg sm:text-xl">schedule</span>
               </div>
-            );
-          })}
-        </div>
-
-        <div className="flex-1 overflow-y-auto overflow-x-auto relative custom-scrollbar">
-          <div className="min-w-[800px] sm:min-w-[1000px] grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] divide-x divide-slate-100">
-            {/* Time Column */}
-            <div className="divide-y divide-slate-100 bg-slate-50/50">
-              {timeSlots.map(time => (
-                <div key={time} className="h-24 p-2 sm:p-4 flex items-center justify-center border-b border-slate-100">
-                  <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-tight">{time}</span>
-                </div>
-              ))}
+              {weekDays.map((date, i) => {
+                const isToday = new Date().toDateString() === date.toDateString();
+                const isPastDay = date < new Date() && !isToday;
+                const dateStr = date.toLocaleDateString('en-CA');
+                const dayCount = bookings.filter(b => b.date === dateStr).length;
+                return (
+                  <div key={i} className={`py-3 px-1 sm:p-4 lg:p-6 text-center border-l border-slate-200 flex flex-col justify-center items-center relative ${isToday ? 'bg-blue-50/60' : isPastDay ? 'bg-slate-50/40' : ''}`}>
+                    <p className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${isToday ? 'text-blue-600' : isPastDay ? 'text-slate-400' : 'text-slate-500'}`}>
+                      {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                    </p>
+                    <div className="mt-1">
+                      <span
+                        className={`inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full font-bold text-sm ${
+                          isToday ? 'text-white shadow-md' : isPastDay ? 'text-slate-400' : 'text-slate-900'
+                        }`}
+                        style={isToday ? { backgroundColor: settings.primaryAccent } : undefined}
+                      >
+                        {date.getDate()}
+                      </span>
+                    </div>
+                    {dayCount > 0 && (
+                      <span className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full text-white text-[9px] font-black flex items-center justify-center shadow-sm" style={{ backgroundColor: settings.primaryAccent }}>
+                        {dayCount}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
-            {/* Grid Columns */}
-            {weekDays.map((date, dayIdx) => {
-              const dateStr = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
-              const dayBookings = bookings.filter(b => b.date === dateStr);
-              
-              return (
-                <div key={dayIdx} className="divide-y divide-slate-100 relative">
-                  {timeSlots.map(time => (
-                    <div key={time} className="h-24 p-2 group hover:bg-slate-50/50 transition-colors border-b border-slate-100" />
-                  ))}
+            <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] divide-x divide-slate-100 flex-1">
+              {/* Time Column */}
+              <div className="divide-y divide-slate-100 bg-slate-50/50">
+                {timeSlots.map(time => (
+                  <div key={time} className="h-24 p-2 sm:p-4 flex items-center justify-center border-b border-slate-100">
+                    <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-tight">{time}</span>
+                  </div>
+                ))}
+              </div>
 
-                   {/* Bookings */}
-                  {dayBookings.map((booking) => {
-                    const label = getServiceLabel(booking);
-                    const topOffset = calculateTopOffset(booking.time);
-                    const status = booking.status || 'pending';
-                    const accent = statusAccent[status] || settings.primaryAccent;
-                    const isFake = booking.isFake;
-                    const isPast = new Date(`${booking.date} ${booking.time}`) < new Date();
-                    
-                    return (
-                      <div 
-                        key={booking.id} 
-                        onClick={() => setSelectedBooking(booking)}
-                        className={`absolute left-1.5 right-1.5 p-2 sm:p-3 border rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer z-10 border-l-4 group/booking ${isFake ? 'bg-gray-50 opacity-70' : isPast ? 'bg-slate-50/80 opacity-80' : 'bg-white'}`}
-                        style={{ top: `${topOffset}px`, borderLeftColor: accent }}
-                      >
-                        <div className="flex items-center justify-between gap-1 mb-0.5 sm:mb-1">
-                          <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: accent }}>{label}</p>
-                          <div className="flex items-center gap-1 shrink-0">
-                            {isPast && !isFake && <span className="text-[7px] font-black uppercase tracking-wider text-slate-400 bg-slate-100 px-1 py-0.5 rounded">Past</span>}
-                            {isFake && <span className="text-[7px] font-black uppercase tracking-wider text-orange-500 bg-orange-50 px-1 py-0.5 rounded">Test</span>}
-                            <span className={`badge-${status === 'no-show' ? 'cancelled' : status} !px-1.5 !py-0 !text-[8px]`}>{status === 'no-show' ? 'no show' : status}</span>
+              {/* Grid Columns */}
+              {weekDays.map((date, dayIdx) => {
+                const dateStr = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
+                const dayBookings = bookings.filter(b => b.date === dateStr);
+                
+                return (
+                  <div key={dayIdx} className="divide-y divide-slate-100 relative">
+                    {timeSlots.map(time => (
+                      <div key={time} className="h-24 p-2 group hover:bg-slate-50/50 transition-colors border-b border-slate-100" />
+                    ))}
+
+                    {/* Bookings */}
+                    {dayBookings.map((booking) => {
+                      const label = getServiceLabel(booking);
+                      const topOffset = calculateTopOffset(booking.time);
+                      const status = booking.status || 'pending';
+                      const accent = statusAccent[status] || settings.primaryAccent;
+                      const isFake = booking.isFake;
+                      const isPast = new Date(`${booking.date} ${booking.time}`) < new Date();
+                      
+                      return (
+                        <div 
+                          key={booking.id} 
+                          onClick={() => setSelectedBooking(booking)}
+                          className={`absolute left-1.5 right-1.5 p-2 sm:p-3 border rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer z-10 border-l-4 group/booking ${isFake ? 'bg-gray-50 opacity-70' : isPast ? 'bg-slate-50/80 opacity-80' : 'bg-white'}`}
+                          style={{ top: `${topOffset}px`, borderLeftColor: accent }}
+                        >
+                          <div className="flex items-center justify-between gap-1 mb-0.5 sm:mb-1">
+                            <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: accent }}>{label}</p>
+                            <div className="flex items-center gap-1 shrink-0">
+                              {isPast && !isFake && <span className="text-[7px] font-black uppercase tracking-wider text-slate-400 bg-slate-100 px-1 py-0.5 rounded">Past</span>}
+                              {isFake && <span className="text-[7px] font-black uppercase tracking-wider text-orange-500 bg-orange-50 px-1 py-0.5 rounded">Test</span>}
+                              <span className={`badge-${status === 'no-show' ? 'cancelled' : status} !px-1.5 !py-0 !text-[8px]`}>{status === 'no-show' ? 'no show' : status}</span>
+                            </div>
                           </div>
+                          <p className="text-xs font-bold text-slate-900 truncate">{booking.clientDetails?.name}</p>
+                          <p className="text-[9px] sm:text-[10px] text-slate-400 mt-1.5 sm:mt-2 font-medium flex items-center justify-between">
+                            <span>{booking.time}</span>
+                            <span className="material-symbols-outlined text-[12px] sm:text-[14px] opacity-0 group-hover/booking:opacity-100 transition-opacity">visibility</span>
+                          </p>
                         </div>
-                        <p className="text-xs font-bold text-slate-900 truncate">{booking.clientDetails?.name}</p>
-                        <p className="text-[9px] sm:text-[10px] text-slate-400 mt-1.5 sm:mt-2 font-medium flex items-center justify-between">
-                          <span>{booking.time}</span>
-                          <span className="material-symbols-outlined text-[12px] sm:text-[14px] opacity-0 group-hover/booking:opacity-100 transition-opacity">visibility</span>
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -655,7 +657,7 @@ export default function ScheduleManager() {
           {/* CLIENT TYPE SELECTOR */}
           <div className="space-y-3">
             <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Association</label>
-            <div className="grid grid-cols-2 gap-4 bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
               <button
                 type="button"
                 onClick={() => {
@@ -816,7 +818,7 @@ export default function ScheduleManager() {
                 Please choose an appointment date to reveal timeline windows.
               </div>
             ) : (
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-white">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-white">
                 {timeSlots.map(t => {
                   const booked = isSlotBooked(t);
                   const selected = formData.time === t;
@@ -915,33 +917,33 @@ export default function ScheduleManager() {
           const service = services.find(s => s.id === selectedBooking.serviceId) || {};
           return (
             <div className="space-y-10">
-              <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                <div className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-sm" style={{ backgroundColor: settings.primaryAccent }}>
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-5 sm:p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center sm:text-left">
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-sm shrink-0" style={{ backgroundColor: settings.primaryAccent }}>
                   {selectedBooking.clientDetails?.name?.charAt(0) || 'C'}
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900">{selectedBooking.clientDetails?.name}</h3>
-                  <p className="text-slate-500 font-medium">{selectedBooking.clientDetails?.email || 'No contact email assigned'}</p>
-                  <p className="text-xs text-slate-400 font-medium mt-0.5">{selectedBooking.clientDetails?.phone || 'No contact phone assigned'}</p>
+                <div className="min-w-0">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 truncate">{selectedBooking.clientDetails?.name}</h3>
+                  <p className="text-slate-500 font-medium truncate">{selectedBooking.clientDetails?.email || 'No contact email assigned'}</p>
+                  <p className="text-xs text-slate-400 font-medium mt-0.5 truncate">{selectedBooking.clientDetails?.phone || 'No contact phone assigned'}</p>
                 </div>
               </div>
  
-              <div className="grid grid-cols-2 gap-10">
-                <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
+                <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Treatment Type</label>
-                  <p className="text-lg font-bold text-slate-900">{label}</p>
+                  <p className="text-base sm:text-lg font-bold text-slate-900">{label}</p>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Investment</label>
-                  <p className="text-lg font-bold text-slate-900">${service.price || selectedBooking.totalPrice || 'Market Rate'}</p>
+                  <p className="text-base sm:text-lg font-bold text-slate-900">${service.price || selectedBooking.totalPrice || 'Market Rate'}</p>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Scheduled Date</label>
-                  <p className="text-lg font-bold text-slate-900">{selectedBooking.date}</p>
+                  <p className="text-base sm:text-lg font-bold text-slate-900">{selectedBooking.date}</p>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Temporal Slot</label>
-                  <p className="text-lg font-bold text-slate-900">{selectedBooking.time}</p>
+                  <p className="text-base sm:text-lg font-bold text-slate-900">{selectedBooking.time}</p>
                 </div>
               </div>
 

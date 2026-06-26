@@ -189,7 +189,7 @@ export default function DealsManager() {
               <textarea rows="2" value={formData.description} onChange={e=>setFormData({...formData, description: e.target.value})} className="input-pro pl-12 pt-4 resize-none" placeholder="Briefly describe what's included and the benefits..." />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Original Value ($)*</label>
               <div className="relative">
@@ -205,7 +205,7 @@ export default function DealsManager() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Bundle Duration*</label>
               <div className="relative flex items-center">
