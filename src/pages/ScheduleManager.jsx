@@ -375,36 +375,38 @@ export default function ScheduleManager() {
           </div>
 
           {viewMode === 'calendar' && (
-            <div className="flex items-center bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-              <button
-                onClick={() => navigateWeek(-1)}
-                className="p-3 sm:px-4 hover:bg-slate-50 text-slate-500 transition-colors border-r border-slate-100"
-                title="Previous week"
-              >
-                <span className="material-symbols-outlined text-xl">chevron_left</span>
-              </button>
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <button
+                  onClick={() => navigateWeek(-1)}
+                  className="p-3 sm:px-4 hover:bg-slate-50 text-slate-500 transition-colors border-r border-slate-100"
+                  title="Previous week"
+                >
+                  <span className="material-symbols-outlined text-xl">chevron_left</span>
+                </button>
 
-              <div className="flex-1 px-4 sm:px-8 py-2.5 text-center min-w-[200px]">
-                <p className="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">
-                  {monthYearLabel}
-                </p>
-                <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                  Week of {weekRangeLabel}
-                </p>
+                <div className="flex-1 px-4 sm:px-8 py-2.5 text-center min-w-[160px] sm:min-w-[200px]">
+                  <p className="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">
+                    {monthYearLabel}
+                  </p>
+                  <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+                    Week of {weekRangeLabel}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => navigateWeek(1)}
+                  className="p-3 sm:px-4 hover:bg-slate-50 text-slate-500 transition-colors border-l border-slate-100"
+                  title="Next week"
+                >
+                  <span className="material-symbols-outlined text-xl">chevron_right</span>
+                </button>
               </div>
-
-              <button
-                onClick={() => navigateWeek(1)}
-                className="p-3 sm:px-4 hover:bg-slate-50 text-slate-500 transition-colors border-l border-slate-100"
-                title="Next week"
-              >
-                <span className="material-symbols-outlined text-xl">chevron_right</span>
-              </button>
 
               {!isCurrentWeek && (
                 <button
                   onClick={goToToday}
-                  className="flex items-center gap-1.5 ml-1 mr-1.5 px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95 shadow-sm"
+                  className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95 shadow-sm"
                   style={{ backgroundColor: settings.primaryAccent }}
                   title="Jump to this week"
                 >
@@ -412,7 +414,8 @@ export default function ScheduleManager() {
                   Today
                 </button>
               )}
-               <ExportBookingsButton />
+
+              <ExportBookingsButton />
             </div>
           )}
           <button 
