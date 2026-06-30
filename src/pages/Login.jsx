@@ -129,7 +129,7 @@ export default function Login() {
               {/* Username Input */}
               <div className="space-y-1.5 sm:space-y-2">
                 <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
-                  Username
+                  User Name
                 </label>
                 <div className="relative group">
                   <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
