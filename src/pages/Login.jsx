@@ -208,13 +208,13 @@ export default function Login() {
             {/* Signup Link */}
             <div className="mt-6 sm:mt-8 text-center">
               <p className="text-xs sm:text-sm text-slate-500 font-medium" style={inputStyle}>
-                Don't have a staff account?{' '}
+                Don't have a staffccount?{' '}
                 <Link 
                   to="/signup" 
                   className="font-bold hover:opacity-80 transition-opacity"
                   style={{ color: primaryAccent }}
                 >
-                  Sign Up
+                  Signup
                 </Link>
               </p>
             </div>
