@@ -112,7 +112,7 @@ export default function Login() {
                 {settings.brandName || 'VLAS AESTHETIC'}
               </h1>
               <p className="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
-                enterprise administration
+                Enterprise Administration
               </p>
             </div>
 
@@ -129,7 +129,7 @@ export default function Login() {
               {/* Username Input */}
               <div className="space-y-1.5 sm:space-y-2">
                 <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
-                  user name
+                  Username
                 </label>
                 <div className="relative group">
                   <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
@@ -153,7 +153,7 @@ export default function Login() {
               {/* Password Input */}
               <div className="space-y-1.5 sm:space-y-2">
                 <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
-                  password
+                  Password
                 </label>
                 <div className="relative group">
                   <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
@@ -198,7 +198,7 @@ export default function Login() {
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    <span>Sign in</span>
+                    <span>Sign In</span>
                     <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>arrow_forward</span>
                   </>
                 )}
