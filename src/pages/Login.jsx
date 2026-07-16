@@ -23,10 +23,10 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    
+
     const res = await login(username, password);
     setIsLoading(false);
-    
+
     if (res.success) {
       navigate('/');
     } else if (res.reason === 'pending') {
@@ -48,31 +48,31 @@ export default function Login() {
 
   return (
     <div className="min-h-screen min-h-[100dvh] flex items-center justify-center relative overflow-hidden"
-      style={{ 
+      style={{
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         background: `linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)`,
       }}
     >
       {/* Animated Background Orbs */}
-      <div 
+      <div
         className="absolute top-[-30%] left-[-15%] w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full opacity-[0.12]"
-        style={{ 
+        style={{
           backgroundColor: primaryAccent,
           filter: 'blur(80px)',
           animation: 'float 8s ease-in-out infinite',
         }}
       />
-      <div 
+      <div
         className="absolute bottom-[-25%] right-[-15%] w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] lg:w-[550px] lg:h-[550px] rounded-full opacity-[0.08]"
-        style={{ 
+        style={{
           backgroundColor: primaryAccent,
           filter: 'blur(100px)',
           animation: 'float 10s ease-in-out infinite reverse',
         }}
       />
-      <div 
+      <div
         className="absolute top-[40%] right-[20%] w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] rounded-full opacity-[0.06]"
-        style={{ 
+        style={{
           background: `linear-gradient(135deg, ${primaryAccent}, #6366f1)`,
           filter: 'blur(60px)',
           animation: 'float 12s ease-in-out infinite',
@@ -83,15 +83,15 @@ export default function Login() {
       <div className="w-full max-w-[460px] px-5 sm:px-6 py-6 sm:py-8 relative z-10">
 
         {/* Card */}
-        <div 
+        <div
           className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-white/60 backdrop-blur-sm"
-          style={{ 
+          style={{
             background: 'rgba(255, 255, 255, 0.85)',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255,255,255,0.6)',
           }}
         >
           {/* Top Accent Gradient Bar */}
-          <div 
+          <div
             className="h-1 sm:h-1.5 w-full"
             style={{ background: `linear-gradient(90deg, ${primaryAccent}, ${primaryAccent}dd, ${primaryAccent}88)` }}
           />
@@ -99,9 +99,9 @@ export default function Login() {
           <div className="px-6 py-8 sm:px-10 sm:py-10 md:px-12 md:py-12">
             {/* Header */}
             <div className="text-center mb-8 sm:mb-10">
-              <div 
+              <div
                 className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-white mx-auto mb-4 sm:mb-5 transition-transform duration-300 hover:scale-105"
-                style={{ 
+                style={{
                   background: `linear-gradient(135deg, ${primaryAccent}, ${primaryAccent}cc)`,
                   boxShadow: `0 8px 24px -4px ${primaryAccent}40`,
                 }}
@@ -129,18 +129,18 @@ export default function Login() {
               {/* Username Input */}
               <div className="space-y-1.5 sm:space-y-2">
                 <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
-                  Username
+                  User name
                 </label>
                 <div className="relative group">
                   <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
-                  <input 
-                    required 
-                    type="text" 
-                    value={username} 
+                  <input
+                    required
+                    type="text"
+                    value={username}
                     onChange={e => setUsername(e.target.value)}
                     placeholder="Enter your username"
-                    className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal" 
-                    style={{ 
+                    className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal"
+                    style={{
                       ...inputStyle,
                       focusRingColor: `${primaryAccent}15`,
                       boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
@@ -157,14 +157,14 @@ export default function Login() {
                 </label>
                 <div className="relative group">
                   <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
-                  <input 
-                    required 
-                    type={showPassword ? 'text' : 'password'} 
-                    value={password} 
+                  <input
+                    required
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
                     onChange={e => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-11 sm:pr-12 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal" 
-                    style={{ 
+                    className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-11 sm:pr-12 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal"
+                    style={{
                       ...inputStyle,
                       boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
                     }}
@@ -184,11 +184,11 @@ export default function Login() {
               </div>
 
               {/* Submit Button */}
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isLoading}
                 className="w-full py-3 sm:py-3.5 text-white rounded-xl sm:rounded-2xl text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase transition-all duration-300 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 mt-2 sm:mt-3 hover:shadow-lg"
-                style={{ 
+                style={{
                   background: `linear-gradient(135deg, ${primaryAccent}, ${primaryAccent}dd)`,
                   boxShadow: `0 4px 14px -2px ${primaryAccent}50`,
                   ...inputStyle,
@@ -209,8 +209,8 @@ export default function Login() {
             <div className="mt-6 sm:mt-8 text-center">
               <p className="text-xs sm:text-sm text-slate-500 font-medium" style={inputStyle}>
                 Don't have a staff account?{' '}
-                <Link 
-                  to="/signup" 
+                <Link
+                  to="/signup"
                   className="font-bold hover:opacity-80 transition-opacity"
                   style={{ color: primaryAccent }}
                 >
