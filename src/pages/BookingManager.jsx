@@ -271,7 +271,7 @@ export default function BookingManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-blue-100 w-full md:w-auto"
+          className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto"
           style={{ backgroundColor: settings.primaryAccent }}
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
@@ -283,31 +283,31 @@ export default function BookingManager() {
       <div className="flex border-b border-slate-200 gap-6 md:gap-8 overflow-x-auto scrollbar-hide">
         <button 
           onClick={() => setActiveTab('all')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-blue-600 border-blue-600' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
         >
           All Bookings
         </button>
         <button 
           onClick={() => setActiveTab('pending')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'pending' ? 'text-blue-600 border-blue-600' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'pending' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
         >
           Pending
         </button>
         <button 
           onClick={() => setActiveTab('confirmed')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'confirmed' ? 'text-blue-600 border-blue-600' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'confirmed' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
         >
           Confirmed
         </button>
         <button 
           onClick={() => setActiveTab('completed')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'completed' ? 'text-blue-600 border-blue-600' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'completed' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
         >
           Completed
         </button>
         <button 
           onClick={() => setActiveTab('logs')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'logs' ? 'text-blue-600 border-blue-600' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'logs' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
         >
           Outbound Logs
         </button>
@@ -413,7 +413,7 @@ export default function BookingManager() {
                           )}
                           <button 
                             onClick={() => handleOpenModal(booking)}
-                            className="w-9 h-9 flex items-center justify-center rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                            className="w-9 h-9 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                             title="Edit Booking"
                           >
                             <span className="material-symbols-outlined text-xl">edit</span>
@@ -630,8 +630,8 @@ export default function BookingManager() {
                       className={`
                         py-3 px-2 rounded-xl text-xs font-bold transition-all border 
                         ${booked ? 'opacity-40 bg-slate-50 border-slate-200 cursor-not-allowed text-slate-400' 
-                          : selected ? 'bg-blue-600 text-white border-blue-600 shadow-md scale-[1.02]' 
-                          : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'}
+                          : selected ? 'bg-primary text-white border-primary shadow-md scale-[1.02]' 
+                          : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'}
                       `}
                       style={selected ? { backgroundColor: settings.primaryAccent, borderColor: settings.primaryAccent } : {}}
                     >
@@ -682,7 +682,7 @@ export default function BookingManager() {
                 id="sendNotify" 
                 checked={sendNotification} 
                 onChange={e => setSendNotification(e.target.checked)} 
-                className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
               />
               <label htmlFor="sendNotify" className="text-xs font-bold text-slate-700 select-none cursor-pointer flex-1">
                 Dispatch Outbound SMS & Email Notification (Real-time Sync)
@@ -701,7 +701,7 @@ export default function BookingManager() {
                 <span className="material-symbols-outlined text-slate-500 text-sm">chat_bubble</span>
               </div>
               <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                <p className="text-[10px] font-extrabold text-blue-400 mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
+                <p className="text-[10px] font-extrabold text-primary mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
                 <p className="text-xs text-slate-200 leading-relaxed font-semibold">
                   {formData.clientName 
                     ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing Vlas AESTHETIC!`
@@ -716,7 +716,7 @@ export default function BookingManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-blue-100"
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
               style={{ backgroundColor: settings.primaryAccent }}
             >
               {editingId ? 'Update Appointment' : 'Create Booking'}

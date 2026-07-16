@@ -7,14 +7,14 @@ const TIER_COLORS = {
   Silver:        { bg: 'bg-gray-100',  text: 'text-gray-700',  border: 'border-gray-200' },
   Gold:          { bg: 'bg-amber-50',  text: 'text-amber-700', border: 'border-amber-200' },
   'VIP Prestige':{ bg: 'bg-purple-50', text: 'text-purple-700',border: 'border-purple-200' },
-  Standard:      { bg: 'bg-blue-50',   text: 'text-blue-700',  border: 'border-blue-200' },
+  Standard:      { bg: 'bg-[#E7C8DD]',   text: 'text-primary',  border: 'border-blue-200' },
   Elite:         { bg: 'bg-rose-50',   text: 'text-rose-700',  border: 'border-rose-200' },
 };
 
 const STATUS_COLORS = {
   confirmed:  { bg: 'bg-emerald-50', text: 'text-emerald-700', dot: 'bg-emerald-500' },
   pending:    { bg: 'bg-amber-50',   text: 'text-amber-700',   dot: 'bg-amber-400' },
-  completed:  { bg: 'bg-blue-50',    text: 'text-blue-700',    dot: 'bg-blue-500' },
+  completed:  { bg: 'bg-[#E7C8DD]',    text: 'text-primary',    dot: 'bg-[#E7C8DD]0' },
   cancelled:  { bg: 'bg-rose-50',    text: 'text-rose-700',    dot: 'bg-rose-500' },
   'no-show':  { bg: 'bg-slate-100',  text: 'text-slate-500',   dot: 'bg-slate-400' },
 };
@@ -25,10 +25,11 @@ export default function CustomerManager() {
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', tier: 'Regular' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '+92', tier: 'Regular' });
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [messageText, setMessageText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [historyMonth, setHistoryMonth] = useState('');
 
   useEffect(() => {
     fetchCustomers();
@@ -64,12 +65,22 @@ export default function CustomerManager() {
     );
   }, [customers, searchQuery]);
 
+  // Auto-format phone to +92XXXXXXXXXX
+  const formatPhone = (val) => {
+    const digits = val.replace(/\D/g, '');
+    if (!digits) return '+92';
+    if (digits.startsWith('92')) return '+' + digits;
+    if (digits.startsWith('0') && digits.length <= 11) return '+92' + digits.slice(1);
+    if (!digits.startsWith('92')) return '+92' + digits;
+    return '+' + digits;
+  };
+
   const handleOpenModal = (customer = null) => {
     if (customer) {
-      setFormData({ name: customer.name, email: customer.email, phone: customer.phone, tier: customer.tier });
+      setFormData({ name: customer.name, email: customer.email, phone: customer.phone || '+92', tier: customer.tier });
       setEditingId(customer.id);
     } else {
-      setFormData({ name: '', email: '', phone: '', tier: 'Regular' });
+      setFormData({ name: '', email: '', phone: '+92', tier: 'Regular' });
       setEditingId(null);
     }
     setIsModalOpen(true);
@@ -77,10 +88,12 @@ export default function CustomerManager() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const normalized = formData.phone ? formatPhone(formData.phone) : '+92';
+    const payload = { ...formData, phone: normalized };
     if (editingId) {
-      updateCustomer(editingId, formData);
+      updateCustomer(editingId, payload);
     } else {
-      addCustomer(formData);
+      addCustomer(payload);
     }
     setIsModalOpen(false);
   };
@@ -93,7 +106,19 @@ export default function CustomerManager() {
   };
 
   const selectedBookings = selectedCustomer ? getCustomerBookings(selectedCustomer) : [];
-  const totalSpend = selectedBookings.reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0);
+  const totalSpend = selectedBookings
+    .filter(b => b.status === 'confirmed')
+    .reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0);
+
+  // Monthly filter for history panel
+  const filteredHistoryBookings = historyMonth
+    ? selectedBookings.filter(b => b.date && b.date.startsWith(historyMonth))
+    : selectedBookings;
+
+  // Unique months from this customer's bookings for filter dropdown
+  const bookingMonths = [...new Set(
+    selectedBookings.map(b => b.date?.slice(0, 7)).filter(Boolean)
+  )].sort().reverse();
 
   return (
     <div className="space-y-8">
@@ -105,7 +130,7 @@ export default function CustomerManager() {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="btn-primary shadow-lg shadow-blue-100"
+          className="btn-primary shadow-lg shadow-rose-sm"
           style={{ backgroundColor: settings.primaryAccent }}
         >
           <span className="material-symbols-outlined text-xl">person_add</span>
@@ -148,7 +173,7 @@ export default function CustomerManager() {
                       <tr
                         key={customer.id}
                         onClick={() => setSelectedCustomer(customer)}
-                        className={`hover:bg-slate-50/50 transition-colors cursor-pointer ${selectedCustomer?.id === customer.id ? 'bg-blue-50/40' : ''}`}
+                        className={`hover:bg-slate-50/50 transition-colors cursor-pointer ${selectedCustomer?.id === customer.id ? 'bg-[#E7C8DD]/40' : ''}`}
                       >
                         <td className="px-6 py-5">
                           <div className="flex items-center gap-4">
@@ -190,7 +215,7 @@ export default function CustomerManager() {
                           <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={(e) => { e.stopPropagation(); handleOpenModal(customer); }}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                              className="w-8 h-8 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                               title="Edit"
                             >
                               <span className="material-symbols-outlined text-lg">edit</span>
@@ -266,8 +291,16 @@ export default function CustomerManager() {
                     <span className="material-symbols-outlined text-lg">phone</span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone (WhatsApp)</p>
                     <p className="text-xs font-bold text-slate-900 truncate">{selectedCustomer.phone || 'Not provided'}</p>
+                    {selectedCustomer.phone && (
+                      <a
+                        href={`https://wa.me/${selectedCustomer.phone.replace(/\D/g,'')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-green-600 font-bold hover:underline"
+                      >Open WhatsApp ↗</a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -348,11 +381,24 @@ export default function CustomerManager() {
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Phone Number</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Phone Number* (Primary Key)</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">phone</span>
-                <input value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="input-pro pl-12" placeholder="+1 555 0000" />
+                <input
+                  required
+                  value={formData.phone}
+                  onChange={e => {
+                    let val = e.target.value;
+                    if (!val.startsWith('+92')) val = '+92' + val.replace(/^\+92/, '').replace(/\D/g,'');
+                    setFormData({ ...formData, phone: val });
+                  }}
+                  className="input-pro pl-12"
+                  placeholder="+923001234567"
+                  pattern="\+92[0-9]{10}"
+                  title="Format: +92XXXXXXXXXX (10 digits after +92)"
+                />
               </div>
+              <p className="text-[10px] text-slate-400 ml-1">Format: +92XXXXXXXXXX — Phone is used as primary identifier & for WhatsApp messaging.</p>
             </div>
           </div>
           <div className="space-y-3">
@@ -370,7 +416,7 @@ export default function CustomerManager() {
           </div>
           <div className="flex gap-6 pt-4">
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
-            <button type="submit" className="flex-[2] btn-primary py-4 shadow-xl shadow-blue-100" style={{ backgroundColor: settings.primaryAccent }}>
+            <button type="submit" className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm" style={{ backgroundColor: settings.primaryAccent }}>
               {editingId ? 'Update Profile' : 'Register Customer'}
             </button>
           </div>
@@ -402,9 +448,24 @@ export default function CustomerManager() {
                   <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider">Done</p>
                 </div>
               </div>
+              {/* Month filter */}
+              {bookingMonths.length > 1 && (
+                <div className="mb-4">
+                  <select
+                    value={historyMonth}
+                    onChange={e => setHistoryMonth(e.target.value)}
+                    className="input-pro text-xs"
+                  >
+                    <option value="">All Months</option>
+                    {bookingMonths.map(m => (
+                      <option key={m} value={m}>{new Date(m + '-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
               {/* Booking list */}
               <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
-                {selectedBookings.map((booking, i) => {
+                {filteredHistoryBookings.map((booking, i) => {
                   const sc = STATUS_COLORS[booking.status] || STATUS_COLORS.pending;
                   const svcName = getServiceName(booking);
                   return (
@@ -431,7 +492,7 @@ export default function CustomerManager() {
                           {booking.totalPrice > 0 && (
                             <span className="flex items-center gap-1 font-bold text-slate-700">
                               <span className="material-symbols-outlined text-sm">payments</span>
-                              ${booking.totalPrice}
+                              PKR {booking.totalPrice}
                             </span>
                           )}
                           {booking.isFake && (
@@ -442,6 +503,11 @@ export default function CustomerManager() {
                     </div>
                   );
                 })}
+                {filteredHistoryBookings.length === 0 && (
+                  <div className="py-10 text-center">
+                    <p className="text-sm font-bold text-slate-400">No bookings found for this period.</p>
+                  </div>
+                )}
               </div>
             </>
           ) : (

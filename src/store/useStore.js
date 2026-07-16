@@ -102,7 +102,7 @@ const FALLBACK_VOUCHERS = [
 
 const FALLBACK_SETTINGS = {
   "brandName": "Vlas AESTHETIC",
-  "primaryAccent": "#0e74a0",
+  "primaryAccent": "#86626E",
   "typography": "Playfair Display",
   "workingHoursStart": "09:00 AM",
   "workingHoursEnd": "08:00 PM",
@@ -158,11 +158,25 @@ export const useStore = create((set, get) => ({
     }
   },
 
+  // Normalize phone to +92XXXXXXXXXX format
+  normalizePhone: (phone) => {
+    if (!phone) return phone;
+    const digits = phone.replace(/\D/g, '');
+    if (digits.startsWith('92') && digits.length >= 12) return '+' + digits;
+    if (digits.startsWith('0') && digits.length === 11) return '+92' + digits.slice(1);
+    if (digits.length === 10) return '+92' + digits;
+    if (digits.length === 12 && digits.startsWith('92')) return '+' + digits;
+    return phone.startsWith('+') ? phone : '+' + digits;
+  },
+
   login: async (username, password) => {
     await get().fetchUsers();
     const matchedUser = get().users.find(u => u.username === username && u.password === password);
     if (!matchedUser) {
       return { success: false, reason: 'invalid' };
+    }
+    if (matchedUser.isBlocked) {
+      return { success: false, reason: 'blocked' };
     }
     if (!matchedUser.isApproved) {
       return { success: false, reason: 'pending' };
@@ -208,10 +222,28 @@ export const useStore = create((set, get) => ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isApproved: updatedUser.isApproved })
       });
-      if (!res.ok) throw new Error("API failed");
+      if (!res.ok) throw new Error('API failed');
       await get().fetchUsers();
     } catch (e) {
-      console.warn("Offline: updated user approval locally");
+      const current = get().users.map(u => u.id === id ? updatedUser : u);
+      set({ users: current });
+      localStorage.setItem('vlas_users', JSON.stringify(current));
+    }
+  },
+
+  toggleUserBlock: async (id) => {
+    const user = get().users.find(u => u.id === id);
+    if (!user) return;
+    const updatedUser = { ...user, isBlocked: !user.isBlocked };
+    try {
+      const res = await fetch(`${API_URL}/users/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isBlocked: updatedUser.isBlocked })
+      });
+      if (!res.ok) throw new Error('API failed');
+      await get().fetchUsers();
+    } catch (e) {
       const current = get().users.map(u => u.id === id ? updatedUser : u);
       set({ users: current });
       localStorage.setItem('vlas_users', JSON.stringify(current));
@@ -430,17 +462,24 @@ export const useStore = create((set, get) => ({
   },
 
   addBooking: async (booking) => {
-    const newItem = { ...booking, id: Date.now().toString() };
+    // Normalize phone in client details
+    const cd = booking.clientDetails || {};
+    const normalizedPhone = get().normalizePhone(cd.phone);
+    const newItem = {
+      ...booking,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+      clientDetails: { ...cd, phone: normalizedPhone }
+    };
     try {
       const res = await fetch(`${API_URL}/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem)
       });
-      if (!res.ok) throw new Error("API failed");
+      if (!res.ok) throw new Error('API failed');
       get().fetchBookings();
     } catch (e) {
-      console.warn("Offline: added booking locally");
       const current = [...get().bookings, newItem];
       set({ bookings: current });
       localStorage.setItem('vlas_bookings', JSON.stringify(current));
@@ -500,17 +539,24 @@ export const useStore = create((set, get) => ({
   },
 
   addCustomer: async (customer) => {
-    const newItem = { ...customer, id: Date.now().toString() };
+    const normalizedPhone = get().normalizePhone(customer.phone);
+    // Use phone as primary key — check for existing
+    const existing = get().customers.find(c => c.phone && normalizedPhone &&
+      c.phone.replace(/\D/g,'') === normalizedPhone.replace(/\D/g,''));
+    if (existing) {
+      // Update existing customer instead of creating duplicate
+      return get().updateCustomer(existing.id, { ...customer, phone: normalizedPhone });
+    }
+    const newItem = { ...customer, phone: normalizedPhone, id: Date.now().toString(), createdAt: new Date().toISOString() };
     try {
       const res = await fetch(`${API_URL}/customers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem)
       });
-      if (!res.ok) throw new Error("API failed");
+      if (!res.ok) throw new Error('API failed');
       get().fetchCustomers();
     } catch (e) {
-      console.warn("Offline: registered customer locally");
       const current = [...get().customers, newItem];
       set({ customers: current });
       localStorage.setItem('vlas_customers', JSON.stringify(current));
@@ -570,11 +616,14 @@ export const useStore = create((set, get) => ({
   },
 
   addVoucher: async (voucher) => {
-    const newItem = { 
-      ...voucher, 
+    const newItem = {
+      ...voucher,
       value: Number(voucher.value),
-      usageLimit: Number(voucher.usageLimit),
-      id: Date.now().toString() 
+      usageLimit: Number(voucher.usageLimit) || 1,
+      usageCount: 0,
+      usedBy: [],   // array of phone numbers that used this voucher
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString()
     };
     try {
       const res = await fetch(`${API_URL}/vouchers`, {
@@ -582,14 +631,50 @@ export const useStore = create((set, get) => ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem)
       });
-      if (!res.ok) throw new Error("API failed");
+      if (!res.ok) throw new Error('API failed');
       get().fetchVouchers();
     } catch (e) {
-      console.warn("Offline: added voucher locally");
       const current = [...get().vouchers, newItem];
       set({ vouchers: current });
       localStorage.setItem('vlas_vouchers', JSON.stringify(current));
     }
+  },
+
+  // Validate + apply voucher (returns discount amount or 0, and updates usedBy)
+  applyVoucher: async (code, clientPhone, price) => {
+    const vouchers = get().vouchers;
+    const v = vouchers.find(x => x.code === code?.toUpperCase());
+    if (!v) return { valid: false, reason: 'Code not found' };
+    if (v.status !== 'active') return { valid: false, reason: 'Voucher is inactive' };
+    const now = new Date();
+    if (v.expiryDate && new Date(v.expiryDate) < now) {
+      // Auto-expire it
+      get().updateVoucher(v.id, { status: 'expired' });
+      return { valid: false, reason: 'Voucher has expired' };
+    }
+    const normalizedPhone = get().normalizePhone(clientPhone);
+    const usedBy = v.usedBy || [];
+    const usageCount = v.usageCount || 0;
+    const usageLimit = Number(v.usageLimit) || 1;
+    // Check if this specific phone already used it (one-time per customer)
+    if (normalizedPhone && usedBy.includes(normalizedPhone)) {
+      return { valid: false, reason: 'You have already used this voucher' };
+    }
+    // Check overall usage limit
+    if (usageCount >= usageLimit) {
+      get().updateVoucher(v.id, { status: 'expired' });
+      return { valid: false, reason: 'Voucher usage limit reached' };
+    }
+    // Apply
+    let discount = 0;
+    if (v.type === 'Percentage') discount = Math.round((price * Number(v.value)) / 100);
+    else discount = Number(v.value);
+    // Update voucher usage
+    const newCount = usageCount + 1;
+    const newUsedBy = normalizedPhone ? [...usedBy, normalizedPhone] : usedBy;
+    const newStatus = newCount >= usageLimit ? 'expired' : 'active';
+    get().updateVoucher(v.id, { usageCount: newCount, usedBy: newUsedBy, status: newStatus });
+    return { valid: true, discount, voucherType: v.type, voucherValue: v.value };
   },
 
   updateVoucher: async (id, voucher) => {

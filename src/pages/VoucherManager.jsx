@@ -57,7 +57,7 @@ export default function VoucherManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-blue-100"
+          className="btn-primary shadow-lg shadow-rose-sm"
           style={{ backgroundColor: settings.primaryAccent }}
         >
           <span className="material-symbols-outlined text-xl">add_card</span>
@@ -68,8 +68,8 @@ export default function VoucherManager() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
         {/* Statistics Cards */}
         <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="card-pro p-8 bg-gradient-to-br from-blue-600 to-blue-700 text-white border-none shadow-xl shadow-blue-100" style={{ background: `linear-gradient(135deg, ${settings.primaryAccent}, ${settings.primaryAccent}cc)` }}>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100 opacity-80">Total Vouchers Issued</p>
+          <div className="card-pro p-8 bg-primary text-white border-none shadow-xl shadow-rose-sm" style={{ background: `linear-gradient(135deg, ${settings.primaryAccent}, ${settings.primaryAccent}cc)` }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-white opacity-80">Total Vouchers Issued</p>
             <h3 className="text-4xl font-black mt-2">{vouchers.length}</h3>
           </div>
           <div className="card-pro p-8 bg-white flex flex-col justify-between">
@@ -117,7 +117,7 @@ export default function VoucherManager() {
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      <span className="text-sm font-bold text-blue-600" style={{ color: settings.primaryAccent }}>
+                      <span className="text-sm font-bold text-primary" style={{ color: settings.primaryAccent }}>
                         {voucher.type === 'Percentage' ? `${voucher.value}% OFF` : `$${voucher.value} OFF`}
                       </span>
                     </td>
@@ -134,7 +134,7 @@ export default function VoucherManager() {
                         </span>
                         <button 
                           onClick={() => { setSelectedVoucher(voucher); setIsAssignModalOpen(true); }}
-                          className="w-7 h-7 rounded-md bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                          className="w-7 h-7 rounded-md bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-[#E7C8DD] hover:text-primary transition-colors"
                           title="Assign to client"
                         >
                           <span className="material-symbols-outlined text-sm">person_add</span>
@@ -145,7 +145,7 @@ export default function VoucherManager() {
                       <div className="flex items-center justify-end gap-2">
                         <button 
                           onClick={() => handleOpenModal(voucher)}
-                          className="w-9 h-9 flex items-center justify-center rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                          className="w-9 h-9 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                           title="Edit voucher"
                         >
                           <span className="material-symbols-outlined text-xl">edit</span>
@@ -221,7 +221,7 @@ export default function VoucherManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-blue-100"
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
               style={{ backgroundColor: settings.primaryAccent }}
             >
               {editingId ? 'Update Terms' : 'Issue Voucher'}
@@ -242,7 +242,7 @@ export default function VoucherManager() {
             <div 
               key={customer.id}
               onClick={() => handleAssignVoucher(customer.id)}
-              className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary hover:bg-blue-50 transition-all cursor-pointer group"
+              className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary hover:bg-[#E7C8DD] transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-primary font-bold text-xs shadow-sm border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">

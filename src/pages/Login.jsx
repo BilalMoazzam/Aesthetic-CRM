@@ -29,6 +29,8 @@ export default function Login() {
 
     if (res.success) {
       navigate('/');
+    } else if (res.reason === 'blocked') {
+      setError('Your account has been blocked. Please contact the administrator.');
     } else if (res.reason === 'pending') {
       setError('Your account is pending administrator approval.');
     } else {
@@ -36,7 +38,7 @@ export default function Login() {
     }
   };
 
-  const primaryAccent = settings.primaryAccent || '#148f70';
+  const primaryAccent = '#86626E';
 
   // Shared input style to prevent blurry placeholder fonts
   const inputStyle = {
@@ -47,11 +49,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen min-h-[100dvh] flex items-center justify-center relative overflow-hidden"
-      style={{
-        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        background: `linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)`,
-      }}
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #DBAFC1 0%, #E7C8DD 50%, #DBAFC1 100%)' }}
     >
       {/* Animated Background Orbs */}
       <div

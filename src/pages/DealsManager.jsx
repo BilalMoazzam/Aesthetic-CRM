@@ -70,7 +70,7 @@ export default function DealsManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-blue-100"
+          className="btn-primary shadow-lg shadow-rose-sm"
           style={{ backgroundColor: settings.primaryAccent }}
         >
           <span className="material-symbols-outlined text-xl">loyalty</span>
@@ -81,7 +81,7 @@ export default function DealsManager() {
       {/* KPI Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="card-pro p-6 flex items-center gap-6">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-[#E7C8DD] text-primary flex items-center justify-center">
             <span className="material-symbols-outlined text-3xl">local_fire_department</span>
           </div>
           <div>
@@ -99,7 +99,7 @@ export default function DealsManager() {
           </div>
         </div>
         <div className="card-pro p-6 flex items-center gap-6">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-[#E7C8DD] text-primary flex items-center justify-center">
             <span className="material-symbols-outlined text-3xl">group</span>
           </div>
           <div>
@@ -126,7 +126,7 @@ export default function DealsManager() {
                     <span className="material-symbols-outlined text-4xl">broken_image</span>
                   </div>
                 )}
-                <div className="absolute top-4 left-4 badge-active bg-blue-600 text-white border-none shadow-lg" style={{ backgroundColor: settings.primaryAccent }}>
+                <div className="absolute top-4 left-4 badge-active bg-primary text-white border-none shadow-lg" style={{ backgroundColor: settings.primaryAccent }}>
                   {discountPct}% OFF
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default function DealsManager() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-slate-400 line-through font-bold">${deal.originalPrice}</p>
-                    <p className="text-2xl font-black text-blue-600" style={{ color: settings.primaryAccent }}>${deal.discountPrice}</p>
+                    <p className="text-2xl font-black text-primary" style={{ color: settings.primaryAccent }}>${deal.discountPrice}</p>
                   </div>
                 </div>
                 <p className="text-sm text-slate-500 line-clamp-2 mb-8 flex-1">{deal.description}</p>
@@ -147,7 +147,7 @@ export default function DealsManager() {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => handleOpenModal(deal)}
-                      className="w-10 h-10 flex items-center justify-center rounded-xl text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors"
+                      className="w-10 h-10 flex items-center justify-center rounded-xl text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                       title="Edit deal"
                     >
                       <span className="material-symbols-outlined">edit</span>
@@ -248,9 +248,9 @@ export default function DealsManager() {
                   className="absolute inset-0 opacity-0 cursor-pointer z-10"
                 />
                 <div className="flex items-center justify-center gap-4 py-2">
-                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+                  <div className="w-10 h-10 rounded-full bg-[#E7C8DD] flex items-center justify-center text-primary">
                     {isUploading ? (
-                      <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
                     ) : (
                       <span className="material-symbols-outlined">cloud_upload</span>
                     )}
@@ -279,7 +279,7 @@ export default function DealsManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-blue-100"
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
               style={{ backgroundColor: settings.primaryAccent }}
             >
               {editingId ? 'Update Bundle' : 'Launch Deal'}

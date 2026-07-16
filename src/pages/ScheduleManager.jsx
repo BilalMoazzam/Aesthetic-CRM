@@ -345,87 +345,78 @@ export default function ScheduleManager() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Schedule</h1>
-          <p className="text-slate-500 text-sm mt-1">Real-time treatment room and specialist availability.</p>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#2d1f24' }}>Schedule</h1>
+            <p className="text-sm mt-0.5" style={{ color: '#7a5a62' }}>Real-time treatment room and specialist availability.</p>
+          </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="btn-primary"
+          >
+            <span className="material-symbols-outlined text-lg">add_task</span>
+            Schedule Appointment
+          </button>
         </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+
+        {/* Controls row */}
+        <div className="flex flex-wrap items-center gap-3">
           {/* View Toggle */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200">
+          <div className="flex items-center p-1 rounded-xl border" style={{ backgroundColor: '#E7C8DD', borderColor: '#c89aad' }}>
             <button
               onClick={() => setViewMode('calendar')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                viewMode === 'calendar' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'
-              }`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+              style={viewMode === 'calendar'
+                ? { backgroundColor: '#86626E', color: '#fff' }
+                : { color: '#86626E' }
+              }
             >
               <span className="material-symbols-outlined text-base">calendar_view_week</span>
               Calendar
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                viewMode === 'list' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'
-              }`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+              style={viewMode === 'list'
+                ? { backgroundColor: '#86626E', color: '#fff' }
+                : { color: '#86626E' }
+              }
             >
               <span className="material-symbols-outlined text-base">format_list_bulleted</span>
               All Bookings
-              <span className="bg-slate-900 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">{bookings.length}</span>
+              <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full"
+                style={viewMode === 'list' ? { backgroundColor: '#E7C8DD', color: '#86626E' } : { backgroundColor: '#86626E', color: '#fff' }}>
+                {bookings.length}
+              </span>
             </button>
           </div>
 
           {viewMode === 'calendar' && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex items-center bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-                <button
-                  onClick={() => navigateWeek(-1)}
-                  className="p-3 sm:px-4 hover:bg-slate-50 text-slate-500 transition-colors border-r border-slate-100"
-                  title="Previous week"
-                >
+            <>
+              <div className="flex items-center bg-white border rounded-xl overflow-hidden" style={{ borderColor: '#c89aad' }}>
+                <button onClick={() => navigateWeek(-1)} className="p-2 px-3 transition-colors border-r" style={{ borderColor: '#e7d0df', color: '#86626E' }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor='#E7C8DD'} onMouseLeave={e => e.currentTarget.style.backgroundColor=''}>
                   <span className="material-symbols-outlined text-xl">chevron_left</span>
                 </button>
-
-                <div className="flex-1 px-4 sm:px-8 py-2.5 text-center min-w-[160px] sm:min-w-[200px]">
-                  <p className="text-base sm:text-lg font-bold text-slate-900 tracking-tight leading-tight">
-                    {monthYearLabel}
-                  </p>
-                  <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
-                    Week of {weekRangeLabel}
-                  </p>
+                <div className="px-5 py-2 text-center min-w-[160px]">
+                  <p className="text-sm font-bold" style={{ color: '#2d1f24' }}>{monthYearLabel}</p>
+                  <p className="text-[11px]" style={{ color: '#7a5a62' }}>Week of {weekRangeLabel}</p>
                 </div>
-
-                <button
-                  onClick={() => navigateWeek(1)}
-                  className="p-3 sm:px-4 hover:bg-slate-50 text-slate-500 transition-colors border-l border-slate-100"
-                  title="Next week"
-                >
+                <button onClick={() => navigateWeek(1)} className="p-2 px-3 transition-colors border-l" style={{ borderColor: '#e7d0df', color: '#86626E' }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor='#E7C8DD'} onMouseLeave={e => e.currentTarget.style.backgroundColor=''}>
                   <span className="material-symbols-outlined text-xl">chevron_right</span>
                 </button>
               </div>
-
               {!isCurrentWeek && (
-                <button
-                  onClick={goToToday}
-                  className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-95 shadow-sm"
-                  style={{ backgroundColor: settings.primaryAccent }}
-                  title="Jump to this week"
-                >
+                <button onClick={goToToday} className="btn-primary py-2 px-3 text-xs">
                   <span className="material-symbols-outlined text-base">today</span>
                   Today
                 </button>
               )}
-
               <ExportBookingsButton />
-            </div>
+            </>
           )}
-          <button 
-            onClick={() => setIsModalOpen(true)} 
-            className="btn-primary shadow-lg shadow-blue-100"
-            style={{ backgroundColor: settings.primaryAccent }}
-          >
-            <span className="material-symbols-outlined text-xl">add_task</span>
-            Schedule Appointment
-          </button>
         </div>
       </div>
 
@@ -435,7 +426,7 @@ export default function ScheduleManager() {
         const STATUS_COLORS = {
           confirmed:  'bg-emerald-50 text-emerald-700 border-emerald-100',
           pending:    'bg-amber-50 text-amber-700 border-amber-100',
-          completed:  'bg-blue-50 text-blue-700 border-blue-100',
+          completed:  'bg-[#E7C8DD] text-[#86626E] border-[#c89aad]',
           cancelled:  'bg-rose-50 text-rose-700 border-rose-100',
           'no-show':  'bg-slate-100 text-slate-500 border-slate-200',
         };
@@ -523,7 +514,7 @@ export default function ScheduleManager() {
                           <td className="px-6 py-5 text-right">
                             <button
                               onClick={e => { e.stopPropagation(); setSelectedBooking(booking); }}
-                              className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                              className="text-xs font-bold text-primary hover:text-[#6e4f5a] transition-colors"
                             >
                               View Details
                             </button>
@@ -562,8 +553,8 @@ export default function ScheduleManager() {
                 const dateStr = date.toLocaleDateString('en-CA');
                 const dayCount = bookings.filter(b => b.date === dateStr).length;
                 return (
-                  <div key={i} className={`py-3 px-1 sm:p-4 lg:p-6 text-center border-l border-slate-200 flex flex-col justify-center items-center relative ${isToday ? 'bg-blue-50/60' : isPastDay ? 'bg-slate-50/40' : ''}`}>
-                    <p className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${isToday ? 'text-blue-600' : isPastDay ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <div key={i} className={`py-3 px-1 sm:p-4 lg:p-6 text-center border-l border-slate-200 flex flex-col justify-center items-center relative ${isToday ? 'bg-[#E7C8DD]/60' : isPastDay ? 'bg-slate-50/40' : ''}`}>
+                    <p className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${isToday ? 'text-primary' : isPastDay ? 'text-slate-400' : 'text-slate-500'}`}>
                       {date.toLocaleDateString('en-US', { weekday: 'short' })}
                     </p>
                     <div className="mt-1">
@@ -866,7 +857,7 @@ export default function ScheduleManager() {
               id="sendNotifySchedule" 
               checked={sendNotification} 
               onChange={e => setSendNotification(e.target.checked)} 
-              className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
             />
             <label htmlFor="sendNotifySchedule" className="text-xs font-bold text-slate-700 select-none cursor-pointer flex-1">
               Dispatch Outbound SMS & Email Notification (Real-time Sync)
@@ -884,7 +875,7 @@ export default function ScheduleManager() {
                 <span className="material-symbols-outlined text-slate-500 text-sm">chat_bubble</span>
               </div>
               <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
-                <p className="text-[10px] font-extrabold text-blue-400 mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
+                <p className="text-[10px] font-extrabold text-primary mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
                 <p className="text-xs text-slate-200 leading-relaxed font-semibold">
                   {formData.clientName 
                     ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing Vlas AESTHETIC!`
@@ -899,7 +890,7 @@ export default function ScheduleManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-blue-100"
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
               style={{ backgroundColor: settings.primaryAccent }}
             >
               Confirm Schedule
@@ -968,7 +959,7 @@ export default function ScheduleManager() {
                 </button>
                 <button
                   onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'confirmed' }); setSelectedBooking(prev => ({...prev, status: 'confirmed'})); }}
-                  className="py-3 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-all flex items-center justify-center gap-2"
+                  className="py-3 rounded-xl text-xs font-bold bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1] transition-all flex items-center justify-center gap-2"
                   style={{ borderColor: settings.primaryAccent }}
                 >
                   <span className="material-symbols-outlined text-sm">event_available</span>

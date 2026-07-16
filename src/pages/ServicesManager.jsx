@@ -51,7 +51,7 @@ export default function ServicesManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-blue-100"
+          className="btn-primary shadow-lg shadow-rose-sm"
           style={{ backgroundColor: settings.primaryAccent }}
         >
           <span className="material-symbols-outlined text-xl">add_box</span>
@@ -75,7 +75,7 @@ export default function ServicesManager() {
                   <span className="material-symbols-outlined text-5xl">image</span>
                 </div>
               )}
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-[10px] font-bold text-blue-600 uppercase tracking-wider shadow-sm" style={{ color: settings.primaryAccent }}>
+              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-[10px] font-bold text-primary uppercase tracking-wider shadow-sm" style={{ color: settings.primaryAccent }}>
                 {service.category}
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function ServicesManager() {
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => handleOpenModal(service)}
-                    className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    className="p-2 text-slate-400 hover:text-primary hover:bg-[#E7C8DD] rounded-lg transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">edit</span>
                   </button>
@@ -119,12 +119,12 @@ export default function ServicesManager() {
         {/* Empty State / Add Card */}
         <button 
           onClick={() => handleOpenModal()}
-          className="card-pro border-dashed border-slate-300 bg-slate-50/50 flex flex-col items-center justify-center p-10 gap-4 hover:bg-slate-50 hover:border-blue-300 transition-all group min-h-[350px]"
+          className="card-pro border-dashed border-slate-300 bg-slate-50/50 flex flex-col items-center justify-center p-10 gap-4 hover:bg-slate-50 hover:border-primary transition-all group min-h-[350px]"
         >
-          <div className="w-16 h-16 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-600 group-hover:border-blue-100 transition-all shadow-sm">
+          <div className="w-16 h-16 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:border-[#c89aad] transition-all shadow-sm">
             <span className="material-symbols-outlined text-3xl">add</span>
           </div>
-          <p className="text-sm font-bold text-slate-500 group-hover:text-blue-600 transition-colors">Create New Service</p>
+          <p className="text-sm font-bold text-slate-500 group-hover:text-primary transition-colors">Create New Service</p>
         </button>
       </div>
 
@@ -219,7 +219,7 @@ export default function ServicesManager() {
                 type="checkbox" 
                 checked={formData.featured} 
                 onChange={e=>setFormData({...formData, featured: e.target.checked})} 
-                className="w-5 h-5 text-blue-600 rounded-lg border-slate-300 focus:ring-blue-500 transition-all cursor-pointer"
+                className="w-5 h-5 text-primary rounded-lg border-slate-300 focus:ring-primary transition-all cursor-pointer"
               />
               <label htmlFor="featured" className="text-sm font-bold text-slate-700 cursor-pointer select-none">Mark as Featured on Homepage</label>
             </div>
@@ -229,7 +229,7 @@ export default function ServicesManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-blue-100"
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
               style={{ backgroundColor: settings.primaryAccent }}
             >
               {editingId ? 'Update Service' : 'Save Service'}

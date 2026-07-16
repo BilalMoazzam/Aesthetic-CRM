@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 
 export default function SettingsManager() {
-  const { settings, updateSettings, users, toggleUserApproval, services, deals, addBooking, customers, fetchServices, fetchDeals, fetchCustomers } = useStore();
+  const { settings, updateSettings, users, toggleUserApproval, toggleUserBlock, services, deals, addBooking, customers, fetchServices, fetchDeals, fetchCustomers, fetchUsers } = useStore();
   const [formData, setFormData] = useState({
     workingHoursStart: '09:00 AM',
     workingHoursEnd: '05:00 PM',
@@ -32,7 +32,8 @@ export default function SettingsManager() {
     fetchServices();
     fetchDeals();
     fetchCustomers();
-  }, [fetchServices, fetchDeals, fetchCustomers]);
+    fetchUsers();
+  }, [fetchServices, fetchDeals, fetchCustomers, fetchUsers]);
 
   useEffect(() => {
     if (settings) {
@@ -101,7 +102,7 @@ export default function SettingsManager() {
           {/* Brand Configuration */}
           <div className="card-pro p-8">
             <h3 className="text-sm font-bold text-slate-900 mb-8 flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-blue-600">business</span>
+              <span className="material-symbols-outlined text-base text-primary">business</span>
               Brand Configuration
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -131,7 +132,7 @@ export default function SettingsManager() {
           {/* Scheduling Configuration */}
           <div className="card-pro p-8">
             <h3 className="text-sm font-bold text-slate-900 mb-8 flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-blue-600">schedule</span>
+              <span className="material-symbols-outlined text-base text-primary">schedule</span>
               Scheduling Configuration
             </h3>
             
@@ -163,7 +164,7 @@ export default function SettingsManager() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center px-1">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Buffer Between Sessions</label>
-                    <span className="text-sm font-bold text-blue-600">{formData.bufferTime} minutes</span>
+                    <span className="text-sm font-bold text-primary">{formData.bufferTime} minutes</span>
                   </div>
                   <input 
                     type="range" 
@@ -180,7 +181,7 @@ export default function SettingsManager() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center px-1">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Max Booking Window</label>
-                    <span className="text-sm font-bold text-blue-600">{formData.bookingWindow} days</span>
+                    <span className="text-sm font-bold text-primary">{formData.bookingWindow} days</span>
                   </div>
                   <input 
                     type="range" 
@@ -200,7 +201,7 @@ export default function SettingsManager() {
           {/* Access Control */}
           <div className="card-pro p-8">
             <h3 className="text-sm font-bold text-slate-900 mb-8 flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-blue-600">security</span>
+              <span className="material-symbols-outlined text-base text-primary">security</span>
               Application Access Control
             </h3>
             <div className="space-y-6">
@@ -211,7 +212,7 @@ export default function SettingsManager() {
                 </div>
                 <button 
                   onClick={() => setFormData({...formData, onlineBookings: !formData.onlineBookings})}
-                  className={`w-12 h-6 rounded-full relative transition-colors ${formData.onlineBookings ? 'bg-blue-600' : 'bg-slate-200'}`}
+                  className={`w-12 h-6 rounded-full relative transition-colors ${formData.onlineBookings ? 'bg-primary' : 'bg-slate-200'}`}
                 >
                   <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${formData.onlineBookings ? 'translate-x-6' : 'translate-x-0'}`} />
                 </button>
@@ -223,7 +224,7 @@ export default function SettingsManager() {
                 </div>
                 <button 
                   onClick={() => setFormData({...formData, staffOverrides: !formData.staffOverrides})}
-                  className={`w-12 h-6 rounded-full relative transition-colors ${formData.staffOverrides ? 'bg-blue-600' : 'bg-slate-200'}`}
+                  className={`w-12 h-6 rounded-full relative transition-colors ${formData.staffOverrides ? 'bg-primary' : 'bg-slate-200'}`}
                 >
                   <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${formData.staffOverrides ? 'translate-x-6' : 'translate-x-0'}`} />
                 </button>
@@ -233,37 +234,55 @@ export default function SettingsManager() {
 
           {/* Staff Approvals & Account Control */}
           <div className="card-pro p-8">
-            <h3 className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-blue-600" style={{ color: settings.primaryAccent }}>manage_accounts</span>
-              Staff Access & Approvals
+            <h3 className="text-sm font-bold mb-6 flex items-center gap-2" style={{ color: '#2d1f24' }}>
+              <span className="material-symbols-outlined text-base" style={{ color: '#86626E' }}>manage_accounts</span>
+              Staff Access &amp; Approvals
             </h3>
             {users && users.length > 0 ? (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y" style={{ borderColor: 'rgba(200,154,173,0.3)' }}>
                 {users.map(u => (
-                  <div key={u.id} className="py-4 flex items-center justify-between first:pt-0 last:pb-0">
+                  <div key={u.id} className="py-4 flex flex-wrap items-center justify-between gap-3 first:pt-0 last:pb-0">
                     <div>
-                      <p className="text-sm font-bold text-slate-900">{u.name}</p>
-                      <p className="text-xs text-slate-505 font-medium text-slate-400">@{u.username} • {u.role}</p>
+                      <p className="text-sm font-bold" style={{ color: '#2d1f24' }}>{u.name}</p>
+                      <p className="text-xs font-medium" style={{ color: '#7a5a62' }}>@{u.username} &bull; {u.role}</p>
+                      {u.isBlocked && (
+                        <span className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">BLOCKED</span>
+                      )}
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {/* Approval status badge */}
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
-                        u.isApproved 
-                          ? 'bg-emerald-50 text-emerald-700' 
-                          : 'bg-amber-50 text-amber-700'
+                        u.isBlocked ? 'bg-red-50 text-red-700' :
+                        u.isApproved ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                       }`}>
-                        {u.isApproved ? 'Approved' : 'Pending'}
+                        {u.isBlocked ? 'Blocked' : u.isApproved ? 'Approved' : 'Pending'}
                       </span>
-                      {u.username !== 'admin' && (
+                      {/* Approve/Revoke — only non-admin, non-blocked */}
+                      {u.username !== 'admin' && !u.isBlocked && (
                         <button
                           type="button"
                           onClick={() => toggleUserApproval(u.id)}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                            u.isApproved 
-                              ? 'bg-rose-50 text-rose-600 hover:bg-rose-100' 
+                            u.isApproved
+                              ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
                               : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                           }`}
                         >
                           {u.isApproved ? 'Revoke' : 'Approve'}
+                        </button>
+                      )}
+                      {/* Block / Unblock — only non-admin */}
+                      {u.username !== 'admin' && (
+                        <button
+                          type="button"
+                          onClick={() => toggleUserBlock(u.id)}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                            u.isBlocked
+                              ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
+                              : 'bg-red-50 text-red-600 hover:bg-red-100'
+                          }`}
+                        >
+                          {u.isBlocked ? 'Unblock' : 'Block'}
                         </button>
                       )}
                     </div>
@@ -271,7 +290,7 @@ export default function SettingsManager() {
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-slate-400 italic">No registered staff users found.</p>
+              <p className="text-xs italic" style={{ color: '#9e7a86' }}>No registered staff users found.</p>
             )}
           </div>
         </div>
@@ -280,7 +299,7 @@ export default function SettingsManager() {
         <div className="lg:col-span-4 space-y-8">
           <div className="card-pro p-8">
             <h3 className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
-              <span className="material-symbols-outlined text-base text-blue-600">palette</span>
+              <span className="material-symbols-outlined text-base text-primary">palette</span>
               Brand Identity
             </h3>
             <div className="space-y-6">
