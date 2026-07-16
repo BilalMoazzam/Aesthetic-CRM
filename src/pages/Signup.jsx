@@ -87,7 +87,7 @@ export default function Signup() {
 
         {/* Card */}
         <div 
-          className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-white/60 backdrop-blur-sm"
+          className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-white/60 "
           style={{ 
             background: 'rgba(255, 255, 255, 0.85)',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255,255,255,0.6)',
@@ -103,7 +103,7 @@ export default function Signup() {
             {/* Header */}
             <div className="text-center mb-8 sm:mb-10">
               <div 
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-white mx-auto mb-4 sm:mb-5 transition-transform duration-300 hover:scale-105"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-primary mx-auto mb-4 sm:mb-5 transition-transform duration-300 hover:scale-105"
                 style={{ 
                   background: `linear-gradient(135deg, ${primaryAccent}, ${primaryAccent}cc)`,
                   boxShadow: `0 8px 24px -4px ${primaryAccent}40`,
@@ -111,10 +111,10 @@ export default function Signup() {
               >
                 <span className="material-symbols-outlined text-2xl sm:text-3xl" style={{ fontVariationSettings: "'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24" }}>person_add</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight" style={inputStyle}>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight leading-tight" style={inputStyle}>
                 Staff Registration
               </h1>
-              <p className="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
+              <p className="text-primary/70 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
                 Request Access Privilege
               </p>
             </div>
@@ -132,15 +132,15 @@ export default function Signup() {
                   <span className="material-symbols-outlined text-3xl sm:text-4xl" style={{ color: primaryAccent, fontVariationSettings: "'FILL' 1, 'wght' 400" }}>check_circle</span>
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2" style={inputStyle}>Registration Submitted</h3>
-                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed max-w-[280px] sm:max-w-xs mx-auto" style={inputStyle}>
+                  <h3 className="text-lg sm:text-xl font-bold text-primary mb-2" style={inputStyle}>Registration Submitted</h3>
+                  <p className="text-primary/80 text-xs sm:text-sm leading-relaxed max-w-[280px] sm:max-w-xs mx-auto" style={inputStyle}>
                     Your credentials have been logged. An administrator must approve your account before you can access the platform.
                   </p>
                 </div>
                 <div className="pt-3 sm:pt-4">
                   <Link 
                     to="/login"
-                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs font-bold tracking-[0.15em] sm:tracking-widest uppercase transition-all duration-300 active:scale-95 text-white hover:shadow-lg"
+                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl text-xs font-bold tracking-[0.15em] sm:tracking-widest uppercase transition-all duration-300 active:scale-95 text-primary hover:shadow-lg"
                     style={{ 
                       background: `linear-gradient(135deg, ${primaryAccent}, ${primaryAccent}dd)`,
                       boxShadow: `0 4px 14px -2px ${primaryAccent}50`,
@@ -156,7 +156,7 @@ export default function Signup() {
               <>
                 {/* Error Message */}
                 {error && (
-                  <div className="mb-6 p-3 sm:p-4 bg-rose-50/80 border border-rose-100 text-rose-600 rounded-xl sm:rounded-2xl text-xs font-semibold text-center leading-relaxed backdrop-blur-sm" style={inputStyle}>
+                  <div className="mb-6 p-3 sm:p-4 bg-rose-50/80 border border-rose-100 text-rose-600 rounded-xl sm:rounded-2xl text-xs font-semibold text-center leading-relaxed " style={inputStyle}>
                     <span className="material-symbols-outlined text-sm align-middle mr-1.5" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>
                     {error}
                   </div>
@@ -166,18 +166,18 @@ export default function Signup() {
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" autoComplete="off">
                   {/* Full Name Input */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                       Full Name <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative group">
-                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>badge</span>
+                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>badge</span>
                       <input 
                         required 
                         type="text" 
                         value={name} 
                         onChange={e => setName(e.target.value)}
                         placeholder="Enter your full name"
-                        className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal" 
+                        className="w-full bg-primary/80 border border-slate-200/80 focus:border-slate-300 text-white rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-primary placeholder:text-white/70 placeholder:font-normal" 
                         style={{ 
                           ...inputStyle,
                           boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
@@ -189,18 +189,18 @@ export default function Signup() {
 
                   {/* Username Input */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                       Username <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative group">
-                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
+                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
                       <input 
                         required 
                         type="text" 
                         value={username} 
                         onChange={e => setUsername(e.target.value)}
                         placeholder="Choose a username"
-                        className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal" 
+                        className="w-full bg-primary/80 border border-slate-200/80 focus:border-slate-300 text-white rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-4 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-primary placeholder:text-white/70 placeholder:font-normal" 
                         style={{ 
                           ...inputStyle,
                           boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
@@ -212,18 +212,18 @@ export default function Signup() {
 
                   {/* Password Input */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <label className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                       Password <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative group">
-                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 group-focus-within:text-slate-600 transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
+                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
                       <input 
                         required 
                         type={showPassword ? 'text' : 'password'} 
                         value={password} 
                         onChange={e => setPassword(e.target.value)}
                         placeholder="Create a strong password"
-                        className="w-full bg-slate-50/80 border border-slate-200/80 focus:border-slate-300 text-slate-900 rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-11 sm:pr-12 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-white placeholder:text-slate-400 placeholder:font-normal" 
+                        className="w-full bg-primary/80 border border-slate-200/80 focus:border-slate-300 text-white rounded-xl sm:rounded-2xl pl-11 sm:pl-12 pr-11 sm:pr-12 py-3 sm:py-3.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-[3px] focus:bg-primary placeholder:text-white/70 placeholder:font-normal" 
                         style={{ 
                           ...inputStyle,
                           boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.04)',
@@ -234,7 +234,7 @@ export default function Signup() {
                         type="button"
                         tabIndex={-1}
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors p-0.5"
+                        className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-primary/70 hover:text-primary transition-colors p-0.5"
                       >
                         <span className="material-symbols-outlined text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>
                           {showPassword ? 'visibility_off' : 'visibility'}
@@ -247,7 +247,7 @@ export default function Signup() {
                   <button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full py-3 sm:py-3.5 text-white rounded-xl sm:rounded-2xl text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase transition-all duration-300 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 mt-2 sm:mt-3 hover:shadow-lg"
+                    className="w-full py-3 sm:py-3.5 text-primary rounded-xl sm:rounded-2xl text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase transition-all duration-300 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 mt-2 sm:mt-3 hover:shadow-lg"
                     style={{ 
                       background: `linear-gradient(135deg, ${primaryAccent}, ${primaryAccent}dd)`,
                       boxShadow: `0 4px 14px -2px ${primaryAccent}50`,
@@ -267,7 +267,7 @@ export default function Signup() {
 
                 {/* Login Link */}
                 <div className="mt-6 sm:mt-8 text-center">
-                  <p className="text-xs sm:text-sm text-slate-500 font-medium" style={inputStyle}>
+                  <p className="text-xs sm:text-sm text-primary/80 font-medium" style={inputStyle}>
                     Already have an account?{' '}
                     <Link 
                       to="/login" 
@@ -283,7 +283,7 @@ export default function Signup() {
 
             {/* Footer */}
             <div className="mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-100 text-center">
-              <p className="text-[9px] sm:text-[10px] text-slate-400 font-semibold uppercase tracking-[0.15em] sm:tracking-widest" style={inputStyle}>
+              <p className="text-[9px] sm:text-[10px] text-primary/70 font-semibold uppercase tracking-[0.15em] sm:tracking-widest" style={inputStyle}>
                 VLAS Core v3.2.0 • Admin Verification Flow
               </p>
             </div>

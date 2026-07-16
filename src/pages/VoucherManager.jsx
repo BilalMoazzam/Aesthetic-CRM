@@ -52,8 +52,8 @@ export default function VoucherManager() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Voucher Management</h1>
-          <p className="text-slate-500 text-sm mt-1">Generate and manage promotional discount codes for client acquisition.</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Voucher Management</h1>
+          <p className="text-white/80 text-sm mt-1">Generate and manage promotional discount codes for client acquisition.</p>
         </div>
         <button 
           onClick={() => handleOpenModal()} 
@@ -72,19 +72,19 @@ export default function VoucherManager() {
             <p className="text-[10px] font-bold uppercase tracking-widest text-white opacity-80">Total Vouchers Issued</p>
             <h3 className="text-4xl font-black mt-2">{vouchers.length}</h3>
           </div>
-          <div className="card-pro p-8 bg-white flex flex-col justify-between">
+          <div className="card-pro p-8 bg-primary flex flex-col justify-between">
             <div>
-              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Targeted Vouchers</p>
-              <h3 className="text-3xl font-bold text-slate-900 mt-2">
+              <p className="text-primary/80 text-[10px] font-bold uppercase tracking-widest">Targeted Vouchers</p>
+              <h3 className="text-3xl font-bold text-primary mt-2">
                 {vouchers.filter(v => v.assignedClientId).length}
               </h3>
             </div>
-            <p className="text-xs text-slate-400 font-medium mt-4">Vouchers assigned to specific high-tier clients.</p>
+            <p className="text-xs text-primary/70 font-medium mt-4">Vouchers assigned to specific high-tier clients.</p>
           </div>
-          <div className="card-pro p-8 bg-white flex flex-col justify-between">
+          <div className="card-pro p-8 bg-primary flex flex-col justify-between">
             <div>
-              <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Active Vouchers</p>
-              <h3 className="text-3xl font-bold text-slate-900 mt-2">
+              <p className="text-primary/80 text-[10px] font-bold uppercase tracking-widest">Active Vouchers</p>
+              <h3 className="text-3xl font-bold text-primary mt-2">
                 {vouchers.filter(v => v.status === 'active').length}
               </h3>
             </div>
@@ -96,7 +96,7 @@ export default function VoucherManager() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-100">
+                <tr className="bg-primary text-[10px] uppercase tracking-wider text-white/80 font-bold border-b border-slate-100">
                   <th className="px-8 py-5">Voucher Code</th>
                   <th className="px-8 py-5">Value</th>
                   <th className="px-8 py-5">Expiry Date</th>
@@ -107,13 +107,13 @@ export default function VoucherManager() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {vouchers.map((voucher) => (
-                  <tr key={voucher.id} className="hover:bg-slate-50/50 transition-colors group">
+                  <tr key={voucher.id} className="hover:bg-transparent transition-colors group">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+                        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white">
                           <span className="material-symbols-outlined">confirmation_number</span>
                         </div>
-                        <span className="text-sm font-black text-slate-900 tracking-widest">{voucher.code}</span>
+                        <span className="text-sm font-black text-primary tracking-widest">{voucher.code}</span>
                       </div>
                     </td>
                     <td className="px-8 py-6">
@@ -122,19 +122,19 @@ export default function VoucherManager() {
                       </span>
                     </td>
                     <td className="px-8 py-6">
-                      <p className="text-sm font-medium text-slate-700">{voucher.expiryDate}</p>
+                      <p className="text-sm font-medium text-primary">{voucher.expiryDate}</p>
                     </td>
                     <td className="px-8 py-6">
                       <span className={`badge-${voucher.status}`}>{voucher.status}</span>
                     </td>
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs font-bold ${voucher.assignedClientId ? 'text-slate-900' : 'text-slate-400 italic'}`}>
+                        <span className={`text-xs font-bold ${voucher.assignedClientId ? 'text-primary' : 'text-primary/70 italic'}`}>
                           {getClientName(voucher.assignedClientId)}
                         </span>
                         <button 
                           onClick={() => { setSelectedVoucher(voucher); setIsAssignModalOpen(true); }}
-                          className="w-7 h-7 rounded-md bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-[#E7C8DD] hover:text-primary transition-colors"
+                          className="w-7 h-7 rounded-md bg-primary flex items-center justify-center text-primary hover:bg-[#E7C8DD] hover:text-white transition-colors"
                           title="Assign to client"
                         >
                           <span className="material-symbols-outlined text-sm">person_add</span>
@@ -176,15 +176,15 @@ export default function VoucherManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Voucher Code*</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Voucher Code*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">qr_code</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">qr_code</span>
               <input required value={formData.code} onChange={e=>setFormData({...formData, code: e.target.value.toUpperCase()})} className="input-pro pl-12 font-mono tracking-widest" placeholder="e.g. SUMMER24" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Discount Type</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Discount Type</label>
               <select 
                 required 
                 value={formData.type} 
@@ -196,17 +196,17 @@ export default function VoucherManager() {
               </select>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Discount Value*</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Discount Value*</label>
               <input required type="number" value={formData.value} onChange={e=>setFormData({...formData, value: e.target.value})} className="input-pro" placeholder="e.g. 15" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Expiry Date*</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Expiry Date*</label>
               <input required type="date" value={formData.expiryDate} onChange={e=>setFormData({...formData, expiryDate: e.target.value})} className="input-pro" />
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Assigned Client (Optional)</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Assigned Client (Optional)</label>
               <select 
                 value={formData.assignedClientId} 
                 onChange={e=>setFormData({...formData, assignedClientId: e.target.value})} 
@@ -218,7 +218,7 @@ export default function VoucherManager() {
             </div>
           </div>
           <div className="flex gap-6 pt-6">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
@@ -242,21 +242,21 @@ export default function VoucherManager() {
             <div 
               key={customer.id}
               onClick={() => handleAssignVoucher(customer.id)}
-              className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-primary hover:bg-[#E7C8DD] transition-all cursor-pointer group"
+              className="flex items-center justify-between p-4 bg-primary rounded-xl border border-slate-100 hover:border-primary hover:bg-[#E7C8DD] transition-all cursor-pointer group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-primary font-bold text-xs shadow-sm border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-xs shadow-sm border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
                   {customer.name?.charAt(0)}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-900">{customer.name}</p>
-                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">{customer.tier}</p>
+                  <p className="text-sm font-bold text-primary">{customer.name}</p>
+                  <p className="text-[10px] text-primary/70 font-medium uppercase tracking-widest">{customer.tier}</p>
                 </div>
               </div>
               <span className="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">add_circle</span>
             </div>
           ))}
-          {customers.length === 0 && <p className="text-center py-10 text-slate-400 italic">No customers found Axis.</p>}
+          {customers.length === 0 && <p className="text-center py-10 text-primary/70 italic">No customers found Axis.</p>}
         </div>
       </Modal>
     </div>

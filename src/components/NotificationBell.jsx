@@ -34,14 +34,14 @@ export default function NotificationBell() {
       >
         <span className="material-symbols-outlined text-2xl">notifications</span>
         {notifications.length > 0 && (
-          <span className="absolute top-0.5 right-0.5 bg-rose-500 text-white rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-black">
+          <span className="absolute top-0.5 right-0.5 bg-rose-500 text-primary rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-black">
             {notifications.length}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-72 bg-white shadow-2xl border rounded-2xl overflow-hidden z-50 animate-modal-entrance"
+        <div className="absolute right-0 mt-2 w-72 bg-primary shadow-2xl border rounded-2xl overflow-hidden z-50 animate-modal-entrance"
           style={{ borderColor: '#d4a0b5' }}>
           <div className="px-4 py-3 flex items-center justify-between border-b" style={{ backgroundColor: '#E7C8DD', borderColor: '#c89aad' }}>
             <span className="text-xs font-bold" style={{ color: '#86626E' }}>Notifications</span>
@@ -56,13 +56,13 @@ export default function NotificationBell() {
           </div>
           <ul>
             {notifications.length === 0 ? (
-              <li className="px-4 py-6 text-xs text-center" style={{ color: '#7a5a62' }}>No new notifications</li>
+              <li className="px-4 py-6 text-xs text-center" style={{ color: '#86626E' }}>No new notifications</li>
             ) : notifications.map(n => (
               <li key={n.id} className="px-4 py-3 flex items-start gap-3 border-b last:border-0 hover:bg-[#E7C8DD]/30 transition-colors" style={{ borderColor: '#f0d4e3' }}>
                 <span className="w-2 h-2 mt-1.5 rounded-full shrink-0" style={{ backgroundColor: n.dot }} />
                 <div>
-                  <p className="text-sm font-semibold" style={{ color: '#2d1f24' }}>{n.message}</p>
-                  <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: '#9e7a86' }}>{n.type}</p>
+                  <p className="text-sm font-semibold" style={{ color: '#86626E' }}>{n.message}</p>
+                  <p className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: 'rgba(134,98,110,0.8)' }}>{n.type}</p>
                 </div>
               </li>
             ))}

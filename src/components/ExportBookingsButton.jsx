@@ -49,16 +49,16 @@ export default function ExportBookingsButton() {
       <button
         type="button"
         onClick={() => setShowMenu(!showMenu)}
-        className="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors shadow-sm"
+        className="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 text-sm font-semibold text-white bg-primary border border-slate-200 rounded-xl hover:bg-primary transition-colors shadow-sm"
       >
         <span className="material-symbols-outlined text-lg">download</span>
         <span className="hidden sm:inline">Export</span>
       </button>
       {showMenu && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-200 shadow-xl rounded-xl overflow-hidden z-[100]">
-          <button type="button" onClick={() => downloadCSV('week')} className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100 font-medium">Export Last 7 Days</button>
-          <button type="button" onClick={() => downloadCSV('month')} className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 border-b border-slate-100 font-medium">Export Last 30 Days</button>
-          <button type="button" onClick={() => downloadCSV('all')} className="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 font-medium">Export All History</button>
+        <div className="absolute right-0 mt-2 w-48 bg-primary border border-slate-200 shadow-xl rounded-xl overflow-hidden z-[100]">
+          <button type="button" onClick={() => downloadCSV('week')} className="w-full text-left px-4 py-3 text-sm text-white hover:bg-primary border-b border-slate-100 font-medium">Export Last 7 Days</button>
+          <button type="button" onClick={() => downloadCSV('month')} className="w-full text-left px-4 py-3 text-sm text-white hover:bg-primary border-b border-slate-100 font-medium">Export Last 30 Days</button>
+          <button type="button" onClick={() => downloadCSV('all')} className="w-full text-left px-4 py-3 text-sm text-white hover:bg-primary font-medium">Export All History</button>
         </div>
       )}
     </div>

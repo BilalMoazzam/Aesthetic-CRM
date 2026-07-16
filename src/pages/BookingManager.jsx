@@ -266,8 +266,8 @@ export default function BookingManager() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Booking Management</h1>
-          <p className="text-slate-500 text-sm mt-1">Review, approve, and manage all client appointments.</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Booking Management</h1>
+          <p className="text-primary/80 text-sm mt-1">Review, approve, and manage all client appointments.</p>
         </div>
         <button 
           onClick={() => handleOpenModal()} 
@@ -283,31 +283,31 @@ export default function BookingManager() {
       <div className="flex border-b border-slate-200 gap-6 md:gap-8 overflow-x-auto scrollbar-hide">
         <button 
           onClick={() => setActiveTab('all')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-white border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           All Bookings
         </button>
         <button 
           onClick={() => setActiveTab('pending')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'pending' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'pending' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Pending
         </button>
         <button 
           onClick={() => setActiveTab('confirmed')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'confirmed' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'confirmed' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Confirmed
         </button>
         <button 
           onClick={() => setActiveTab('completed')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'completed' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'completed' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Completed
         </button>
         <button 
           onClick={() => setActiveTab('logs')} 
-          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'logs' ? 'text-primary border-primary' : 'text-slate-500 border-transparent hover:text-slate-700'}`}
+          className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'logs' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Outbound Logs
         </button>
@@ -319,7 +319,7 @@ export default function BookingManager() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-100">
+                <tr className="bg-primary text-[10px] uppercase tracking-wider text-white/80 font-bold border-b border-slate-100">
                   <th className="px-8 py-5">Client Profile</th>
                   <th className="px-8 py-5">Message Type</th>
                   <th className="px-8 py-5">Content Dispatched</th>
@@ -329,26 +329,26 @@ export default function BookingManager() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {messages && messages.map((msg) => (
-                  <tr key={msg.id} className="hover:bg-slate-50/50 transition-colors group">
+                  <tr key={msg.id} className="hover:bg-transparent transition-colors group">
                     <td className="px-8 py-6">
                       <div>
-                        <p className="text-sm font-bold text-slate-900">{msg.clientName}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{msg.clientPhone || msg.clientEmail}</p>
+                        <p className="text-sm font-bold text-primary">{msg.clientName}</p>
+                        <p className="text-xs text-primary/80 mt-0.5">{msg.clientPhone || msg.clientEmail}</p>
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      <span className="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">{msg.messageType}</span>
+                      <span className="text-xs font-bold text-white bg-primary px-2.5 py-1 rounded-md">{msg.messageType}</span>
                     </td>
                     <td className="px-8 py-6 max-w-xs">
-                      <p className="text-xs text-slate-600 leading-relaxed font-medium break-words" title={msg.content}>
+                      <p className="text-xs text-primary leading-relaxed font-medium break-words" title={msg.content}>
                         {msg.content}
                       </p>
                     </td>
                     <td className="px-8 py-6">
-                      <p className="text-xs font-medium text-slate-500 whitespace-nowrap">{msg.timestamp}</p>
+                      <p className="text-xs font-medium text-primary/80 whitespace-nowrap">{msg.timestamp}</p>
                     </td>
                     <td className="px-8 py-6">
-                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                      <span className="bg-[#E7C8DD] text-primary border border-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
                         {msg.status}
                       </span>
                     </td>
@@ -356,7 +356,7 @@ export default function BookingManager() {
                 ))}
                 {(!messages || messages.length === 0) && (
                   <tr>
-                    <td colSpan="5" className="px-8 py-20 text-center text-slate-400 text-sm italic">
+                    <td colSpan="5" className="px-8 py-20 text-center text-primary/70 text-sm italic">
                       No outbound notifications logged yet.
                     </td>
                   </tr>
@@ -370,7 +370,7 @@ export default function BookingManager() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-100">
+                <tr className="bg-primary text-[10px] uppercase tracking-wider text-white/80 font-bold border-b border-slate-100">
                   <th className="px-8 py-5">Client & Service</th>
                   <th className="px-8 py-5">Appointment Date</th>
                   <th className="px-8 py-5">Time Slot</th>
@@ -382,18 +382,18 @@ export default function BookingManager() {
                 {filteredBookings.map((booking) => {
                   const serviceName = getServiceLabel(booking);
                   return (
-                    <tr key={booking.id} className="hover:bg-slate-50/50 transition-colors group">
+                    <tr key={booking.id} className="hover:bg-transparent transition-colors group">
                       <td className="px-8 py-6">
                         <div>
-                          <p className="text-sm font-bold text-slate-900">{booking.clientDetails?.name || 'Anonymous'}</p>
-                          <p className="text-xs text-slate-500 mt-0.5">{serviceName}</p>
+                          <p className="text-sm font-bold text-primary">{booking.clientDetails?.name || 'Anonymous'}</p>
+                          <p className="text-xs text-primary/80 mt-0.5">{serviceName}</p>
                         </div>
                       </td>
                       <td className="px-8 py-6">
-                        <p className="text-sm font-medium text-slate-700">{booking.date}</p>
+                        <p className="text-sm font-medium text-primary">{booking.date}</p>
                       </td>
                       <td className="px-8 py-6">
-                        <span className="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">{booking.time}</span>
+                        <span className="text-xs font-bold text-white bg-primary px-2.5 py-1 rounded-md">{booking.time}</span>
                       </td>
                       <td className="px-8 py-6">
                         <span className={`badge-${booking.status || 'pending'}`}>
@@ -405,7 +405,7 @@ export default function BookingManager() {
                           {booking.status === 'pending' && (
                             <button 
                               onClick={() => updateBooking(booking.id, { status: 'confirmed' })}
-                              className="w-9 h-9 flex items-center justify-center rounded-lg text-emerald-600 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                              className="w-9 h-9 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                               title="Confirm Booking"
                             >
                               <span className="material-symbols-outlined text-xl">check_circle</span>
@@ -432,7 +432,7 @@ export default function BookingManager() {
                 })}
                 {filteredBookings.length === 0 && (
                   <tr>
-                    <td colSpan="5" className="px-8 py-20 text-center text-slate-400 text-sm italic">
+                    <td colSpan="5" className="px-8 py-20 text-center text-primary/70 text-sm italic">
                       No bookings found.
                     </td>
                   </tr>
@@ -455,15 +455,15 @@ export default function BookingManager() {
           {/* CLIENT TYPE SELECTOR */}
           {!editingId && (
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Association</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Association</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-primary p-1 rounded-2xl border border-slate-200/50">
                 <button
                   type="button"
                   onClick={() => {
                     setClientMode('new');
                     setFormData(prev => ({ ...prev, clientName: '', clientEmail: '', clientPhone: '' }));
                   }}
-                  className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'new' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                  className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'new' ? 'bg-primary text-white shadow-sm' : 'text-primary/80 hover:text-primary'}`}
                 >
                   Create New Client
                 </button>
@@ -473,7 +473,7 @@ export default function BookingManager() {
                     setClientMode('existing');
                     setFormData(prev => ({ ...prev, clientName: '', clientEmail: '', clientPhone: '' }));
                   }}
-                  className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'existing' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+                  className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'existing' ? 'bg-primary text-white shadow-sm' : 'text-primary/80 hover:text-primary'}`}
                 >
                   Existing Client
                 </button>
@@ -483,10 +483,10 @@ export default function BookingManager() {
 
           {/* OPTIONAL CUSTOMER SELECTOR IF EXISTING */}
           {clientMode === 'existing' || editingId ? (
-            <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-page-entrance">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Select Client Profile*</label>
+            <div className="space-y-3 p-4 bg-primary rounded-2xl border border-slate-100 animate-page-entrance">
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Select Client Profile*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">group</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">group</span>
                 <select 
                   required
                   onChange={e => handleSelectCustomer(e.target.value)} 
@@ -498,14 +498,14 @@ export default function BookingManager() {
               </div>
 
               {formData.clientName && (
-                <div className="mt-4 pt-4 border-t border-slate-200/50 grid grid-cols-2 gap-2 text-xs text-slate-500 font-medium">
+                <div className="mt-4 pt-4 border-t border-slate-200/50 grid grid-cols-2 gap-2 text-xs text-primary/80 font-medium">
                   <div>
-                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Name</span>
-                    <span className="text-slate-800 font-bold">{formData.clientName}</span>
+                    <span className="text-[10px] font-bold text-primary/70 block uppercase">Name</span>
+                    <span className="text-primary font-bold">{formData.clientName}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Contact</span>
-                    <span className="text-slate-800 font-bold truncate block">{formData.clientPhone || formData.clientEmail}</span>
+                    <span className="text-[10px] font-bold text-primary/70 block uppercase">Contact</span>
+                    <span className="text-primary font-bold truncate block">{formData.clientPhone || formData.clientEmail}</span>
                   </div>
                 </div>
               )}
@@ -514,9 +514,9 @@ export default function BookingManager() {
             <div className="space-y-6 animate-page-entrance">
               {/* CLIENT FULL NAME */}
               <div className="space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Full Name*</label>
+                <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Full Name*</label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">person</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">person</span>
                   <input 
                     required 
                     className="input-pro pl-12" 
@@ -531,9 +531,9 @@ export default function BookingManager() {
               {/* CONTACT INFO: EMAIL & PHONE (RESPONSIVE GRID) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Email*</label>
+                  <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Email*</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">mail</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">mail</span>
                     <input 
                       required 
                       type="email"
@@ -545,9 +545,9 @@ export default function BookingManager() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Client Phone*</label>
+                  <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Phone*</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">phone</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">phone</span>
                     <input 
                       required 
                       value={formData.clientPhone} 
@@ -564,9 +564,9 @@ export default function BookingManager() {
           {/* SERVICE & DEAL PICKER */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Service Treatment</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Treatment</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">medical_services</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">medical_services</span>
                 <select 
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                   value={formData.serviceId}
@@ -579,9 +579,9 @@ export default function BookingManager() {
             </div>
             
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Promotional Deal</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Promotional Deal</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">loyalty</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">loyalty</span>
                 <select 
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                   value={formData.dealId}
@@ -596,9 +596,9 @@ export default function BookingManager() {
 
           {/* APPOINTMENT DATE */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Appointment Date*</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Appointment Date*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">calendar_today</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">calendar_today</span>
               <input 
                 required 
                 className="input-pro pl-12" 
@@ -611,13 +611,13 @@ export default function BookingManager() {
 
           {/* PREFERRED TIME BUTTON GRID */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Preferred Time Slot*</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Preferred Time Slot*</label>
             {!formData.date ? (
-              <div className="p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-center text-xs text-slate-400">
+              <div className="p-4 bg-primary rounded-2xl border border-dashed border-slate-200 text-center text-xs text-white/70">
                 Please choose an appointment date to reveal timeline windows.
               </div>
             ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-white">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-2 border border-slate-100 rounded-2xl scrollbar-pro bg-primary">
                 {timeSlots.map(t => {
                   const booked = isSlotBooked(t);
                   const selected = formData.time === t;
@@ -629,9 +629,9 @@ export default function BookingManager() {
                       disabled={booked}
                       className={`
                         py-3 px-2 rounded-xl text-xs font-bold transition-all border 
-                        ${booked ? 'opacity-40 bg-slate-50 border-slate-200 cursor-not-allowed text-slate-400' 
+                        ${booked ? 'opacity-40 bg-primary border-slate-200 cursor-not-allowed text-white/70' 
                           : selected ? 'bg-primary text-white border-primary shadow-md scale-[1.02]' 
-                          : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'}
+                          : 'bg-primary text-primary border-slate-200 hover:border-primary hover:text-white'}
                       `}
                       style={selected ? { backgroundColor: settings.primaryAccent, borderColor: settings.primaryAccent } : {}}
                     >
@@ -645,9 +645,9 @@ export default function BookingManager() {
 
           {/* STATUS SELECTOR */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Lifecycle Status</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Lifecycle Status</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">monitoring</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">monitoring</span>
               <select 
                 required 
                 value={formData.status} 
@@ -671,12 +671,12 @@ export default function BookingManager() {
               onChange={e => setFormData({ ...formData, isFake: e.target.checked })}
               className="w-4 h-4 text-primaryAccent border-gray-300 rounded"
             />
-            <label htmlFor="fakeBookingMgr" className="text-sm text-slate-600">Mark as Fake Booking (for testing)</label>
+            <label htmlFor="fakeBookingMgr" className="text-sm text-primary">Mark as Fake Booking (for testing)</label>
           </div>
 
           {/* SEND NOTIFICATION TOGGLE */}
           {!editingId && (
-            <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div className="flex items-center gap-3 p-4 bg-primary rounded-2xl border border-slate-100">
               <input 
                 type="checkbox" 
                 id="sendNotify" 
@@ -684,7 +684,7 @@ export default function BookingManager() {
                 onChange={e => setSendNotification(e.target.checked)} 
                 className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
               />
-              <label htmlFor="sendNotify" className="text-xs font-bold text-slate-700 select-none cursor-pointer flex-1">
+              <label htmlFor="sendNotify" className="text-xs font-bold text-primary select-none cursor-pointer flex-1">
                 Dispatch Outbound SMS & Email Notification (Real-time Sync)
               </label>
             </div>
@@ -695,25 +695,25 @@ export default function BookingManager() {
             <div className="bg-slate-950 text-slate-100 rounded-3xl p-6 shadow-xl relative overflow-hidden border border-white/5 font-sans animate-page-entrance">
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Live SMS & Email Dispatch Preview</span>
+                  <span className="w-2 h-2 rounded-full bg-[#E7C8DD]0 animate-pulse" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary/70">Live SMS & Email Dispatch Preview</span>
                 </div>
-                <span className="material-symbols-outlined text-slate-500 text-sm">chat_bubble</span>
+                <span className="material-symbols-outlined text-primary/80 text-sm">chat_bubble</span>
               </div>
-              <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+              <div className="bg-primary/5 rounded-2xl p-4 border border-white/5">
                 <p className="text-[10px] font-extrabold text-primary mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
                 <p className="text-xs text-slate-200 leading-relaxed font-semibold">
                   {formData.clientName 
                     ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing Vlas AESTHETIC!`
                     : "Fill client name & details to generate preview..."}
                 </p>
-                <span className="block text-[8px] text-right text-slate-500 mt-2 font-bold uppercase tracking-widest">Neural Link Sync • Instant Delivery</span>
+                <span className="block text-[8px] text-right text-primary/80 mt-2 font-bold uppercase tracking-widest">Neural Link Sync • Instant Delivery</span>
               </div>
             </div>
           )}
 
           <div className="flex gap-4 pt-6">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
@@ -728,16 +728,16 @@ export default function BookingManager() {
       {/* DISPATCH OVERLAY SCREEN ANIMATION */}
       {dispatchOverlay && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center pointer-events-none p-4">
-          <div className="bg-slate-950/90 backdrop-blur-md rounded-[2.5rem] p-8 border border-white/10 shadow-2xl flex flex-col items-center max-w-sm w-full text-center animate-modal-entrance shadow-emerald-500/10">
-            <div className="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center text-white mb-4 animate-bounce">
+          <div className="bg-slate-950/90  rounded-[2.5rem] p-8 border border-white/10 shadow-2xl flex flex-col items-center max-w-sm w-full text-center animate-modal-entrance shadow-rose-sm">
+            <div className="w-16 h-16 rounded-full bg-[#E7C8DD]0 flex items-center justify-center text-primary mb-4 animate-bounce">
               <span className="material-symbols-outlined text-3xl">sms</span>
             </div>
-            <h4 className="text-white text-lg font-black tracking-tight">Booking Notification Sent</h4>
-            <p className="text-slate-400 text-xs mt-2 leading-relaxed font-medium">
-              SMS & Email confirmation successfully dispatched to <span className="text-emerald-400 font-bold">{formData.clientName}</span>.
+            <h4 className="text-primary text-lg font-black tracking-tight">Booking Notification Sent</h4>
+            <p className="text-primary/70 text-xs mt-2 leading-relaxed font-medium">
+              SMS & Email confirmation successfully dispatched to <span className="text-primary font-bold">{formData.clientName}</span>.
             </p>
-            <div className="mt-4 bg-white/5 rounded-2xl p-4 border border-white/5 w-full text-left font-sans">
-              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Outbound Body</p>
+            <div className="mt-4 bg-primary/5 rounded-2xl p-4 border border-white/5 w-full text-left font-sans">
+              <p className="text-[9px] text-primary/80 font-bold uppercase tracking-wider">Outbound Body</p>
               <p className="text-xs text-slate-200 mt-1 italic leading-relaxed font-medium">
                 {`"Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing Vlas AESTHETIC!"`}
               </p>

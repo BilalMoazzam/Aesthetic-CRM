@@ -62,8 +62,8 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight" style={{ color: '#2d1f24' }}>Dashboard Overview</h1>
-          <p className="text-sm mt-1" style={{ color: '#7a5a62' }}>Real-time business insights and recent activities.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight" style={{ color: '#86626E' }}>Dashboard Overview</h1>
+          <p className="text-sm mt-1" style={{ color: '#86626E' }}>Real-time business insights and recent activities.</p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button className="btn-secondary flex-1 sm:flex-none py-2 px-4 text-xs sm:text-sm">
@@ -95,12 +95,12 @@ export default function Dashboard() {
               </span>
             </div>
             <div>
-              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider" style={{ color: '#7a5a62' }}>
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider" style={{ color: '#86626E' }}>
                 {stat.label}
               </p>
-              <h3 className="text-2xl sm:text-3xl font-black mt-1" style={{ color: '#2d1f24' }}>{stat.value}</h3>
+              <h3 className="text-2xl sm:text-3xl font-black mt-1" style={{ color: '#86626E' }}>{stat.value}</h3>
               {stat.note && (
-                <p className="text-[10px] mt-1 font-medium" style={{ color: '#9e7a86' }}>{stat.note}</p>
+                <p className="text-[10px] mt-1 font-medium" style={{ color: 'rgba(134,98,110,0.8)' }}>{stat.note}</p>
               )}
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function Dashboard() {
         {/* Recent Bookings Table */}
         <div className="lg:col-span-2 card-pro flex flex-col">
           <div className="p-6 border-b flex items-center justify-between" style={{ borderColor: 'rgba(200,154,173,0.3)' }}>
-            <h3 className="font-bold" style={{ color: '#2d1f24' }}>Recent Appointments</h3>
+            <h3 className="font-bold" style={{ color: '#86626E' }}>Recent Appointments</h3>
             <Link to="/bookings" className="text-xs font-bold hover:underline" style={{ color: SMOKY_ROSE }}>View All</Link>
           </div>
           <div className="overflow-x-auto">
@@ -136,18 +136,18 @@ export default function Dashboard() {
                             style={{ backgroundColor: THISTLE, color: SMOKY_ROSE }}>
                             {booking.clientDetails?.name?.charAt(0)}
                           </div>
-                          <span className="text-sm font-semibold" style={{ color: '#2d1f24' }}>{booking.clientDetails?.name}</span>
+                          <span className="text-sm font-semibold" style={{ color: '#86626E' }}>{booking.clientDetails?.name}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium" style={{ color: '#7a5a62' }}>
+                        <span className="text-sm font-medium" style={{ color: '#86626E' }}>
                           {booking.serviceName || service?.title || 'Unknown Service'}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm">
-                          <p className="font-medium" style={{ color: '#2d1f24' }}>{booking.date}</p>
-                          <p className="text-xs" style={{ color: '#7a5a62' }}>{booking.time}</p>
+                          <p className="font-medium" style={{ color: '#86626E' }}>{booking.date}</p>
+                          <p className="text-xs" style={{ color: '#86626E' }}>{booking.time}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -170,7 +170,7 @@ export default function Dashboard() {
                 })}
                 {bookings.length === 0 && (
                   <tr>
-                    <td colSpan="5" className="px-6 py-12 text-center text-sm italic" style={{ color: '#9e7a86' }}>
+                    <td colSpan="5" className="px-6 py-12 text-center text-sm italic" style={{ color: 'rgba(134,98,110,0.8)' }}>
                       No recent appointments found.
                     </td>
                   </tr>
@@ -183,7 +183,7 @@ export default function Dashboard() {
         {/* Recent Customers */}
         <div className="card-pro flex flex-col">
           <div className="p-6 border-b flex items-center justify-between" style={{ borderColor: 'rgba(200,154,173,0.3)' }}>
-            <h3 className="font-bold" style={{ color: '#2d1f24' }}>New Customers</h3>
+            <h3 className="font-bold" style={{ color: '#86626E' }}>New Customers</h3>
             <Link to="/customers" className="text-xs font-bold hover:underline" style={{ color: SMOKY_ROSE }}>View All</Link>
           </div>
           <div className="p-6 space-y-6">
@@ -194,8 +194,8 @@ export default function Dashboard() {
                   {customer.name?.charAt(0)}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold truncate" style={{ color: '#2d1f24' }}>{customer.name}</p>
-                  <p className="text-xs truncate" style={{ color: '#7a5a62' }}>{customer.phone || customer.email || '—'}</p>
+                  <p className="text-sm font-bold truncate" style={{ color: '#86626E' }}>{customer.name}</p>
+                  <p className="text-xs truncate" style={{ color: '#86626E' }}>{customer.phone || customer.email || '—'}</p>
                 </div>
                 <Link to="/customers" style={{ color: '#c89aad' }} className="hover:text-[#86626E]">
                   <span className="material-symbols-outlined text-lg">chat_bubble</span>
@@ -203,7 +203,7 @@ export default function Dashboard() {
               </div>
             ))}
             {customers.length === 0 && (
-              <div className="py-10 text-center text-sm italic" style={{ color: '#9e7a86' }}>
+              <div className="py-10 text-center text-sm italic" style={{ color: 'rgba(134,98,110,0.8)' }}>
                 No customers found.
               </div>
             )}

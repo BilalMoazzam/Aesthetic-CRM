@@ -65,8 +65,8 @@ export default function DealsManager() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Promotional Bundles & Deals</h1>
-          <p className="text-slate-500 text-sm mt-1">Design attractive service packages and limited-time offers.</p>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Promotional Bundles & Deals</h1>
+          <p className="text-primary/80 text-sm mt-1">Design attractive service packages and limited-time offers.</p>
         </div>
         <button 
           onClick={() => handleOpenModal()} 
@@ -81,21 +81,21 @@ export default function DealsManager() {
       {/* KPI Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="card-pro p-6 flex items-center gap-6">
-          <div className="w-14 h-14 rounded-2xl bg-[#E7C8DD] text-primary flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-[#E7C8DD] text-white flex items-center justify-center">
             <span className="material-symbols-outlined text-3xl">local_fire_department</span>
           </div>
           <div>
-            <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Active Deals</p>
-            <h3 className="text-2xl font-bold text-slate-900 mt-1">{activeDeals}</h3>
+            <p className="text-primary/80 text-xs font-bold uppercase tracking-widest">Active Deals</p>
+            <h3 className="text-2xl font-bold text-primary mt-1">{activeDeals}</h3>
           </div>
         </div>
         <div className="card-pro p-6 flex items-center gap-6">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-[#E7C8DD] text-primary flex items-center justify-center">
             <span className="material-symbols-outlined text-3xl">percent</span>
           </div>
           <div>
-            <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Avg. Savings</p>
-            <h3 className="text-2xl font-bold text-slate-900 mt-1">{avgDiscount}%</h3>
+            <p className="text-primary/80 text-xs font-bold uppercase tracking-widest">Avg. Savings</p>
+            <h3 className="text-2xl font-bold text-primary mt-1">{avgDiscount}%</h3>
           </div>
         </div>
         <div className="card-pro p-6 flex items-center gap-6">
@@ -103,8 +103,8 @@ export default function DealsManager() {
             <span className="material-symbols-outlined text-3xl">group</span>
           </div>
           <div>
-            <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Total Redemptions</p>
-            <h3 className="text-2xl font-bold text-slate-900 mt-1">248</h3>
+            <p className="text-primary/80 text-xs font-bold uppercase tracking-widest">Total Redemptions</p>
+            <h3 className="text-2xl font-bold text-primary mt-1">248</h3>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ export default function DealsManager() {
           
           return (
             <div key={deal.id} className="card-pro group overflow-hidden flex flex-col md:flex-row h-full">
-              <div className="md:w-1/3 relative h-48 md:h-auto bg-slate-100">
+              <div className="md:w-1/3 relative h-48 md:h-auto bg-primary">
                 {deal.image ? (
                   <img src={deal.image} alt={deal.title} className="w-full h-full object-cover" />
                 ) : (
@@ -133,15 +133,15 @@ export default function DealsManager() {
               <div className="md:w-2/3 p-8 flex flex-col">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900">{deal.title}</h3>
-                    <p className="text-sm text-slate-500 mt-1">{deal.duration}</p>
+                    <h3 className="text-xl font-bold text-white">{deal.title}</h3>
+                    <p className="text-sm text-primary/80 mt-1">{deal.duration}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-slate-400 line-through font-bold">${deal.originalPrice}</p>
+                    <p className="text-xs text-primary/70 line-through font-bold">${deal.originalPrice}</p>
                     <p className="text-2xl font-black text-primary" style={{ color: settings.primaryAccent }}>${deal.discountPrice}</p>
                   </div>
                 </div>
-                <p className="text-sm text-slate-500 line-clamp-2 mb-8 flex-1">{deal.description}</p>
+                <p className="text-sm text-primary/80 line-clamp-2 mb-8 flex-1">{deal.description}</p>
                 <div className="flex items-center justify-between pt-6 border-t border-slate-100">
                   <span className={`badge-${deal.status === 'Active' ? 'active' : 'inactive'}`}>{deal.status}</span>
                   <div className="flex gap-2">
@@ -176,40 +176,40 @@ export default function DealsManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Deal Title*</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Deal Title*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">loyalty</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">loyalty</span>
               <input required type="text" value={formData.title} onChange={e=>setFormData({...formData, title: e.target.value})} className="input-pro pl-12" placeholder="e.g. Refresh & Renew Bundle" />
             </div>
           </div>
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Marketing Description</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Marketing Description</label>
             <div className="relative">
-              <span className="absolute left-4 top-4 material-symbols-outlined text-slate-400">description</span>
+              <span className="absolute left-4 top-4 material-symbols-outlined text-primary/70">description</span>
               <textarea rows="2" value={formData.description} onChange={e=>setFormData({...formData, description: e.target.value})} className="input-pro pl-12 pt-4 resize-none" placeholder="Briefly describe what's included and the benefits..." />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Original Value ($)*</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Original Value ($)*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">payments</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">payments</span>
                 <input required type="number" value={formData.originalPrice} onChange={e=>setFormData({...formData, originalPrice: e.target.value})} className="input-pro pl-12" placeholder="200" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Deal Price ($)*</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Deal Price ($)*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">sell</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">sell</span>
                 <input required type="number" value={formData.discountPrice} onChange={e=>setFormData({...formData, discountPrice: e.target.value})} className="input-pro pl-12" placeholder="149" />
               </div>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Bundle Duration*</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Bundle Duration*</label>
               <div className="relative flex items-center">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">timer</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">timer</span>
                 <input 
                   required 
                   type="number" 
@@ -219,13 +219,13 @@ export default function DealsManager() {
                   className="input-pro pl-12 pr-20" 
                   placeholder="90" 
                 />
-                <span className="absolute right-4 text-xs font-bold text-slate-400 uppercase">minutes</span>
+                <span className="absolute right-4 text-xs font-bold text-primary/70 uppercase">minutes</span>
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Operational Status</label>
+              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Operational Status</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">sync</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">sync</span>
                 <select 
                   value={formData.status} 
                   onChange={e=>setFormData({...formData, status: e.target.value})} 
@@ -238,9 +238,9 @@ export default function DealsManager() {
             </div>
           </div>
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Hero Image</label>
+            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Hero Image</label>
             <div className="flex flex-col gap-4">
-              <div className="relative group cursor-pointer border-2 border-dashed border-slate-200 rounded-2xl p-4 hover:border-blue-400 transition-colors">
+              <div className="relative group cursor-pointer border-2 border-dashed border-slate-200 rounded-2xl p-4 hover:border-primary transition-colors">
                 <input 
                   type="file" 
                   accept="image/*" 
@@ -256,14 +256,14 @@ export default function DealsManager() {
                     )}
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-bold text-slate-700">Upload from system</p>
-                    <p className="text-[10px] text-slate-400 uppercase tracking-widest">JPG, PNG, WEBP (Max 5MB)</p>
+                    <p className="text-sm font-bold text-primary">Upload from system</p>
+                    <p className="text-[10px] text-primary/70 uppercase tracking-widest">JPG, PNG, WEBP (Max 5MB)</p>
                   </div>
                 </div>
               </div>
               
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">link</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">link</span>
                 <input 
                   type="text" 
                   value={formData.image} 
@@ -276,7 +276,7 @@ export default function DealsManager() {
           </div>
           
           <div className="flex gap-6 pt-6">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors">Cancel</button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"

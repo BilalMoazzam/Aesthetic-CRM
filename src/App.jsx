@@ -59,7 +59,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                   onClick={() => setIsOpen(false)}
                   className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
                   style={isActive
-                    ? { backgroundColor: '#E7C8DD', color: '#86626E' }
+                    ? { backgroundColor: PINK_ORCHID, color: SMOKY_ROSE }
                     : { color: 'rgba(255,255,255,0.85)' }
                   }
                   onMouseEnter={e => { if (!isActive) e.currentTarget.style.backgroundColor='rgba(255,255,255,0.12)'; }}
@@ -107,7 +107,7 @@ const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: PINK_ORCHID, '--theme-primary': SMOKY_ROSE }}>
+    <div className="min-h-screen flex" style={{ backgroundColor: THISTLE, '--theme-primary': SMOKY_ROSE }}>
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
       <main className="flex-1 lg:pl-64 min-w-0 flex flex-col">
         {/* Top Header */}
@@ -124,7 +124,7 @@ const Layout = ({ children }) => {
             </div>
             <div className="flex items-center gap-4">
               <NotificationBell />
-              <div className="h-6 w-px bg-white/25" />
+              <div className="h-6 w-px bg-primary/25" />
               <div className="flex items-center gap-2 text-white">
                 <span className="text-sm font-bold">{settings.brandName || 'VLAS Clinic'}</span>
                 <span className="material-symbols-outlined text-base text-white/70">verified</span>

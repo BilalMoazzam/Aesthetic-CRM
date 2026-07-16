@@ -124,7 +124,15 @@ export const useStore = create((set, get) => ({
   vouchers:  (() => { try { const d = localStorage.getItem('vlas_vouchers'); return d ? JSON.parse(d) : []; } catch { return []; } })(),
   messages:  (() => { try { const d = localStorage.getItem('vlas_messages'); return d ? JSON.parse(d) : []; } catch { return []; } })(),
   users:     (() => { try { const d = localStorage.getItem('vlas_users');    return d ? JSON.parse(d) : []; } catch { return []; } })(),
-  settings:  (() => { try { const d = localStorage.getItem('vlas_settings');  return d ? JSON.parse(d) : FALLBACK_SETTINGS; } catch { return FALLBACK_SETTINGS; } })(),
+  settings:  (() => { 
+    try { 
+      const d = localStorage.getItem('vlas_settings');  
+      const parsed = d ? JSON.parse(d) : FALLBACK_SETTINGS;
+      // Force overwrite any cached blue/teal accents to Smoky Rose!
+      parsed.primaryAccent = '#86626E';
+      return parsed;
+    } catch { return FALLBACK_SETTINGS; } 
+  })(),
   isAuthenticated: localStorage.getItem('vlas_auth') === 'true',
   currentUser: localStorage.getItem('vlas_current_user') ? JSON.parse(localStorage.getItem('vlas_current_user')) : null,
   isLoading: false,
@@ -724,13 +732,16 @@ export const useStore = create((set, get) => ({
       const res = await fetch(`${API_URL}/settings`);
       if (!res.ok) throw new Error("API failed");
       const data = await res.json();
+      data.primaryAccent = '#86626E';
       set({ settings: data });
       localStorage.setItem('vlas_settings', JSON.stringify(data));
     } catch (e) {
       console.warn("Using offline fallback for settings");
       const local = localStorage.getItem('vlas_settings');
       if (local) {
-        set({ settings: JSON.parse(local) });
+        const parsed = JSON.parse(local);
+        parsed.primaryAccent = '#86626E';
+        set({ settings: parsed });
       } else {
         set({ settings: FALLBACK_SETTINGS });
         localStorage.setItem('vlas_settings', JSON.stringify(FALLBACK_SETTINGS));
