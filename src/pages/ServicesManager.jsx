@@ -51,8 +51,7 @@ export default function ServicesManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-rose-sm"
-          style={{ backgroundColor: settings.primaryAccent }}
+          className="btn-primary shadow-lg shadow-rose-sm bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_box</span>
           Add New Service
@@ -75,7 +74,7 @@ export default function ServicesManager() {
                   <span className="material-symbols-outlined text-5xl">image</span>
                 </div>
               )}
-              <div className="absolute top-4 left-4 bg-white/20  px-3 py-1 rounded-lg text-[10px] font-bold text-white uppercase tracking-wider shadow-sm" style={{ color: settings.primaryAccent }}>
+              <div className="absolute top-4 left-4 bg-white/20  px-3 py-1 rounded-lg text-[10px] font-bold  uppercase tracking-wider shadow-sm text-primary">
                 {service.category}
               </div>
             </div>
@@ -85,7 +84,7 @@ export default function ServicesManager() {
                 <h3 className="text-lg font-bold text-primary leading-tight truncate" title={service.title}>
                   {service.title}
                 </h3>
-                <span className="text-xl font-bold" style={{ color: settings.primaryAccent }}>${service.price}</span>
+                <span className="text-xl font-bold text-primary">${service.price}</span>
               </div>
               
               <p className="text-primary/80 text-sm line-clamp-2 mb-6 flex-1">
@@ -229,8 +228,7 @@ export default function ServicesManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
-              style={{ backgroundColor: settings.primaryAccent }}
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Service' : 'Save Service'}
             </button>

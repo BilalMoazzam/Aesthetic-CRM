@@ -57,8 +57,7 @@ export default function VoucherManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-rose-sm"
-          style={{ backgroundColor: settings.primaryAccent }}
+          className="btn-primary shadow-lg shadow-rose-sm bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_card</span>
           Issue New Voucher
@@ -117,7 +116,7 @@ export default function VoucherManager() {
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      <span className="text-sm font-bold text-primary" style={{ color: settings.primaryAccent }}>
+                      <span className="text-sm font-bold text-primary text-primary">
                         {voucher.type === 'Percentage' ? `${voucher.value}% OFF` : `$${voucher.value} OFF`}
                       </span>
                     </td>
@@ -221,8 +220,7 @@ export default function VoucherManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
-              style={{ backgroundColor: settings.primaryAccent }}
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Terms' : 'Issue Voucher'}
             </button>

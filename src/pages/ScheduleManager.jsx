@@ -481,7 +481,7 @@ export default function ScheduleManager() {
                         >
                           <td className="px-6 py-5">
                             <div className="flex items-center gap-3">
-                              <div className="w-9 h-9 rounded-xl flex items-center justify-center text-primary font-bold text-sm shadow-sm shrink-0" style={{ backgroundColor: settings.primaryAccent }}>
+                              <div className="w-9 h-9 rounded-xl flex items-center justify-center  font-bold text-sm shadow-sm shrink-0 bg-primary text-white">
                                 {booking.clientDetails?.name?.charAt(0) || '?'}
                               </div>
                               <div>
@@ -568,7 +568,7 @@ export default function ScheduleManager() {
                       </span>
                     </div>
                     {dayCount > 0 && (
-                      <span className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full text-primary text-[9px] font-black flex items-center justify-center shadow-sm" style={{ backgroundColor: settings.primaryAccent }}>
+                      <span className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full  text-[9px] font-black flex items-center justify-center shadow-sm bg-primary text-white">
                         {dayCount}
                       </span>
                     )}
@@ -890,8 +890,7 @@ export default function ScheduleManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
-              style={{ backgroundColor: settings.primaryAccent }}
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               Confirm Schedule
             </button>
@@ -912,7 +911,7 @@ export default function ScheduleManager() {
           return (
             <div className="space-y-10">
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-5 sm:p-6 bg-primary rounded-2xl border border-slate-100 text-center sm:text-left">
-                <div className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-sm shrink-0" style={{ backgroundColor: settings.primaryAccent }}>
+                <div className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl font-bold shadow-sm shrink-0 bg-primary text-white">
                   {selectedBooking.clientDetails?.name?.charAt(0) || 'C'}
                 </div>
                 <div className="min-w-0">
@@ -959,8 +958,7 @@ export default function ScheduleManager() {
                 </button>
                 <button
                   onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'confirmed' }); setSelectedBooking(prev => ({...prev, status: 'confirmed'})); }}
-                  className="py-3 rounded-xl text-xs font-bold bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1] transition-all flex items-center justify-center gap-2"
-                  style={{ borderColor: settings.primaryAccent }}
+                  className="py-3 rounded-xl text-xs font-bold bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1] transition-all flex items-center justify-center gap-2 border-primary"
                 >
                   <span className="material-symbols-outlined text-sm">event_available</span>
                   Confirm

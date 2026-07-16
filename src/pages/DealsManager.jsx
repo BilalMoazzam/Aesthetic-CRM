@@ -70,8 +70,7 @@ export default function DealsManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-rose-sm"
-          style={{ backgroundColor: settings.primaryAccent }}
+          className="btn-primary shadow-lg shadow-rose-sm bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">loyalty</span>
           Create New Deal
@@ -126,7 +125,7 @@ export default function DealsManager() {
                     <span className="material-symbols-outlined text-4xl">broken_image</span>
                   </div>
                 )}
-                <div className="absolute top-4 left-4 badge-active bg-primary text-white border-none shadow-lg" style={{ backgroundColor: settings.primaryAccent }}>
+                <div className="absolute top-4 left-4 badge-active bg-primary text-white border-none shadow-lg bg-primary text-white">
                   {discountPct}% OFF
                 </div>
               </div>
@@ -138,7 +137,7 @@ export default function DealsManager() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-primary/70 line-through font-bold">${deal.originalPrice}</p>
-                    <p className="text-2xl font-black text-primary" style={{ color: settings.primaryAccent }}>${deal.discountPrice}</p>
+                    <p className="text-2xl font-black text-primary text-primary">${deal.discountPrice}</p>
                   </div>
                 </div>
                 <p className="text-sm text-primary/80 line-clamp-2 mb-8 flex-1">{deal.description}</p>
@@ -279,8 +278,7 @@ export default function DealsManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
-              style={{ backgroundColor: settings.primaryAccent }}
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Bundle' : 'Launch Deal'}
             </button>

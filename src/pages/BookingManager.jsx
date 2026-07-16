@@ -271,8 +271,7 @@ export default function BookingManager() {
         </div>
         <button 
           onClick={() => handleOpenModal()} 
-          className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto"
-          style={{ backgroundColor: settings.primaryAccent }}
+          className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
           New Appointment
@@ -716,8 +715,7 @@ export default function BookingManager() {
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
             <button 
               type="submit" 
-              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm"
-              style={{ backgroundColor: settings.primaryAccent }}
+              className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Appointment' : 'Create Booking'}
             </button>

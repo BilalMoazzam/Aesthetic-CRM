@@ -130,8 +130,7 @@ export default function CustomerManager() {
         </div>
         <button
           onClick={() => handleOpenModal()}
-          className="btn-primary shadow-lg shadow-rose-sm"
-          style={{ backgroundColor: settings.primaryAccent }}
+          className="btn-primary shadow-lg shadow-rose-sm bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">person_add</span>
           Add New Customer
@@ -178,8 +177,7 @@ export default function CustomerManager() {
                         <td className="px-6 py-5">
                           <div className="flex items-center gap-4">
                             <div
-                              className="w-10 h-10 rounded-xl flex items-center justify-center text-primary font-bold text-sm shadow-sm shrink-0"
-                              style={{ backgroundColor: settings.primaryAccent }}
+                              className="w-10 h-10 rounded-xl flex items-center justify-center  font-bold text-sm shadow-sm shrink-0 bg-primary text-white"
                             >
                               {customer.name?.charAt(0)?.toUpperCase()}
                             </div>
@@ -252,8 +250,7 @@ export default function CustomerManager() {
               {/* Avatar + name */}
               <div className="flex flex-col items-center text-center">
                 <div
-                  className="w-20 h-20 rounded-3xl flex items-center justify-center text-3xl text-primary font-bold shadow-xl mb-4"
-                  style={{ backgroundColor: settings.primaryAccent }}
+                  className="w-20 h-20 rounded-3xl flex items-center justify-center text-3xl  font-bold shadow-xl mb-4 bg-primary text-white"
                 >
                   {selectedCustomer.name?.charAt(0)?.toUpperCase()}
                 </div>
@@ -333,8 +330,7 @@ export default function CustomerManager() {
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => setIsMessageModalOpen(true)}
-                  className="flex-1 btn-primary py-3 text-sm"
-                  style={{ backgroundColor: settings.primaryAccent }}
+                  className="flex-1 btn-primary py-3 text-sm bg-primary text-white"
                 >
                   Message
                 </button>
@@ -416,7 +412,7 @@ export default function CustomerManager() {
           </div>
           <div className="flex gap-6 pt-4">
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
-            <button type="submit" className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm" style={{ backgroundColor: settings.primaryAccent }}>
+            <button type="submit" className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white">
               {editingId ? 'Update Profile' : 'Register Customer'}
             </button>
           </div>
@@ -542,7 +538,7 @@ export default function CustomerManager() {
           </div>
           <div className="flex gap-6">
             <button type="button" onClick={() => setIsMessageModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80">Cancel</button>
-            <button type="submit" className="flex-[2] btn-primary py-4" style={{ backgroundColor: settings.primaryAccent }}>
+            <button type="submit" className="flex-[2] btn-primary py-4 bg-primary text-white">
               Send via Neural Link
             </button>
           </div>
