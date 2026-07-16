@@ -37,26 +37,25 @@
     @apply bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow;
   }
   .input-pro {
-    @apply w-full bg-white border border-slate-200 rounded-lg py-2.5 px-4 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all;
+    @apply w-full bg-white border border-[#fbcfe8] rounded-lg py-2.5 px-4 text-sm focus:ring-2 focus:ring-[#db2777]/20 focus:border-[#db2777] outline-none transition-all;
   }
 }
 
 @layer utilities {
-  /* Ensure primary text color works everywhere */
   .text-primary {
-    color: #2563eb;
+    color: #db2777;
   }
   .bg-primary {
-    background-color: #2563eb;
+    background-color: #db2777;
   }
   .border-primary {
-    border-color: #2563eb;
+    border-color: #db2777;
   }
   .text-pro-muted {
-    @apply text-slate-500;
+    @apply text-[#9d174d];
   }
   .badge-pending {
-    @apply bg-blue-50 text-blue-700 border border-blue-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
+    @apply bg-pink-50 text-pink-700 border border-pink-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
   }
   .badge-confirmed {
     @apply bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
@@ -73,7 +72,6 @@
   .badge-cancelled {
     @apply bg-rose-50 text-rose-700 border border-rose-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
   }
-
 
   .animate-page-entrance {
     animation: pageEntrance 0.5s ease-out forwards;
@@ -105,8 +103,6 @@
     }
   }
 
-
-  /* Sleek Professional Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -115,14 +111,13 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #e2e8f0;
+    background: #fbcfe8;
     border-radius: 10px;
-    border: 1px solid #f8fafc;
+    border: 1px solid #fdf2f8;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #cbd5e1;
+    background: #db2777;
   }
-  /* Hide scrollbar utility */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -131,7 +126,6 @@
     scrollbar-width: none;
   }
 
-  /* Material Symbols always visible */
   .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
     font-weight: normal;
@@ -147,20 +141,18 @@
   }
 }
 
-/* Global fix for blurry placeholder text */
 input::placeholder,
 textarea::placeholder,
 select::placeholder {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   opacity: 1;
 }
 
-/* Ensure all inputs inherit crisp font rendering */
 input, textarea, select, button {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
