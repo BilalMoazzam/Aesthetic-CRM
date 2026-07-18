@@ -52,11 +52,11 @@ export default function VoucherManager() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Voucher Management</h1>
-          <p className="text-white/80 text-sm mt-1">Generate and manage promotional discount codes for client acquisition.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#86626E]">Voucher Management</h1>
+          <p className="text-[#86626E] text-sm mt-1">Generate and manage promotional discount codes for client acquisition.</p>
         </div>
-        <button 
-          onClick={() => handleOpenModal()} 
+        <button
+          onClick={() => handleOpenModal()}
           className="btn-primary shadow-lg shadow-rose-sm bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_card</span>
@@ -131,7 +131,7 @@ export default function VoucherManager() {
                         <span className={`text-xs font-bold ${voucher.assignedClientId ? 'text-primary' : 'text-primary/70 italic'}`}>
                           {getClientName(voucher.assignedClientId)}
                         </span>
-                        <button 
+                        <button
                           onClick={() => { setSelectedVoucher(voucher); setIsAssignModalOpen(true); }}
                           className="w-7 h-7 rounded-md bg-primary flex items-center justify-center text-primary hover:bg-[#E7C8DD] hover:text-white transition-colors"
                           title="Assign to client"
@@ -142,15 +142,15 @@ export default function VoucherManager() {
                     </td>
                     <td className="px-8 py-6 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button 
+                        <button
                           onClick={() => handleOpenModal(voucher)}
                           className="w-9 h-9 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                           title="Edit voucher"
                         >
                           <span className="material-symbols-outlined text-xl">edit</span>
                         </button>
-                        <button 
-                          onClick={() => { if(window.confirm('Delete voucher?')) deleteVoucher(voucher.id); }}
+                        <button
+                          onClick={() => { if (window.confirm('Delete voucher?')) deleteVoucher(voucher.id); }}
                           className="w-9 h-9 flex items-center justify-center rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors"
                           title="Delete voucher"
                         >
@@ -167,8 +167,8 @@ export default function VoucherManager() {
       </div>
 
       {/* Add/Edit Voucher Modal */}
-      <Modal 
-        isOpen={isModalOpen} 
+      <Modal
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingId ? 'Modify Voucher Terms' : 'Generate New Discount Code'}
         subtitle="Configure the discount parameters and redemption constraints."
@@ -178,16 +178,16 @@ export default function VoucherManager() {
             <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Voucher Code*</label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">qr_code</span>
-              <input required value={formData.code} onChange={e=>setFormData({...formData, code: e.target.value.toUpperCase()})} className="input-pro pl-12 font-mono tracking-widest" placeholder="e.g. SUMMER24" />
+              <input required value={formData.code} onChange={e => setFormData({ ...formData, code: e.target.value.toUpperCase() })} className="input-pro pl-12 font-mono tracking-widest" placeholder="e.g. SUMMER24" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Discount Type</label>
-              <select 
-                required 
-                value={formData.type} 
-                onChange={e=>setFormData({...formData, type: e.target.value})} 
+              <select
+                required
+                value={formData.type}
+                onChange={e => setFormData({ ...formData, type: e.target.value })}
                 className="input-pro appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
               >
                 <option value="Percentage">Percentage (%)</option>
@@ -196,19 +196,19 @@ export default function VoucherManager() {
             </div>
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Discount Value*</label>
-              <input required type="number" value={formData.value} onChange={e=>setFormData({...formData, value: e.target.value})} className="input-pro" placeholder="e.g. 15" />
+              <input required type="number" value={formData.value} onChange={e => setFormData({ ...formData, value: e.target.value })} className="input-pro" placeholder="e.g. 15" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Expiry Date*</label>
-              <input required type="date" value={formData.expiryDate} onChange={e=>setFormData({...formData, expiryDate: e.target.value})} className="input-pro" />
+              <input required type="date" value={formData.expiryDate} onChange={e => setFormData({ ...formData, expiryDate: e.target.value })} className="input-pro" />
             </div>
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Assigned Client (Optional)</label>
-              <select 
-                value={formData.assignedClientId} 
-                onChange={e=>setFormData({...formData, assignedClientId: e.target.value})} 
+              <select
+                value={formData.assignedClientId}
+                onChange={e => setFormData({ ...formData, assignedClientId: e.target.value })}
                 className="input-pro appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
               >
                 <option value="">Global (All Clients)</option>
@@ -218,8 +218,8 @@ export default function VoucherManager() {
           </div>
           <div className="flex gap-6 pt-6">
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Terms' : 'Issue Voucher'}
@@ -237,7 +237,7 @@ export default function VoucherManager() {
       >
         <div className="space-y-4 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
           {customers.map(customer => (
-            <div 
+            <div
               key={customer.id}
               onClick={() => handleAssignVoucher(customer.id)}
               className="flex items-center justify-between p-4 bg-primary rounded-xl border border-slate-100 hover:border-primary hover:bg-[#E7C8DD] transition-all cursor-pointer group"

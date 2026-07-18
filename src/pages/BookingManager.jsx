@@ -3,19 +3,19 @@ import { useStore } from '../store/useStore';
 import Modal from '../components/Modal';
 
 export default function BookingManager() {
-  const { 
-    bookings, 
-    services, 
-    messages, 
-    customers, 
-    fetchBookings, 
-    fetchServices, 
-    fetchMessages, 
-    fetchCustomers, 
-    addBooking, 
-    updateBooking, 
-    deleteBooking, 
-    addMessage, 
+  const {
+    bookings,
+    services,
+    messages,
+    customers,
+    fetchBookings,
+    fetchServices,
+    fetchMessages,
+    fetchCustomers,
+    addBooking,
+    updateBooking,
+    deleteBooking,
+    addMessage,
     settings,
     deals,
     addCustomer
@@ -55,16 +55,16 @@ export default function BookingManager() {
   const [dispatchOverlay, setDispatchOverlay] = useState(false);
 
   const [clientMode, setClientMode] = useState('new');
-  const [formData, setFormData] = useState({ 
-    clientName: '', 
-    clientEmail: '', 
-    clientPhone: '', 
-    serviceId: '', 
+  const [formData, setFormData] = useState({
+    clientName: '',
+    clientEmail: '',
+    clientPhone: '',
+    serviceId: '',
     dealId: '',
-    date: '', 
-    time: '', 
+    date: '',
+    time: '',
     status: 'confirmed',
-    isFake: false 
+    isFake: false
   });
 
   // Robust duration parser to handle "1 hour", "90 min", etc.
@@ -107,10 +107,10 @@ export default function BookingManager() {
 
   const isSlotBooked = (slotTimeStr) => {
     if (!formData.date) return false;
-    
+
     const selectedService = services.find(s => s.id === formData.serviceId);
     const selectedDeal = deals.find(d => d.id === formData.dealId);
-    const currentDuration = 
+    const currentDuration =
       (selectedService ? parseDuration(selectedService.duration) : 0) +
       (selectedDeal ? parseDuration(selectedDeal.duration) : 0) || 60;
 
@@ -175,16 +175,16 @@ export default function BookingManager() {
       setEditingId(booking.id);
       setClientMode('existing'); // Default to existing when editing
     } else {
-      setFormData({ 
-        clientName: '', 
-        clientEmail: '', 
-        clientPhone: '', 
-        serviceId: '', 
+      setFormData({
+        clientName: '',
+        clientEmail: '',
+        clientPhone: '',
+        serviceId: '',
         dealId: '',
-        date: '', 
-        time: '', 
+        date: '',
+        time: '',
         status: 'confirmed',
-        isFake: false 
+        isFake: false
       });
       setEditingId(null);
       setClientMode('new');
@@ -199,7 +199,7 @@ export default function BookingManager() {
     const price = selectedService ? Number(selectedService.price) : 0;
 
     const bookingData = {
-      clientDetails: { 
+      clientDetails: {
         name: formData.clientName,
         email: formData.clientEmail,
         phone: formData.clientPhone
@@ -266,11 +266,11 @@ export default function BookingManager() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Booking Management</h1>
-          <p className="text-primary/80 text-sm mt-1">Review, approve, and manage all client appointments.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#86626E]">Booking Management</h1>
+          <p className="text-[#86626E] text-sm mt-1">Review, approve, and manage all client appointments.</p>
         </div>
-        <button 
-          onClick={() => handleOpenModal()} 
+        <button
+          onClick={() => handleOpenModal()}
           className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
@@ -280,32 +280,32 @@ export default function BookingManager() {
 
       {/* Tabs */}
       <div className="flex border-b border-slate-200 gap-6 md:gap-8 overflow-x-auto scrollbar-hide">
-        <button 
-          onClick={() => setActiveTab('all')} 
+        <button
+          onClick={() => setActiveTab('all')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-white border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           All Bookings
         </button>
-        <button 
-          onClick={() => setActiveTab('pending')} 
+        <button
+          onClick={() => setActiveTab('pending')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'pending' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Pending
         </button>
-        <button 
-          onClick={() => setActiveTab('confirmed')} 
+        <button
+          onClick={() => setActiveTab('confirmed')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'confirmed' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Confirmed
         </button>
-        <button 
-          onClick={() => setActiveTab('completed')} 
+        <button
+          onClick={() => setActiveTab('completed')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'completed' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Completed
         </button>
-        <button 
-          onClick={() => setActiveTab('logs')} 
+        <button
+          onClick={() => setActiveTab('logs')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'logs' ? 'text-primary border-primary' : 'text-primary/80 border-transparent hover:text-primary'}`}
         >
           Outbound Logs
@@ -402,7 +402,7 @@ export default function BookingManager() {
                       <td className="px-8 py-6 text-right">
                         <div className="flex items-center justify-end gap-2">
                           {booking.status === 'pending' && (
-                            <button 
+                            <button
                               onClick={() => updateBooking(booking.id, { status: 'confirmed' })}
                               className="w-9 h-9 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                               title="Confirm Booking"
@@ -410,15 +410,15 @@ export default function BookingManager() {
                               <span className="material-symbols-outlined text-xl">check_circle</span>
                             </button>
                           )}
-                          <button 
+                          <button
                             onClick={() => handleOpenModal(booking)}
                             className="w-9 h-9 flex items-center justify-center rounded-lg text-primary bg-[#E7C8DD] hover:bg-[#DBAFC1] transition-colors"
                             title="Edit Booking"
                           >
                             <span className="material-symbols-outlined text-xl">edit</span>
                           </button>
-                          <button 
-                            onClick={() => { if(window.confirm('Delete this booking?')) deleteBooking(booking.id); }}
+                          <button
+                            onClick={() => { if (window.confirm('Delete this booking?')) deleteBooking(booking.id); }}
                             className="w-9 h-9 flex items-center justify-center rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors"
                             title="Delete Booking"
                           >
@@ -443,14 +443,14 @@ export default function BookingManager() {
       )}
 
       {/* Add/Edit Booking Modal */}
-      <Modal 
-        isOpen={isModalOpen} 
+      <Modal
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingId ? 'Edit Appointment' : 'New Appointment'}
         subtitle="Manage individual appointment records and their current lifecycle status."
       >
         <form onSubmit={handleSubmit} className="space-y-6">
-          
+
           {/* CLIENT TYPE SELECTOR */}
           {!editingId && (
             <div className="space-y-3">
@@ -486,9 +486,9 @@ export default function BookingManager() {
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Select Client Profile*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">group</span>
-                <select 
+                <select
                   required
-                  onChange={e => handleSelectCustomer(e.target.value)} 
+                  onChange={e => handleSelectCustomer(e.target.value)}
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                 >
                   <option value="">-- Choose Profile --</option>
@@ -516,13 +516,13 @@ export default function BookingManager() {
                 <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Full Name*</label>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">person</span>
-                  <input 
-                    required 
-                    className="input-pro pl-12" 
-                    placeholder="e.g. John Doe" 
-                    type="text" 
+                  <input
+                    required
+                    className="input-pro pl-12"
+                    placeholder="e.g. John Doe"
+                    type="text"
                     value={formData.clientName}
-                    onChange={e => setFormData({...formData, clientName: e.target.value})}
+                    onChange={e => setFormData({ ...formData, clientName: e.target.value })}
                   />
                 </div>
               </div>
@@ -533,13 +533,13 @@ export default function BookingManager() {
                   <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Email*</label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">mail</span>
-                    <input 
-                      required 
+                    <input
+                      required
                       type="email"
-                      value={formData.clientEmail} 
-                      onChange={e=>setFormData({...formData, clientEmail: e.target.value})} 
-                      className="input-pro pl-12" 
-                      placeholder="client@example.com" 
+                      value={formData.clientEmail}
+                      onChange={e => setFormData({ ...formData, clientEmail: e.target.value })}
+                      className="input-pro pl-12"
+                      placeholder="client@example.com"
                     />
                   </div>
                 </div>
@@ -547,12 +547,12 @@ export default function BookingManager() {
                   <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Phone*</label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">phone</span>
-                    <input 
-                      required 
-                      value={formData.clientPhone} 
-                      onChange={e=>setFormData({...formData, clientPhone: e.target.value})} 
-                      className="input-pro pl-12" 
-                      placeholder="e.g. +1 (555) 000-0000" 
+                    <input
+                      required
+                      value={formData.clientPhone}
+                      onChange={e => setFormData({ ...formData, clientPhone: e.target.value })}
+                      className="input-pro pl-12"
+                      placeholder="e.g. +1 (555) 000-0000"
                     />
                   </div>
                 </div>
@@ -566,25 +566,25 @@ export default function BookingManager() {
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Treatment</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">medical_services</span>
-                <select 
+                <select
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                   value={formData.serviceId}
-                  onChange={e => setFormData({...formData, serviceId: e.target.value})}
+                  onChange={e => setFormData({ ...formData, serviceId: e.target.value })}
                 >
                   <option value="">-- Choose Service --</option>
                   {services.map(s => <option key={s.id} value={s.id}>{s.title} (${s.price})</option>)}
                 </select>
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Promotional Deal</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">loyalty</span>
-                <select 
+                <select
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                   value={formData.dealId}
-                  onChange={e => setFormData({...formData, dealId: e.target.value})}
+                  onChange={e => setFormData({ ...formData, dealId: e.target.value })}
                 >
                   <option value="">-- Choose Deal --</option>
                   {deals.map(d => <option key={d.id} value={d.id}>{d.title} (${d.discountPrice})</option>)}
@@ -598,12 +598,12 @@ export default function BookingManager() {
             <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Appointment Date*</label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">calendar_today</span>
-              <input 
-                required 
-                className="input-pro pl-12" 
-                type="date" 
+              <input
+                required
+                className="input-pro pl-12"
+                type="date"
                 value={formData.date}
-                onChange={e => setFormData({...formData, date: e.target.value})}
+                onChange={e => setFormData({ ...formData, date: e.target.value })}
               />
             </div>
           </div>
@@ -624,15 +624,15 @@ export default function BookingManager() {
                     <button
                       key={t}
                       type="button"
-                      onClick={() => setFormData({...formData, time: t})}
+                      onClick={() => setFormData({ ...formData, time: t })}
                       disabled={booked}
                       className={`
                         py-3 px-2 rounded-xl text-xs font-bold transition-all border 
-                        ${booked ? 'opacity-40 bg-primary border-slate-200 cursor-not-allowed text-white/70' 
-                          : selected ? 'bg-primary text-white border-primary shadow-md scale-[1.02]' 
-                          : 'bg-primary text-primary border-slate-200 hover:border-primary hover:text-white'}
+                        ${booked ? 'opacity-40 bg-primary border-slate-200 cursor-not-allowed text-white/70'
+                          : selected ? 'bg-primary text-white border-primary shadow-md scale-[1.02]'
+                            : 'bg-primary text-primary border-slate-200 hover:border-primary hover:text-white'}
                       `}
-                      style={selected ? { backgroundColor: settings.primaryAccent, borderColor: settings.primaryAccent } : {}}
+
                     >
                       {t}
                     </button>
@@ -647,10 +647,10 @@ export default function BookingManager() {
             <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Lifecycle Status</label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">monitoring</span>
-              <select 
-                required 
-                value={formData.status} 
-                onChange={e=>setFormData({...formData, status: e.target.value})} 
+              <select
+                required
+                value={formData.status}
+                onChange={e => setFormData({ ...formData, status: e.target.value })}
                 className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
               >
                 <option value="pending">Pending</option>
@@ -668,7 +668,7 @@ export default function BookingManager() {
               id="fakeBookingMgr"
               checked={formData.isFake || false}
               onChange={e => setFormData({ ...formData, isFake: e.target.checked })}
-              className="w-4 h-4 text-primaryAccent border-gray-300 rounded"
+              className="w-4 h-4 text-primary border-gray-300 rounded"
             />
             <label htmlFor="fakeBookingMgr" className="text-sm text-primary">Mark as Fake Booking (for testing)</label>
           </div>
@@ -676,11 +676,11 @@ export default function BookingManager() {
           {/* SEND NOTIFICATION TOGGLE */}
           {!editingId && (
             <div className="flex items-center gap-3 p-4 bg-primary rounded-2xl border border-slate-100">
-              <input 
-                type="checkbox" 
-                id="sendNotify" 
-                checked={sendNotification} 
-                onChange={e => setSendNotification(e.target.checked)} 
+              <input
+                type="checkbox"
+                id="sendNotify"
+                checked={sendNotification}
+                onChange={e => setSendNotification(e.target.checked)}
                 className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
               />
               <label htmlFor="sendNotify" className="text-xs font-bold text-primary select-none cursor-pointer flex-1">
@@ -702,7 +702,7 @@ export default function BookingManager() {
               <div className="bg-primary/5 rounded-2xl p-4 border border-white/5">
                 <p className="text-[10px] font-extrabold text-primary mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
                 <p className="text-xs text-slate-200 leading-relaxed font-semibold">
-                  {formData.clientName 
+                  {formData.clientName
                     ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing Vlas AESTHETIC!`
                     : "Fill client name & details to generate preview..."}
                 </p>
@@ -713,8 +713,8 @@ export default function BookingManager() {
 
           <div className="flex gap-4 pt-6">
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Appointment' : 'Create Booking'}

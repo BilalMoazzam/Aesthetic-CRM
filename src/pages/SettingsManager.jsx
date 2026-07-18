@@ -41,17 +41,17 @@ export default function SettingsManager() {
     }
   }, [settings]);
 
-    // After saving, persist to localStorage for client sync and reload the page to reflect changes
-    const handleSave = () => {
-      updateSettings(formData);
-      // Store the updated settings locally so client can read without stale fallback
-      localStorage.setItem('vlas_settings', JSON.stringify(formData));
-      // Reload the page to ensure client fetches the latest settings
-      window.location.reload();
-    };
+  // After saving, persist to localStorage for client sync and reload the page to reflect changes
+  const handleSave = () => {
+    updateSettings(formData);
+    // Store the updated settings locally so client can read without stale fallback
+    localStorage.setItem('vlas_settings', JSON.stringify(formData));
+    // Reload the page to ensure client fetches the latest settings
+    window.location.reload();
+  };
 
-  const FAKE_NAMES = ['Alex Johnson','Maria Garcia','David Kim','Sophie Chen','James Wilson','Emma Davis','Liam Brown','Olivia Martinez'];
-  const TIME_SLOTS = ['09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM','05:00 PM','06:00 PM'];
+  const FAKE_NAMES = ['Alex Johnson', 'Maria Garcia', 'David Kim', 'Sophie Chen', 'James Wilson', 'Emma Davis', 'Liam Brown', 'Olivia Martinez'];
+  const TIME_SLOTS = ['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM'];
 
   const handleCreateFakeBooking = () => {
     const name = fakeForm.clientName || FAKE_NAMES[Math.floor(Math.random() * FAKE_NAMES.length)];
@@ -88,7 +88,7 @@ export default function SettingsManager() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-primary tracking-tight">Settings</h1>
-          <p className="text-primary/80 text-sm mt-1">Configure global application parameters and business logic.</p>
+          <p className="text-[#86626E] text-sm mt-1">Configure global application parameters and business logic.</p>
         </div>
         <button onClick={handleSave} className="btn-primary min-w-[160px]">
           <span className="material-symbols-outlined text-xl">{isSaved ? 'check_circle' : 'save'}</span>
@@ -108,20 +108,20 @@ export default function SettingsManager() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Business Name</label>
-                <input 
-                  type="text" 
-                  value={formData.brandName} 
-                  onChange={e => setFormData({...formData, brandName: e.target.value})} 
+                <input
+                  type="text"
+                  value={formData.brandName}
+                  onChange={e => setFormData({ ...formData, brandName: e.target.value })}
                   className="input-pro"
                   placeholder="VLAS Clinic"
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Logo URL</label>
-                <input 
-                  type="text" 
-                  value={formData.brandLogo} 
-                  onChange={e => setFormData({...formData, brandLogo: e.target.value})} 
+                <input
+                  type="text"
+                  value={formData.brandLogo}
+                  onChange={e => setFormData({ ...formData, brandLogo: e.target.value })}
                   className="input-pro"
                   placeholder="https://..."
                 />
@@ -135,25 +135,25 @@ export default function SettingsManager() {
               <span className="material-symbols-outlined text-base text-primary">schedule</span>
               Scheduling Configuration
             </h3>
-            
+
             <div className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Working Day Start</label>
-                  <input 
-                    type="text" 
-                    value={formData.workingHoursStart} 
-                    onChange={e => setFormData({...formData, workingHoursStart: e.target.value})} 
+                  <input
+                    type="text"
+                    value={formData.workingHoursStart}
+                    onChange={e => setFormData({ ...formData, workingHoursStart: e.target.value })}
                     className="input-pro"
                     placeholder="09:00 AM"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Working Day End</label>
-                  <input 
-                    type="text" 
-                    value={formData.workingHoursEnd} 
-                    onChange={e => setFormData({...formData, workingHoursEnd: e.target.value})} 
+                  <input
+                    type="text"
+                    value={formData.workingHoursEnd}
+                    onChange={e => setFormData({ ...formData, workingHoursEnd: e.target.value })}
                     className="input-pro"
                     placeholder="05:00 PM"
                   />
@@ -166,13 +166,13 @@ export default function SettingsManager() {
                     <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Buffer Between Sessions</label>
                     <span className="text-sm font-bold text-primary">{formData.bufferTime} minutes</span>
                   </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="60" 
-                    step="5" 
-                    value={formData.bufferTime} 
-                    onChange={e => setFormData({...formData, bufferTime: parseInt(e.target.value)})} 
+                  <input
+                    type="range"
+                    min="0"
+                    max="60"
+                    step="5"
+                    value={formData.bufferTime}
+                    onChange={e => setFormData({ ...formData, bufferTime: parseInt(e.target.value) })}
                     className="w-full h-2 bg-primary rounded-lg appearance-none cursor-pointer accent-primary"
                   />
                   <p className="text-[10px] text-primary/70 font-medium italic mt-1 px-1">Time allocated for room reset and documentation between clients.</p>
@@ -183,13 +183,13 @@ export default function SettingsManager() {
                     <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Max Booking Window</label>
                     <span className="text-sm font-bold text-primary">{formData.bookingWindow} days</span>
                   </div>
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max="90" 
-                    step="1" 
-                    value={formData.bookingWindow} 
-                    onChange={e => setFormData({...formData, bookingWindow: parseInt(e.target.value)})} 
+                  <input
+                    type="range"
+                    min="1"
+                    max="90"
+                    step="1"
+                    value={formData.bookingWindow}
+                    onChange={e => setFormData({ ...formData, bookingWindow: parseInt(e.target.value) })}
                     className="w-full h-2 bg-primary rounded-lg appearance-none cursor-pointer accent-primary"
                   />
                   <p className="text-[10px] text-primary/70 font-medium italic mt-1 px-1">How many days in advance a client can book a service.</p>
@@ -210,8 +210,8 @@ export default function SettingsManager() {
                   <p className="text-sm font-bold text-primary">Enable Online Bookings</p>
                   <p className="text-xs text-primary/80 mt-0.5">Allow clients to schedule via the public web app.</p>
                 </div>
-                <button 
-                  onClick={() => setFormData({...formData, onlineBookings: !formData.onlineBookings})}
+                <button
+                  onClick={() => setFormData({ ...formData, onlineBookings: !formData.onlineBookings })}
                   className={`w-12 h-6 rounded-full relative transition-colors ${formData.onlineBookings ? 'bg-primary' : 'bg-slate-200'}`}
                 >
                   <div className={`absolute top-1 left-1 w-4 h-4 bg-primary rounded-full transition-transform ${formData.onlineBookings ? 'translate-x-6' : 'translate-x-0'}`} />
@@ -222,8 +222,8 @@ export default function SettingsManager() {
                   <p className="text-sm font-bold text-primary">Staff Overrides</p>
                   <p className="text-xs text-primary/80 mt-0.5">Enable admins to bypass scheduling constraints.</p>
                 </div>
-                <button 
-                  onClick={() => setFormData({...formData, staffOverrides: !formData.staffOverrides})}
+                <button
+                  onClick={() => setFormData({ ...formData, staffOverrides: !formData.staffOverrides })}
                   className={`w-12 h-6 rounded-full relative transition-colors ${formData.staffOverrides ? 'bg-primary' : 'bg-slate-200'}`}
                 >
                   <div className={`absolute top-1 left-1 w-4 h-4 bg-primary rounded-full transition-transform ${formData.staffOverrides ? 'translate-x-6' : 'translate-x-0'}`} />
@@ -251,10 +251,9 @@ export default function SettingsManager() {
                     </div>
                     <div className="flex items-center gap-3 flex-wrap">
                       {/* Approval status badge */}
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
-                        u.isBlocked ? 'bg-red-50 text-red-700' :
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${u.isBlocked ? 'bg-red-50 text-red-700' :
                         u.isApproved ? 'bg-[#E7C8DD] text-primary' : 'bg-amber-50 text-amber-700'
-                      }`}>
+                        }`}>
                         {u.isBlocked ? 'Blocked' : u.isApproved ? 'Approved' : 'Pending'}
                       </span>
                       {/* Approve/Revoke — only non-admin, non-blocked */}
@@ -262,11 +261,10 @@ export default function SettingsManager() {
                         <button
                           type="button"
                           onClick={() => toggleUserApproval(u.id)}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                            u.isApproved
-                              ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
-                              : 'bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1]'
-                          }`}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${u.isApproved
+                            ? 'bg-rose-50 text-rose-600 hover:bg-rose-100'
+                            : 'bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1]'
+                            }`}
                         >
                           {u.isApproved ? 'Revoke' : 'Approve'}
                         </button>
@@ -276,11 +274,10 @@ export default function SettingsManager() {
                         <button
                           type="button"
                           onClick={() => toggleUserBlock(u.id)}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                            u.isBlocked
-                              ? 'bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1]'
-                              : 'bg-red-50 text-red-600 hover:bg-red-100'
-                          }`}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${u.isBlocked
+                            ? 'bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1]'
+                            : 'bg-red-50 text-red-600 hover:bg-red-100'
+                            }`}
                         >
                           {u.isBlocked ? 'Unblock' : 'Block'}
                         </button>
@@ -307,26 +304,26 @@ export default function SettingsManager() {
                 <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Primary Color</label>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl border border-slate-200 p-1">
-                    <input 
-                      type="color" 
-                      value={formData.primaryAccent} 
-                      onChange={e => setFormData({...formData, primaryAccent: e.target.value})} 
-                      className="w-full h-full rounded-lg appearance-none cursor-pointer border-none bg-transparent" 
+                    <input
+                      type="color"
+                      value={formData.primaryAccent}
+                      onChange={e => setFormData({ ...formData, primaryAccent: e.target.value })}
+                      className="w-full h-full rounded-lg appearance-none cursor-pointer border-none bg-transparent"
                     />
                   </div>
-                  <input 
-                    type="text" 
-                    value={formData.primaryAccent} 
-                    onChange={e => setFormData({...formData, primaryAccent: e.target.value})} 
-                    className="input-pro font-mono text-xs" 
+                  <input
+                    type="text"
+                    value={formData.primaryAccent}
+                    onChange={e => setFormData({ ...formData, primaryAccent: e.target.value })}
+                    className="input-pro font-mono text-xs"
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Typography</label>
-                <select 
-                  value={formData.typography} 
-                  onChange={e => setFormData({...formData, typography: e.target.value})} 
+                <select
+                  value={formData.typography}
+                  onChange={e => setFormData({ ...formData, typography: e.target.value })}
                   className="input-pro appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]"
                 >
                   <option value="Inter">Inter (Sans-Serif)</option>
@@ -418,7 +415,7 @@ export default function SettingsManager() {
                 className="input-pro pl-12 appearance-none"
               >
                 <option value="">Random time slot</option>
-                {['09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM','05:00 PM','06:00 PM'].map(t => <option key={t} value={t}>{t}</option>)}
+                {['09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM'].map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
           </div>

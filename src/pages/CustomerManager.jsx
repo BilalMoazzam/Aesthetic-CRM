@@ -3,20 +3,20 @@ import { useStore } from '../store/useStore';
 import Modal from '../components/Modal';
 
 const TIER_COLORS = {
-  Regular:       { bg: 'bg-primary', text: 'text-primary', border: 'border-slate-200' },
-  Silver:        { bg: 'bg-primary',  text: 'text-primary',  border: 'border-gray-200' },
-  Gold:          { bg: 'bg-amber-50',  text: 'text-amber-700', border: 'border-amber-200' },
-  'VIP Prestige':{ bg: 'bg-purple-50', text: 'text-purple-700',border: 'border-purple-200' },
-  Standard:      { bg: 'bg-[#E7C8DD]',   text: 'text-primary',  border: 'border-[#c89aad]' },
-  Elite:         { bg: 'bg-rose-50',   text: 'text-rose-700',  border: 'border-rose-200' },
+  Regular: { bg: 'bg-primary', text: 'text-primary', border: 'border-slate-200' },
+  Silver: { bg: 'bg-primary', text: 'text-primary', border: 'border-gray-200' },
+  Gold: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
+  'VIP Prestige': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+  Standard: { bg: 'bg-[#E7C8DD]', text: 'text-primary', border: 'border-[#c89aad]' },
+  Elite: { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200' },
 };
 
 const STATUS_COLORS = {
-  confirmed:  { bg: 'bg-[#E7C8DD]', text: 'text-primary', dot: 'bg-[#E7C8DD]0' },
-  pending:    { bg: 'bg-amber-50',   text: 'text-amber-700',   dot: 'bg-amber-400' },
-  completed:  { bg: 'bg-[#E7C8DD]',    text: 'text-primary',    dot: 'bg-[#E7C8DD]0' },
-  cancelled:  { bg: 'bg-rose-50',    text: 'text-rose-700',    dot: 'bg-rose-500' },
-  'no-show':  { bg: 'bg-primary',  text: 'text-primary/80',   dot: 'bg-slate-400' },
+  confirmed: { bg: 'bg-[#E7C8DD]', text: 'text-primary', dot: 'bg-[#E7C8DD]0' },
+  pending: { bg: 'bg-amber-50', text: 'text-amber-700', dot: 'bg-amber-400' },
+  completed: { bg: 'bg-[#E7C8DD]', text: 'text-primary', dot: 'bg-[#E7C8DD]0' },
+  cancelled: { bg: 'bg-rose-50', text: 'text-rose-700', dot: 'bg-rose-500' },
+  'no-show': { bg: 'bg-primary', text: 'text-primary/80', dot: 'bg-slate-400' },
 };
 
 export default function CustomerManager() {
@@ -42,7 +42,7 @@ export default function CustomerManager() {
     return bookings.filter(b => {
       const cd = b.clientDetails || {};
       if (customer.email && cd.email && cd.email.toLowerCase() === customer.email.toLowerCase()) return true;
-      if (customer.phone && cd.phone && cd.phone.replace(/\D/g,'') === customer.phone.replace(/\D/g,'') && cd.phone.replace(/\D/g,'').length > 3) return true;
+      if (customer.phone && cd.phone && cd.phone.replace(/\D/g, '') === customer.phone.replace(/\D/g, '') && cd.phone.replace(/\D/g, '').length > 3) return true;
       if (customer.name && cd.name && cd.name.toLowerCase() === customer.name.toLowerCase()) return true;
       return false;
     }).sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -125,8 +125,8 @@ export default function CustomerManager() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Customer Relationship Manager</h1>
-          <p className="text-primary/80 text-sm mt-1">Manage client profiles, membership tiers, and interaction history.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#86626E]">Customer Relationship Manager</h1>
+          <p className="text-[#86626E] text-sm mt-1">Manage client profiles, membership tiers, and interaction history.</p>
         </div>
         <button
           onClick={() => handleOpenModal()}
@@ -292,7 +292,7 @@ export default function CustomerManager() {
                     <p className="text-xs font-bold text-primary truncate">{selectedCustomer.phone || 'Not provided'}</p>
                     {selectedCustomer.phone && (
                       <a
-                        href={`https://wa.me/${selectedCustomer.phone.replace(/\D/g,'')}`}
+                        href={`https://wa.me/${selectedCustomer.phone.replace(/\D/g, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[10px] text-green-600 font-bold hover:underline"
@@ -385,7 +385,7 @@ export default function CustomerManager() {
                   value={formData.phone}
                   onChange={e => {
                     let val = e.target.value;
-                    if (!val.startsWith('+92')) val = '+92' + val.replace(/^\+92/, '').replace(/\D/g,'');
+                    if (!val.startsWith('+92')) val = '+92' + val.replace(/^\+92/, '').replace(/\D/g, '');
                     setFormData({ ...formData, phone: val });
                   }}
                   className="input-pro pl-12"

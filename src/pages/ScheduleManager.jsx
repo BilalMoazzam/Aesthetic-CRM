@@ -562,7 +562,7 @@ export default function ScheduleManager() {
                         className={`inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full font-bold text-sm ${
                           isToday ? 'text-primary shadow-md' : isPastDay ? 'text-primary/70' : 'text-primary'
                         }`}
-                        style={isToday ? { backgroundColor: settings.primaryAccent } : undefined}
+                        
                       >
                         {date.getDate()}
                       </span>
@@ -822,13 +822,9 @@ export default function ScheduleManager() {
                       type="button"
                       onClick={() => setFormData({...formData, time: t})}
                       className={`py-3 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold transition-all border text-center ${
-                        selected
-                          ? 'text-primary border-transparent shadow-sm'
-                          : booked
-                            ? 'border-slate-100 bg-primary text-white/70 line-through opacity-30'
-                            : 'border-slate-200 hover:border-slate-300 text-white bg-primary hover:bg-primary'
+                        selected ? 'text-white border-transparent shadow-sm bg-primary' : booked ? 'border-slate-100 bg-primary text-white/70 line-through opacity-30' : 'border-slate-200 hover:border-slate-300 text-white bg-primary hover:bg-primary'
                       }`}
-                      style={selected ? { backgroundColor: settings.primaryAccent } : {}}
+                      
                     >
                       {t}
                     </button>
@@ -846,7 +842,7 @@ export default function ScheduleManager() {
                 id="fakeBooking"
                 checked={formData.isFake || false}
                 onChange={e => setFormData({ ...formData, isFake: e.target.checked })}
-                className="w-4 h-4 text-primaryAccent border-gray-300 rounded"
+                className="w-4 h-4 text-primary border-gray-300 rounded"
               />
               <label htmlFor="fakeBooking" className="text-sm text-primary">Mark as Fake Booking (for testing)</label>
             </div>

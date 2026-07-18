@@ -5,14 +5,14 @@ import Modal from '../components/Modal';
 export default function ServicesManager() {
   const { services, fetchServices, deleteService, addService, updateService, settings } = useStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({ 
-    title: '', 
-    category: '', 
-    price: '', 
-    duration: '', 
-    description: '', 
-    image: '', 
-    featured: false 
+  const [formData, setFormData] = useState({
+    title: '',
+    category: '',
+    price: '',
+    duration: '',
+    description: '',
+    image: '',
+    featured: false
   });
   const [editingId, setEditingId] = useState(null);
 
@@ -46,11 +46,11 @@ export default function ServicesManager() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Services Catalogue</h1>
-          <p className="text-primary/80 text-sm mt-1">Manage your treatment menu, pricing, and visual presentation.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#86626E]">Services Catalogue</h1>
+          <p className="text-[#86626E] text-sm mt-1">Manage your treatment menu, pricing, and visual presentation.</p>
         </div>
-        <button 
-          onClick={() => handleOpenModal()} 
+        <button
+          onClick={() => handleOpenModal()}
           className="btn-primary shadow-lg shadow-rose-sm bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_box</span>
@@ -64,10 +64,10 @@ export default function ServicesManager() {
           <div key={service.id} className="card-pro group overflow-hidden flex flex-col">
             <div className="h-48 relative overflow-hidden bg-primary">
               {service.image ? (
-                <img 
-                  alt={service.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                  src={service.image} 
+                <img
+                  alt={service.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  src={service.image}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-slate-300">
@@ -78,7 +78,7 @@ export default function ServicesManager() {
                 {service.category}
               </div>
             </div>
-            
+
             <div className="p-6 flex-1 flex flex-col">
               <div className="flex justify-between items-start gap-2 mb-3">
                 <h3 className="text-lg font-bold text-primary leading-tight truncate" title={service.title}>
@@ -86,25 +86,25 @@ export default function ServicesManager() {
                 </h3>
                 <span className="text-xl font-bold text-primary">${service.price}</span>
               </div>
-              
+
               <p className="text-primary/80 text-sm line-clamp-2 mb-6 flex-1">
                 {service.description || 'No description provided.'}
               </p>
-              
+
               <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                 <div className="flex items-center gap-2 text-primary/70">
                   <span className="material-symbols-outlined text-sm">schedule</span>
                   <span className="text-xs font-semibold">{service.duration}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button 
+                  <button
                     onClick={() => handleOpenModal(service)}
                     className="p-2 text-primary/70 hover:text-primary hover:bg-[#E7C8DD] rounded-lg transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">edit</span>
                   </button>
-                  <button 
-                    onClick={() => { if(window.confirm('Delete service?')) deleteService(service.id); }}
+                  <button
+                    onClick={() => { if (window.confirm('Delete service?')) deleteService(service.id); }}
                     className="p-2 text-primary/70 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">delete</span>
@@ -116,7 +116,7 @@ export default function ServicesManager() {
         ))}
 
         {/* Empty State / Add Card */}
-        <button 
+        <button
           onClick={() => handleOpenModal()}
           className="card-pro border-dashed border-slate-300 bg-transparent flex flex-col items-center justify-center p-10 gap-4 hover:bg-primary hover:border-primary transition-all group min-h-[350px]"
         >
@@ -128,8 +128,8 @@ export default function ServicesManager() {
       </div>
 
       {/* Add/Edit Service Modal */}
-      <Modal 
-        isOpen={isModalOpen} 
+      <Modal
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={editingId ? 'Edit Service Details' : 'Add New Service'}
         subtitle="Configure the treatment specifications, pricing, and display aesthetics."
@@ -140,14 +140,14 @@ export default function ServicesManager() {
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Title*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">label</span>
-                <input required type="text" value={formData.title} onChange={e=>setFormData({...formData, title: e.target.value})} className="input-pro pl-12" placeholder="e.g. Skin Rejuvenation" />
+                <input required type="text" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="input-pro pl-12" placeholder="e.g. Skin Rejuvenation" />
               </div>
             </div>
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Category*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">category</span>
-                <input required type="text" value={formData.category} onChange={e=>setFormData({...formData, category: e.target.value})} className="input-pro pl-12" placeholder="e.g. Skincare" />
+                <input required type="text" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="input-pro pl-12" placeholder="e.g. Skincare" />
               </div>
             </div>
           </div>
@@ -156,21 +156,21 @@ export default function ServicesManager() {
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Price ($)*</label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">payments</span>
-                <input required type="number" value={formData.price} onChange={e=>setFormData({...formData, price: e.target.value})} className="input-pro pl-12" placeholder="150" />
+                <input required type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} className="input-pro pl-12" placeholder="150" />
               </div>
             </div>
             <div className="space-y-3">
               <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Expected Duration*</label>
               <div className="relative flex items-center">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">timer</span>
-                <input 
-                  required 
-                  type="number" 
-                  min="1" 
-                  value={formData.duration ? formData.duration.replace(/\D/g, '') : ''} 
-                  onChange={e=>setFormData({...formData, duration: e.target.value ? `${e.target.value} min` : ''})} 
-                  className="input-pro pl-12 pr-20" 
-                  placeholder="60" 
+                <input
+                  required
+                  type="number"
+                  min="1"
+                  value={formData.duration ? formData.duration.replace(/\D/g, '') : ''}
+                  onChange={e => setFormData({ ...formData, duration: e.target.value ? `${e.target.value} min` : '' })}
+                  className="input-pro pl-12 pr-20"
+                  placeholder="60"
                 />
                 <span className="absolute right-4 text-xs font-bold text-primary/70 uppercase">minutes</span>
               </div>
@@ -180,7 +180,7 @@ export default function ServicesManager() {
             <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Treatment Description</label>
             <div className="relative">
               <span className="absolute left-4 top-4 material-symbols-outlined text-primary/70">description</span>
-              <textarea rows="3" value={formData.description} onChange={e=>setFormData({...formData, description: e.target.value})} className="input-pro pl-12 resize-none pt-4" placeholder="Briefly describe the service benefits and procedure..." />
+              <textarea rows="3" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="input-pro pl-12 resize-none pt-4" placeholder="Briefly describe the service benefits and procedure..." />
             </div>
           </div>
           <div className="space-y-3">
@@ -188,19 +188,19 @@ export default function ServicesManager() {
             <div className="flex gap-4">
               <div className="flex-1 relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">link</span>
-                <input type="text" value={formData.image} onChange={e=>setFormData({...formData, image: e.target.value})} className="input-pro pl-12" placeholder="Image URL..." />
+                <input type="text" value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })} className="input-pro pl-12" placeholder="Image URL..." />
               </div>
               <div className="relative">
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  id="image-upload" 
-                  className="hidden" 
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="image-upload"
+                  className="hidden"
                   onChange={async (e) => {
                     const file = e.target.files[0];
                     if (file) {
                       const url = await useStore.getState().uploadImage(file);
-                      setFormData({...formData, image: url});
+                      setFormData({ ...formData, image: url });
                     }
                   }}
                 />
@@ -213,21 +213,21 @@ export default function ServicesManager() {
           </div>
           <div className="flex items-center gap-4 pt-2 bg-primary p-4 rounded-2xl border border-slate-100">
             <div className="flex items-center gap-3">
-              <input 
-                id="featured" 
-                type="checkbox" 
-                checked={formData.featured} 
-                onChange={e=>setFormData({...formData, featured: e.target.checked})} 
+              <input
+                id="featured"
+                type="checkbox"
+                checked={formData.featured}
+                onChange={e => setFormData({ ...formData, featured: e.target.checked })}
                 className="w-5 h-5 text-primary rounded-lg border-slate-300 focus:ring-primary transition-all cursor-pointer"
               />
               <label htmlFor="featured" className="text-sm font-bold text-primary cursor-pointer select-none">Mark as Featured on Homepage</label>
             </div>
           </div>
-          
+
           <div className="flex gap-6 pt-6">
             <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               {editingId ? 'Update Service' : 'Save Service'}
