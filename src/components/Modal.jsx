@@ -21,11 +21,11 @@ const Modal = ({ isOpen, onClose, title, subtitle, children }) => {
           <div className="p-5 sm:p-8 pb-4 border-b border-slate-100 flex justify-between items-start bg-transparent flex-shrink-0 relative">
             <div className="pr-10">
               <h3 className="text-xl sm:text-2xl font-bold text-primary tracking-tight leading-tight">{title}</h3>
-              {subtitle && <p className="text-xs sm:text-sm text-primary/80 mt-1 sm:mt-1.5 font-medium leading-relaxed">{subtitle}</p>}
+              {subtitle && <p className="text-xs sm:text-sm text-[#86626E]/80 mt-1 sm:mt-1.5 font-medium leading-relaxed">{subtitle}</p>}
             </div>
             <button 
               onClick={onClose} 
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-primary border border-slate-100 shadow-sm hover:bg-primary transition-all text-primary/70 hover:text-white active:scale-90"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-primary border border-slate-100 shadow-sm hover:bg-primary transition-all text-[#86626E]/70 hover:text-white active:scale-90"
             >
               <span className="material-symbols-outlined text-lg sm:text-xl">close</span>
             </button>

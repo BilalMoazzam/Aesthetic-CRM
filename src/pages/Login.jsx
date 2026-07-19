@@ -110,7 +110,7 @@ export default function Login() {
               <h1 className="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight leading-tight" style={inputStyle}>
                 {settings.brandName || 'VLAS AESTHETIC'}
               </h1>
-              <p className="text-primary/70 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
+              <p className="text-[#86626E]/70 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
                 Enterprise Administration
               </p>
             </div>
@@ -127,11 +127,11 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6" autoComplete="off">
               {/* Username Input */}
               <div className="space-y-1.5 sm:space-y-2">
-                <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                <label className="text-[10px] sm:text-[11px] font-bold text-[#86626E]/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                   Username
                 </label>
                 <div className="relative group">
-                  <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
+                  <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
                   <input
                     required
                     type="text"
@@ -151,11 +151,11 @@ export default function Login() {
 
               {/* Password Input */}
               <div className="space-y-1.5 sm:space-y-2">
-                <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                <label className="text-[10px] sm:text-[11px] font-bold text-[#86626E]/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                   Password
                 </label>
                 <div className="relative group">
-                  <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
+                  <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
                   <input
                     required
                     type={showPassword ? 'text' : 'password'}
@@ -173,7 +173,7 @@ export default function Login() {
                     type="button"
                     tabIndex={-1}
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-primary/70 hover:text-primary transition-colors p-0.5"
+                    className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-[#86626E]/70 hover:text-primary transition-colors p-0.5"
                   >
                     <span className="material-symbols-outlined text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>
                       {showPassword ? 'visibility_off' : 'visibility'}
@@ -206,7 +206,7 @@ export default function Login() {
 
             {/* Signup Link */}
             <div className="mt-6 sm:mt-8 text-center">
-              <p className="text-xs sm:text-sm text-primary/80 font-medium" style={inputStyle}>
+              <p className="text-xs sm:text-sm text-[#86626E]/80 font-medium" style={inputStyle}>
                 Don't have a staff account?{' '}
                 <Link
                   to="/signup"
@@ -220,7 +220,7 @@ export default function Login() {
 
             {/* Footer */}
             <div className="mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-100 text-center">
-              <p className="text-[9px] sm:text-[10px] text-primary/70 font-semibold uppercase tracking-[0.15em] sm:tracking-widest" style={inputStyle}>
+              <p className="text-[9px] sm:text-[10px] text-[#86626E]/70 font-semibold uppercase tracking-[0.15em] sm:tracking-widest" style={inputStyle}>
                 VLAS Core v3.2.0 • Secure Access
               </p>
             </div>

@@ -73,16 +73,16 @@ export default function VoucherManager() {
           </div>
           <div className="card-pro p-8 bg-primary flex flex-col justify-between">
             <div>
-              <p className="text-primary/80 text-[10px] font-bold uppercase tracking-widest">Targeted Vouchers</p>
+              <p className="text-[#86626E]/80 text-[10px] font-bold uppercase tracking-widest">Targeted Vouchers</p>
               <h3 className="text-3xl font-bold text-primary mt-2">
                 {vouchers.filter(v => v.assignedClientId).length}
               </h3>
             </div>
-            <p className="text-xs text-primary/70 font-medium mt-4">Vouchers assigned to specific high-tier clients.</p>
+            <p className="text-xs text-[#86626E]/70 font-medium mt-4">Vouchers assigned to specific high-tier clients.</p>
           </div>
           <div className="card-pro p-8 bg-primary flex flex-col justify-between">
             <div>
-              <p className="text-primary/80 text-[10px] font-bold uppercase tracking-widest">Active Vouchers</p>
+              <p className="text-[#86626E]/80 text-[10px] font-bold uppercase tracking-widest">Active Vouchers</p>
               <h3 className="text-3xl font-bold text-primary mt-2">
                 {vouchers.filter(v => v.status === 'active').length}
               </h3>
@@ -128,7 +128,7 @@ export default function VoucherManager() {
                     </td>
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-2">
-                        <span className={`text-xs font-bold ${voucher.assignedClientId ? 'text-primary' : 'text-primary/70 italic'}`}>
+                        <span className={`text-xs font-bold ${voucher.assignedClientId ? 'text-primary' : 'text-[#86626E]/70 italic'}`}>
                           {getClientName(voucher.assignedClientId)}
                         </span>
                         <button
@@ -175,15 +175,15 @@ export default function VoucherManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Voucher Code*</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Voucher Code*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">qr_code</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">qr_code</span>
               <input required value={formData.code} onChange={e => setFormData({ ...formData, code: e.target.value.toUpperCase() })} className="input-pro pl-12 font-mono tracking-widest" placeholder="e.g. SUMMER24" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Discount Type</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Discount Type</label>
               <select
                 required
                 value={formData.type}
@@ -195,17 +195,17 @@ export default function VoucherManager() {
               </select>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Discount Value*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Discount Value*</label>
               <input required type="number" value={formData.value} onChange={e => setFormData({ ...formData, value: e.target.value })} className="input-pro" placeholder="e.g. 15" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Expiry Date*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Expiry Date*</label>
               <input required type="date" value={formData.expiryDate} onChange={e => setFormData({ ...formData, expiryDate: e.target.value })} className="input-pro" />
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Assigned Client (Optional)</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Assigned Client (Optional)</label>
               <select
                 value={formData.assignedClientId}
                 onChange={e => setFormData({ ...formData, assignedClientId: e.target.value })}
@@ -217,7 +217,7 @@ export default function VoucherManager() {
             </div>
           </div>
           <div className="flex gap-6 pt-6">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-[#86626E]/80 hover:text-primary transition-colors">Cancel</button>
             <button
               type="submit"
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
@@ -248,13 +248,13 @@ export default function VoucherManager() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-primary">{customer.name}</p>
-                  <p className="text-[10px] text-primary/70 font-medium uppercase tracking-widest">{customer.tier}</p>
+                  <p className="text-[10px] text-[#86626E]/70 font-medium uppercase tracking-widest">{customer.tier}</p>
                 </div>
               </div>
               <span className="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">add_circle</span>
             </div>
           ))}
-          {customers.length === 0 && <p className="text-center py-10 text-primary/70 italic">No customers found Axis.</p>}
+          {customers.length === 0 && <p className="text-center py-10 text-[#86626E]/70 italic">No customers found Axis.</p>}
         </div>
       </Modal>
     </div>

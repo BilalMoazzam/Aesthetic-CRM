@@ -6,20 +6,20 @@ import ExportBookingsButton from '../components/ExportBookingsButton';
 
 
 export default function ScheduleManager() {
-  const { 
-    bookings, 
-    services, 
+  const {
+    bookings,
+    services,
     deals,
-    customers, 
-    fetchBookings, 
-    fetchServices, 
+    customers,
+    fetchBookings,
+    fetchServices,
     fetchDeals,
-    fetchCustomers, 
-    addBooking, 
-    addMessage, 
+    fetchCustomers,
+    addBooking,
+    addMessage,
     updateBooking,
     settings,
-    addCustomer 
+    addCustomer
   } = useStore();
 
   // Data is fetched globally in App.jsx via initializeStore, 
@@ -36,14 +36,14 @@ export default function ScheduleManager() {
   const [viewMode, setViewMode] = useState('calendar'); // 'calendar' | 'list'
   const [listFilter, setListFilter] = useState('all'); // 'all' | 'upcoming' | 'past'
 
-  const [formData, setFormData] = useState({ 
-    clientName: '', 
-    clientEmail: '', 
-    clientPhone: '', 
-    serviceId: '', 
+  const [formData, setFormData] = useState({
+    clientName: '',
+    clientEmail: '',
+    clientPhone: '',
+    serviceId: '',
     dealId: '',
-    date: '', 
-    time: '' 
+    date: '',
+    time: ''
   });
 
   useEffect(() => {
@@ -75,8 +75,8 @@ export default function ScheduleManager() {
   const sunday = weekDays[6];
   const mondayLabel = monday.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
   const sundayLabel = sunday.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-  const monthYearLabel = mondayLabel === sundayLabel 
-    ? mondayLabel 
+  const monthYearLabel = mondayLabel === sundayLabel
+    ? mondayLabel
     : `${monday.toLocaleDateString('en-US', { month: 'short' })} – ${sunday.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
 
   const navigateWeek = (direction) => {
@@ -143,7 +143,7 @@ export default function ScheduleManager() {
   const selectedDeal = deals.find(d => d.id === formData.dealId);
 
   // Combine durations
-  const currentDuration = 
+  const currentDuration =
     (selectedService ? parseDuration(selectedService.duration) : 0) +
     (selectedDeal ? parseDuration(selectedDeal.duration) : 0) || 60;
 
@@ -153,7 +153,7 @@ export default function ScheduleManager() {
     const start = settings.workingHoursStart || '09:00 AM';
     const end = settings.workingHoursEnd || '08:00 PM';
     const slots = [];
-    
+
     const parseTime = (timeStr) => {
       try {
         const parts = timeStr.split(' ');
@@ -229,7 +229,7 @@ export default function ScheduleManager() {
       return;
     }
 
-    const price = 
+    const price =
       (selectedService ? Number(selectedService.price) : 0) +
       (selectedDeal ? Number(selectedDeal.discountPrice) : 0);
 
@@ -247,22 +247,22 @@ export default function ScheduleManager() {
       });
     }
 
-      addBooking({
-        clientDetails: { 
-          name: formData.clientName,
-          email: formData.clientEmail,
-          phone: formData.clientPhone
-        },
-        serviceId: formData.serviceId,
-        dealId: formData.dealId,
-        serviceName: serviceTitle,
-        date: formData.date,
-        time: formData.time,
-        totalPrice: price,
-        duration: `${currentDuration} min`,
-        status: 'confirmed',
-        isFake: formData.isFake || false
-      });
+    addBooking({
+      clientDetails: {
+        name: formData.clientName,
+        email: formData.clientEmail,
+        phone: formData.clientPhone
+      },
+      serviceId: formData.serviceId,
+      dealId: formData.dealId,
+      serviceName: serviceTitle,
+      date: formData.date,
+      time: formData.time,
+      totalPrice: price,
+      duration: `${currentDuration} min`,
+      status: 'confirmed',
+      isFake: formData.isFake || false
+    });
 
     if (sendNotification) {
       const smsMessage = `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing Vlas AESTHETIC!`;
@@ -281,15 +281,15 @@ export default function ScheduleManager() {
     }
 
     setIsModalOpen(false);
-    setFormData({ 
-      clientName: '', 
-      clientEmail: '', 
-      clientPhone: '', 
-      serviceId: '', 
+    setFormData({
+      clientName: '',
+      clientEmail: '',
+      clientPhone: '',
+      serviceId: '',
       dealId: '',
-      date: '', 
+      date: '',
       time: '',
-      isFake: false 
+      isFake: false
     });
   };
 
@@ -310,10 +310,10 @@ export default function ScheduleManager() {
       let [hours, minutes] = time.split(':');
       hours = parseInt(hours);
       minutes = parseInt(minutes) || 0;
-      
+
       if (hours === 12 && modifier === 'AM') hours = 0;
       if (modifier === 'PM' && hours !== 12) hours += 12;
-      
+
       const startParts = startLimit.split(' ');
       let startHour = parseInt(startParts[0]);
       const startMod = (startParts[1] || 'AM').toUpperCase();
@@ -327,9 +327,9 @@ export default function ScheduleManager() {
     }
   };
 
-  const serviceTitle = 
-    (selectedService ? selectedService.title : '') + 
-    (selectedService && selectedDeal ? ' + ' : '') + 
+  const serviceTitle =
+    (selectedService ? selectedService.title : '') +
+    (selectedService && selectedDeal ? ' + ' : '') +
     (selectedDeal ? selectedDeal.title : '') || 'Signature Protocol';
 
   return (
@@ -395,16 +395,16 @@ export default function ScheduleManager() {
           {viewMode === 'calendar' && (
             <>
               <div className="flex items-center bg-primary border rounded-xl overflow-hidden" style={{ borderColor: '#c89aad' }}>
-                <button onClick={() => navigateWeek(-1)} className="p-2 px-3 transition-colors border-r" style={{ borderColor: '#e7d0df', color: '#86626E' }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor='#E7C8DD'} onMouseLeave={e => e.currentTarget.style.backgroundColor=''}>
+                <button onClick={() => navigateWeek(-1)} className="p-2 px-3 transition-colors border-r" style={{ borderColor: '#e7d0df', color: '#FFF' }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = '#E7C8DD'} onMouseLeave={e => e.currentTarget.style.backgroundColor = ''}>
                   <span className="material-symbols-outlined text-xl">chevron_left</span>
                 </button>
                 <div className="px-5 py-2 text-center min-w-[160px]">
-                  <p className="text-sm font-bold" style={{ color: '#86626E' }}>{monthYearLabel}</p>
-                  <p className="text-[11px]" style={{ color: '#86626E' }}>Week of {weekRangeLabel}</p>
+                  <p className="text-sm font-bold" style={{ color: '#fff' }}>{monthYearLabel}</p>
+                  <p className="text-[11px]" style={{ color: '#fff' }}>Week of {weekRangeLabel}</p>
                 </div>
-                <button onClick={() => navigateWeek(1)} className="p-2 px-3 transition-colors border-l" style={{ borderColor: '#e7d0df', color: '#86626E' }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor='#E7C8DD'} onMouseLeave={e => e.currentTarget.style.backgroundColor=''}>
+                <button onClick={() => navigateWeek(1)} className="p-2 px-3 transition-colors border-l" style={{ borderColor: '#e7d0df', color: '#fff' }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = '#E7C8DD'} onMouseLeave={e => e.currentTarget.style.backgroundColor = ''}>
                   <span className="material-symbols-outlined text-xl">chevron_right</span>
                 </button>
               </div>
@@ -424,11 +424,11 @@ export default function ScheduleManager() {
       {viewMode === 'list' && (() => {
         const now = new Date();
         const STATUS_COLORS = {
-          confirmed:  'bg-[#E7C8DD] text-primary border-primary',
-          pending:    'bg-amber-50 text-amber-700 border-amber-100',
-          completed:  'bg-[#E7C8DD] text-[#86626E] border-[#c89aad]',
-          cancelled:  'bg-rose-50 text-rose-700 border-rose-100',
-          'no-show':  'bg-primary text-white/80 border-slate-200',
+          confirmed: 'bg-[#E7C8DD] text-primary border-primary',
+          pending: 'bg-amber-50 text-amber-700 border-amber-100',
+          completed: 'bg-[#E7C8DD] text-[#86626E] border-[#c89aad]',
+          cancelled: 'bg-rose-50 text-rose-700 border-rose-100',
+          'no-show': 'bg-primary text-white/80 border-slate-600',
         };
         const filtered = bookings
           .filter(b => {
@@ -446,9 +446,8 @@ export default function ScheduleManager() {
                 <button
                   key={f}
                   onClick={() => setListFilter(f)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold capitalize transition-all border ${
-                    listFilter === f ? 'text-primary border-transparent shadow-sm' : 'bg-primary text-primary/80 border-slate-200 hover:text-white'
-                  }`}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold capitalize transition-all border ${listFilter === f ? 'text-primary border-transparent shadow-sm' : 'bg-primary text-[#86626E]/80 border-slate-600 hover:text-white'
+                    }`}
                   style={listFilter === f ? { backgroundColor: settings.primaryAccent } : {}}
                 >
                   {f} {f === 'all' ? `(${bookings.length})` : f === 'upcoming' ? `(${bookings.filter(b => new Date(b.date + ' ' + b.time) >= now).length})` : `(${bookings.filter(b => new Date(b.date + ' ' + b.time) < now).length})`}
@@ -476,7 +475,7 @@ export default function ScheduleManager() {
                       return (
                         <tr
                           key={booking.id}
-                          className={`hover:bg-transparent transition-colors cursor-pointer ${ isPast ? 'opacity-70' : ''}`}
+                          className={`hover:bg-transparent transition-colors cursor-pointer ${isPast ? 'opacity-70' : ''}`}
                           onClick={() => setSelectedBooking(booking)}
                         >
                           <td className="px-6 py-5">
@@ -486,7 +485,7 @@ export default function ScheduleManager() {
                               </div>
                               <div>
                                 <p className="text-sm font-bold text-white">{booking.clientDetails?.name || 'Anonymous'}</p>
-                                <p className="text-[10px] text-primary/70">{booking.clientDetails?.email || booking.clientDetails?.phone || '—'}</p>
+                                <p className="text-[10px] text-[#86626E]/70">{booking.clientDetails?.email || booking.clientDetails?.phone || '—'}</p>
                               </div>
                             </div>
                           </td>
@@ -495,7 +494,7 @@ export default function ScheduleManager() {
                           </td>
                           <td className="px-6 py-5">
                             <p className="text-sm font-bold text-primary">{booking.date}</p>
-                            <p className="text-[10px] text-primary/80">{booking.time}</p>
+                            <p className="text-[10px] text-[#86626E]/80">{booking.time}</p>
                           </td>
                           <td className="px-6 py-5">
                             <p className="text-sm font-bold text-primary">{booking.totalPrice ? `$${booking.totalPrice}` : '—'}</p>
@@ -507,7 +506,7 @@ export default function ScheduleManager() {
                           </td>
                           <td className="px-6 py-5">
                             <div className="flex gap-1.5">
-                              {isPast && <span className="text-[9px] font-bold bg-primary text-white/80 px-2 py-0.5 rounded-full border border-slate-200">Past</span>}
+                              {isPast && <span className="text-[9px] font-bold bg-primary text-white/80 px-2 py-0.5 rounded-full border border-slate-600">Past</span>}
                               {booking.isFake && <span className="text-[9px] font-bold bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full border border-orange-200">Test</span>}
                             </div>
                           </td>
@@ -524,7 +523,7 @@ export default function ScheduleManager() {
                     })}
                     {filtered.length === 0 && (
                       <tr>
-                        <td colSpan="7" className="px-8 py-20 text-center text-primary/70 text-sm italic">
+                        <td colSpan="7" className="px-8 py-20 text-center text-[#86626E]/70 text-sm italic">
                           No bookings found.
                         </td>
                       </tr>
@@ -539,109 +538,107 @@ export default function ScheduleManager() {
 
       {/* Calendar Grid */}
       {viewMode === 'calendar' && (
-      <div className="card-pro flex-1 min-h-[500px] lg:min-h-[700px] overflow-hidden flex flex-col">
-        <div className="flex-1 overflow-auto relative custom-scrollbar">
-          <div className="min-w-[800px] sm:min-w-[1000px] flex flex-col h-full">
-            {/* Responsive day columns */}
-            <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] bg-primary border-b border-slate-200 sticky top-0 z-20">
-              <div className="p-3 sm:p-6 flex items-center justify-center text-primary/70 border-r border-slate-200">
-                <span className="material-symbols-outlined text-lg sm:text-xl">schedule</span>
-              </div>
-              {weekDays.map((date, i) => {
-                const isToday = new Date().toDateString() === date.toDateString();
-                const isPastDay = date < new Date() && !isToday;
-                const dateStr = date.toLocaleDateString('en-CA');
-                const dayCount = bookings.filter(b => b.date === dateStr).length;
-                return (
-                  <div key={i} className={`py-3 px-1 sm:p-4 lg:p-6 text-center border-l border-slate-200 flex flex-col justify-center items-center relative ${isToday ? 'bg-[#E7C8DD]/60' : isPastDay ? 'bg-primary/40' : ''}`}>
-                    <p className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${isToday ? 'text-primary' : isPastDay ? 'text-primary/70' : 'text-primary/80'}`}>
-                      {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                    </p>
-                    <div className="mt-1">
-                      <span
-                        className={`inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full font-bold text-sm ${
-                          isToday ? 'text-primary shadow-md' : isPastDay ? 'text-primary/70' : 'text-primary'
-                        }`}
-                        
-                      >
-                        {date.getDate()}
-                      </span>
-                    </div>
-                    {dayCount > 0 && (
-                      <span className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full  text-[9px] font-black flex items-center justify-center shadow-sm bg-primary text-white">
-                        {dayCount}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+        <div className="card-pro flex-1 min-h-[500px] lg:min-h-[700px] overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-auto relative custom-scrollbar">
+            <div className="min-w-[800px] sm:min-w-[1000px] flex flex-col h-full">
+              {/* Responsive day columns */}
+              <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] bg-white border-b border-slate-600 sticky top-0 z-20">
+                <div className="p-3 sm:p-6 flex items-center justify-center text-[#86626E]/70 border-r border-slate-600">
+                  <span className="material-symbols-outlined text-lg sm:text-xl">schedule</span>
+                </div>
+                {weekDays.map((date, i) => {
+                  const isToday = new Date().toDateString() === date.toDateString();
+                  const isPastDay = date < new Date() && !isToday;
+                  const dateStr = date.toLocaleDateString('en-CA');
+                  const dayCount = bookings.filter(b => b.date === dateStr).length;
+                  return (
+                    <div key={i} className="py-3 px-1 sm:p-4 lg:p-6 text-center border-l border-slate-600 flex flex-col justify-center items-center relative bg-white">
+                      <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-white">
+                        {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                      </p>
+                      <div className="mt-1">
+                        <span
+                          className="inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full font-bold text-sm bg-white"
 
-            <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] divide-x divide-slate-100 flex-1">
-              {/* Time Column */}
-              <div className="divide-y divide-slate-100 bg-transparent">
-                {timeSlots.map(time => (
-                  <div key={time} className="h-24 p-2 sm:p-4 flex items-center justify-center border-b border-slate-100">
-                    <span className="text-[9px] sm:text-[10px] font-bold text-white/70 uppercase tracking-tight">{time}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Grid Columns */}
-              {weekDays.map((date, dayIdx) => {
-                const dateStr = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
-                const dayBookings = bookings.filter(b => b.date === dateStr);
-                
-                return (
-                  <div key={dayIdx} className="divide-y divide-slate-100 relative">
-                    {timeSlots.map(time => (
-                      <div key={time} className="h-24 p-2 group hover:bg-transparent transition-colors border-b border-slate-100" />
-                    ))}
-
-                    {/* Bookings */}
-                    {dayBookings.map((booking) => {
-                      const label = getServiceLabel(booking);
-                      const topOffset = calculateTopOffset(booking.time);
-                      const status = booking.status || 'pending';
-                      const accent = statusAccent[status] || settings.primaryAccent;
-                      const isFake = booking.isFake;
-                      const isPast = new Date(`${booking.date} ${booking.time}`) < new Date();
-                      
-                      return (
-                        <div 
-                          key={booking.id} 
-                          onClick={() => setSelectedBooking(booking)}
-                          className={`absolute left-1.5 right-1.5 p-2 sm:p-3 border rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer z-10 border-l-4 group/booking ${isFake ? 'bg-primary opacity-70' : isPast ? 'bg-primary/80 opacity-80' : 'bg-primary'}`}
-                          style={{ top: `${topOffset}px`, borderLeftColor: accent }}
                         >
-                          <div className="flex items-center justify-between gap-1 mb-0.5 sm:mb-1">
-                            <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: accent }}>{label}</p>
-                            <div className="flex items-center gap-1 shrink-0">
-                              {isPast && !isFake && <span className="text-[7px] font-black uppercase tracking-wider text-white/70 bg-primary px-1 py-0.5 rounded">Past</span>}
-                              {isFake && <span className="text-[7px] font-black uppercase tracking-wider text-orange-500 bg-orange-50 px-1 py-0.5 rounded">Test</span>}
-                              <span className={`badge-${status === 'no-show' ? 'cancelled' : status} !px-1.5 !py-0 !text-[8px]`}>{status === 'no-show' ? 'no show' : status}</span>
+                          {date.getDate()}
+                        </span>
+                      </div>
+                      {dayCount > 0 && (
+                        <span className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full  text-[9px] font-black flex items-center justify-center shadow-sm bg-primary text-white">
+                          {dayCount}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="grid grid-cols-[80px_repeat(7,1fr)] sm:grid-cols-[100px_repeat(7,1fr)] divide-x divide-slate-100 flex-1">
+                {/* Time Column */}
+                <div className="divide-y divide-slate-100 bg-white">
+                  {timeSlots.map(time => (
+                    <div key={time} className="h-24 p-2 sm:p-4 flex items-center justify-center border-b border-slate-100">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-[#86626E]/70 uppercase tracking-tight">{time}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Grid Columns */}
+                {weekDays.map((date, dayIdx) => {
+                  const dateStr = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
+                  const dayBookings = bookings.filter(b => b.date === dateStr);
+
+                  return (
+                    <div key={dayIdx} className="divide-y divide-slate-100 relative">
+                      {timeSlots.map(time => (
+                        <div key={time} className="h-24 p-2 group bg-white border-b border-slate-100" />
+                      ))}
+
+                      {/* Bookings */}
+                      {dayBookings.map((booking) => {
+                        const label = getServiceLabel(booking);
+                        const topOffset = calculateTopOffset(booking.time);
+                        const status = booking.status || 'pending';
+                        const accent = statusAccent[status] || settings.primaryAccent;
+                        const isFake = booking.isFake;
+                        const isPast = new Date(`${booking.date} ${booking.time}`) < new Date();
+
+                        return (
+                          <div
+                            key={booking.id}
+                            onClick={() => setSelectedBooking(booking)}
+                            className={`absolute left-1.5 right-1.5 p-2 sm:p-3 border rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer z-10 border-l-4 group/booking ${isFake ? 'bg-primary opacity-70' : isPast ? 'bg-primary/80 opacity-80' : 'bg-primary'}`}
+                            style={{ top: `${topOffset}px`, borderLeftColor: accent }}
+                          >
+                            <div className="flex items-center justify-between gap-1 mb-0.5 sm:mb-1">
+                              <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: accent }}>{label}</p>
+                              <div className="flex items-center gap-1 shrink-0">
+                                {isPast && !isFake && <span className="text-[7px] font-black uppercase tracking-wider text-white/70 bg-primary px-1 py-0.5 rounded">Past</span>}
+                                {isFake && <span className="text-[7px] font-black uppercase tracking-wider text-orange-500 bg-orange-50 px-1 py-0.5 rounded">Test</span>}
+                                <span className={`badge-${status === 'no-show' ? 'cancelled' : status} !px-1.5 !py-0 !text-[8px]`}>{status === 'no-show' ? 'no show' : status}</span>
+                              </div>
                             </div>
+                            <p className="text-xs font-bold text-primary truncate">{booking.clientDetails?.name}</p>
+                            <p className="text-[9px] sm:text-[10px] text-[#86626E]/70 mt-1.5 sm:mt-2 font-medium flex items-center justify-between">
+                              <span>{booking.time}</span>
+                              <span className="material-symbols-outlined text-[12px] sm:text-[14px] opacity-0 group-hover/booking:opacity-100 transition-opacity">visibility</span>
+                            </p>
                           </div>
-                          <p className="text-xs font-bold text-primary truncate">{booking.clientDetails?.name}</p>
-                          <p className="text-[9px] sm:text-[10px] text-primary/70 mt-1.5 sm:mt-2 font-medium flex items-center justify-between">
-                            <span>{booking.time}</span>
-                            <span className="material-symbols-outlined text-[12px] sm:text-[14px] opacity-0 group-hover/booking:opacity-100 transition-opacity">visibility</span>
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
 
       {/* Manual Booking Modal */}
-      <Modal 
-        isOpen={isModalOpen} 
+      <Modal
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Schedule New Appointment"
         subtitle="Reserve a treatment slot and assign it to a client protocol."
@@ -650,15 +647,15 @@ export default function ScheduleManager() {
 
           {/* CLIENT TYPE SELECTOR */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Association</label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-primary p-1 rounded-2xl border border-slate-200/50">
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Client Association</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-primary p-1 rounded-2xl border border-slate-600/50">
               <button
                 type="button"
                 onClick={() => {
                   setClientMode('new');
                   setFormData(prev => ({ ...prev, clientName: '', clientEmail: '', clientPhone: '' }));
                 }}
-                className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'new' ? 'bg-primary text-white shadow-sm' : 'text-primary/80 hover:text-primary'}`}
+                className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'new' ? 'bg-primary text-white shadow-sm' : 'text-[#86626E]/80 hover:text-primary'}`}
               >
                 Create New Client
               </button>
@@ -668,7 +665,7 @@ export default function ScheduleManager() {
                   setClientMode('existing');
                   setFormData(prev => ({ ...prev, clientName: '', clientEmail: '', clientPhone: '' }));
                 }}
-                className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'existing' ? 'bg-primary text-white shadow-sm' : 'text-primary/80 hover:text-primary'}`}
+                className={`py-2 px-4 rounded-xl text-xs font-bold transition-all ${clientMode === 'existing' ? 'bg-primary text-white shadow-sm' : 'text-[#86626E]/80 hover:text-primary'}`}
               >
                 Existing Client
               </button>
@@ -678,12 +675,12 @@ export default function ScheduleManager() {
           {/* OPTIONAL CUSTOMER SELECTOR IF EXISTING */}
           {clientMode === 'existing' ? (
             <div className="space-y-3 p-4 bg-primary rounded-2xl border border-slate-100 animate-page-entrance">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Select Client Profile*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Select Client Profile*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">group</span>
-                <select 
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">group</span>
+                <select
                   required
-                  onChange={e => handleSelectCustomer(e.target.value)} 
+                  onChange={e => handleSelectCustomer(e.target.value)}
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                 >
                   <option value="">-- Choose Profile --</option>
@@ -692,14 +689,14 @@ export default function ScheduleManager() {
               </div>
 
               {formData.clientName && (
-                <div className="mt-4 pt-4 border-t border-slate-200/50 grid grid-cols-2 gap-2 text-xs text-primary/80 font-medium">
+                <div className="mt-4 pt-4 border-t border-slate-600/50 grid grid-cols-2 gap-2 text-xs text-[#86626E]/80 font-medium">
                   <div>
                     <NotificationBell />
-                    <span className="text-[10px] font-bold text-primary/70 block uppercase">Name</span>
+                    <span className="text-[10px] font-bold text-[#86626E]/70 block uppercase">Name</span>
                     <span className="text-primary font-bold">{formData.clientName}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold text-primary/70 block uppercase">Contact</span>
+                    <span className="text-[10px] font-bold text-[#86626E]/70 block uppercase">Contact</span>
                     <span className="text-primary font-bold truncate block">{formData.clientPhone || formData.clientEmail}</span>
                   </div>
                 </div>
@@ -709,16 +706,16 @@ export default function ScheduleManager() {
             <div className="space-y-6 animate-page-entrance">
               {/* CLIENT FULL NAME */}
               <div className="space-y-3">
-                <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Full Name*</label>
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Client Full Name*</label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">person</span>
-                  <input 
-                    required 
-                    className="input-pro pl-12" 
-                    placeholder="e.g. John Doe" 
-                    type="text" 
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">person</span>
+                  <input
+                    required
+                    className="input-pro pl-12"
+                    placeholder="e.g. John Doe"
+                    type="text"
                     value={formData.clientName}
-                    onChange={e => setFormData({...formData, clientName: e.target.value})}
+                    onChange={e => setFormData({ ...formData, clientName: e.target.value })}
                   />
                 </div>
               </div>
@@ -726,29 +723,29 @@ export default function ScheduleManager() {
               {/* CONTACT INFO: EMAIL & PHONE (RESPONSIVE GRID) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Email*</label>
+                  <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Client Email*</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">mail</span>
-                    <input 
-                      required 
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">mail</span>
+                    <input
+                      required
                       type="email"
-                      value={formData.clientEmail} 
-                      onChange={e=>setFormData({...formData, clientEmail: e.target.value})} 
-                      className="input-pro pl-12" 
-                      placeholder="client@example.com" 
+                      value={formData.clientEmail}
+                      onChange={e => setFormData({ ...formData, clientEmail: e.target.value })}
+                      className="input-pro pl-12"
+                      placeholder="client@example.com"
                     />
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Client Phone*</label>
+                  <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Client Phone*</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">phone</span>
-                    <input 
-                      required 
-                      value={formData.clientPhone} 
-                      onChange={e=>setFormData({...formData, clientPhone: e.target.value})} 
-                      className="input-pro pl-12" 
-                      placeholder="e.g. +1 (555) 000-0000" 
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">phone</span>
+                    <input
+                      required
+                      value={formData.clientPhone}
+                      onChange={e => setFormData({ ...formData, clientPhone: e.target.value })}
+                      className="input-pro pl-12"
+                      placeholder="e.g. +1 (555) 000-0000"
                     />
                   </div>
                 </div>
@@ -759,28 +756,28 @@ export default function ScheduleManager() {
           {/* SERVICE & DEAL PICKER */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Treatment</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Service Treatment</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">medical_services</span>
-                <select 
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">medical_services</span>
+                <select
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                   value={formData.serviceId}
-                  onChange={e => setFormData({...formData, serviceId: e.target.value})}
+                  onChange={e => setFormData({ ...formData, serviceId: e.target.value })}
                 >
                   <option value="">-- Choose Service --</option>
                   {services.map(s => <option key={s.id} value={s.id}>{s.title} (${s.price})</option>)}
                 </select>
               </div>
             </div>
-            
+
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Promotional Deal</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Promotional Deal</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">loyalty</span>
-                <select 
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">loyalty</span>
+                <select
                   className="input-pro pl-12 appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1.2em_1.2em]"
                   value={formData.dealId}
-                  onChange={e => setFormData({...formData, dealId: e.target.value})}
+                  onChange={e => setFormData({ ...formData, dealId: e.target.value })}
                 >
                   <option value="">-- Choose Deal --</option>
                   {deals.map(d => <option key={d.id} value={d.id}>{d.title} (${d.discountPrice})</option>)}
@@ -791,24 +788,24 @@ export default function ScheduleManager() {
 
           {/* APPOINTMENT DATE */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Appointment Date*</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Appointment Date*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">calendar_today</span>
-              <input 
-                required 
-                className="input-pro pl-12" 
-                type="date" 
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">calendar_today</span>
+              <input
+                required
+                className="input-pro pl-12"
+                type="date"
                 value={formData.date}
-                onChange={e => setFormData({...formData, date: e.target.value})}
+                onChange={e => setFormData({ ...formData, date: e.target.value })}
               />
             </div>
           </div>
 
           {/* PREFERRED TIME BUTTON GRID */}
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Preferred Time Slot*</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Preferred Time Slot*</label>
             {!formData.date ? (
-              <div className="p-4 bg-primary rounded-2xl border border-dashed border-slate-200 text-center text-xs text-white/70">
+              <div className="p-4 bg-primary rounded-2xl border border-dashed border-slate-600 text-center text-xs text-white/70">
                 Please choose an appointment date to reveal timeline windows.
               </div>
             ) : (
@@ -820,11 +817,10 @@ export default function ScheduleManager() {
                     <button
                       key={t}
                       type="button"
-                      onClick={() => setFormData({...formData, time: t})}
-                      className={`py-3 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold transition-all border text-center ${
-                        selected ? 'text-white border-transparent shadow-sm bg-primary' : booked ? 'border-slate-100 bg-primary text-white/70 line-through opacity-30' : 'border-slate-200 hover:border-slate-300 text-white bg-primary hover:bg-primary'
-                      }`}
-                      
+                      onClick={() => setFormData({ ...formData, time: t })}
+                      className={`py-3 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold transition-all border text-center ${selected ? 'text-white border-transparent shadow-sm bg-primary' : booked ? 'border-slate-100 bg-primary text-white/70 line-through opacity-30' : 'border-slate-600 hover:border-slate-600 text-white bg-primary hover:bg-primary'
+                        }`}
+
                     >
                       {t}
                     </button>
@@ -835,25 +831,25 @@ export default function ScheduleManager() {
             <input type="hidden" required value={formData.time} name="time_verify" />
           </div>
 
-            {/* FAKE BOOKING CHECK */}
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="fakeBooking"
-                checked={formData.isFake || false}
-                onChange={e => setFormData({ ...formData, isFake: e.target.checked })}
-                className="w-4 h-4 text-primary border-gray-300 rounded"
-              />
-              <label htmlFor="fakeBooking" className="text-sm text-primary">Mark as Fake Booking (for testing)</label>
-            </div>
+          {/* FAKE BOOKING CHECK */}
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="fakeBooking"
+              checked={formData.isFake || false}
+              onChange={e => setFormData({ ...formData, isFake: e.target.checked })}
+              className="w-4 h-4 text-primary border-gray-300 rounded"
+            />
+            <label htmlFor="fakeBooking" className="text-sm text-primary">Mark as Fake Booking (for testing)</label>
+          </div>
           {/* SEND NOTIFICATION TOGGLE */}
           <div className="flex items-center gap-3 p-4 bg-primary rounded-2xl border border-slate-100">
-            <input 
-              type="checkbox" 
-              id="sendNotifySchedule" 
-              checked={sendNotification} 
-              onChange={e => setSendNotification(e.target.checked)} 
-              className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
+            <input
+              type="checkbox"
+              id="sendNotifySchedule"
+              checked={sendNotification}
+              onChange={e => setSendNotification(e.target.checked)}
+              className="w-5 h-5 rounded border-slate-600 text-primary focus:ring-primary"
             />
             <label htmlFor="sendNotifySchedule" className="text-xs font-bold text-primary select-none cursor-pointer flex-1">
               Dispatch Outbound SMS & Email Notification (Real-time Sync)
@@ -866,26 +862,26 @@ export default function ScheduleManager() {
               <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#E7C8DD]0 animate-pulse" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary/70">Live SMS & Email Dispatch Preview</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#86626E]/70">Live SMS & Email Dispatch Preview</span>
                 </div>
-                <span className="material-symbols-outlined text-primary/80 text-sm">chat_bubble</span>
+                <span className="material-symbols-outlined text-[#86626E]/80 text-sm">chat_bubble</span>
               </div>
               <div className="bg-primary/5 rounded-2xl p-4 border border-white/5">
                 <p className="text-[10px] font-extrabold text-primary mb-1 tracking-widest uppercase">💬 Outbound Dispatcher</p>
                 <p className="text-xs text-slate-200 leading-relaxed font-semibold">
-                  {formData.clientName 
+                  {formData.clientName
                     ? `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date || '___'} at ${formData.time || '___'} is booked. Thank you for choosing Vlas AESTHETIC!`
                     : "Fill client name & details to generate preview..."}
                 </p>
-                <span className="block text-[8px] text-right text-primary/80 mt-2 font-bold uppercase tracking-widest">Neural Link Sync • Instant Delivery</span>
+                <span className="block text-[8px] text-right text-[#86626E]/80 mt-2 font-bold uppercase tracking-widest">Neural Link Sync • Instant Delivery</span>
               </div>
             </div>
           )}
 
           <div className="flex gap-6 pt-6">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
-            <button 
-              type="submit" 
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-[#86626E]/80 hover:text-primary transition-colors">Cancel</button>
+            <button
+              type="submit"
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"
             >
               Confirm Schedule
@@ -912,32 +908,32 @@ export default function ScheduleManager() {
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-xl sm:text-2xl font-bold text-primary truncate">{selectedBooking.clientDetails?.name}</h3>
-                  <p className="text-primary/80 font-medium truncate">{selectedBooking.clientDetails?.email || 'No contact email assigned'}</p>
-                  <p className="text-xs text-primary/70 font-medium mt-0.5 truncate">{selectedBooking.clientDetails?.phone || 'No contact phone assigned'}</p>
+                  <p className="text-[#86626E]/80 font-medium truncate">{selectedBooking.clientDetails?.email || 'No contact email assigned'}</p>
+                  <p className="text-xs text-[#86626E]/70 font-medium mt-0.5 truncate">{selectedBooking.clientDetails?.phone || 'No contact phone assigned'}</p>
                 </div>
               </div>
- 
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-primary/70 uppercase tracking-[0.2em]">Treatment Type</label>
+                  <label className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-[0.2em]">Treatment Type</label>
                   <p className="text-base sm:text-lg font-bold text-primary">{label}</p>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-primary/70 uppercase tracking-[0.2em]">Investment</label>
+                  <label className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-[0.2em]">Investment</label>
                   <p className="text-base sm:text-lg font-bold text-primary">${service.price || selectedBooking.totalPrice || 'Market Rate'}</p>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-primary/70 uppercase tracking-[0.2em]">Scheduled Date</label>
+                  <label className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-[0.2em]">Scheduled Date</label>
                   <p className="text-base sm:text-lg font-bold text-primary">{selectedBooking.date}</p>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-primary/70 uppercase tracking-[0.2em]">Temporal Slot</label>
+                  <label className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-[0.2em]">Temporal Slot</label>
                   <p className="text-base sm:text-lg font-bold text-primary">{selectedBooking.time}</p>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <label className="text-[10px] font-bold text-primary/70 uppercase tracking-[0.2em]">Protocol Status</label>
+                <label className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-[0.2em]">Protocol Status</label>
                 <span className={`badge-${selectedBooking.status === 'no-show' ? 'cancelled' : (selectedBooking.status || 'pending')} inline-block`}>
                   {selectedBooking.status === 'no-show' ? 'Customer Did Not Visit' : (selectedBooking.status || 'pending')}
                 </span>
@@ -946,28 +942,28 @@ export default function ScheduleManager() {
               {/* Status action buttons */}
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'completed' }); setSelectedBooking(prev => ({...prev, status: 'completed'})); }}
+                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'completed' }); setSelectedBooking(prev => ({ ...prev, status: 'completed' })); }}
                   className="py-3 rounded-xl text-xs font-bold bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1] transition-all flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-sm">check_circle</span>
                   Mark Completed
                 </button>
                 <button
-                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'confirmed' }); setSelectedBooking(prev => ({...prev, status: 'confirmed'})); }}
+                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'confirmed' }); setSelectedBooking(prev => ({ ...prev, status: 'confirmed' })); }}
                   className="py-3 rounded-xl text-xs font-bold bg-[#E7C8DD] text-primary hover:bg-[#DBAFC1] transition-all flex items-center justify-center gap-2 border-primary"
                 >
                   <span className="material-symbols-outlined text-sm">event_available</span>
                   Confirm
                 </button>
                 <button
-                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'cancelled' }); setSelectedBooking(prev => ({...prev, status: 'cancelled'})); }}
+                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'cancelled' }); setSelectedBooking(prev => ({ ...prev, status: 'cancelled' })); }}
                   className="py-3 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 hover:bg-rose-100 transition-all flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-sm">cancel</span>
                   Cancel
                 </button>
                 <button
-                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'no-show' }); setSelectedBooking(prev => ({...prev, status: 'no-show'})); }}
+                  onClick={() => { updateBooking(selectedBooking.id, { ...selectedBooking, status: 'no-show' }); setSelectedBooking(prev => ({ ...prev, status: 'no-show' })); }}
                   className="py-3 rounded-xl text-xs font-bold bg-primary text-white hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
                 >
                   <span className="material-symbols-outlined text-sm">person_off</span>
@@ -976,7 +972,7 @@ export default function ScheduleManager() {
               </div>
 
               <div className="flex gap-4 pt-2">
-                <button 
+                <button
                   onClick={() => setSelectedBooking(null)}
                   className="flex-1 py-4 bg-slate-900 text-primary text-[10px] font-black uppercase tracking-[0.4em] hover:bg-slate-800 transition-all rounded-xl"
                 >
@@ -996,11 +992,11 @@ export default function ScheduleManager() {
               <span className="material-symbols-outlined text-3xl">sms</span>
             </div>
             <h4 className="text-primary text-lg font-black tracking-tight">Booking Notification Sent</h4>
-            <p className="text-primary/70 text-xs mt-2 leading-relaxed font-medium">
+            <p className="text-[#86626E]/70 text-xs mt-2 leading-relaxed font-medium">
               SMS & Email confirmation successfully dispatched to <span className="text-primary font-bold">{formData.clientName}</span>.
             </p>
             <div className="mt-4 bg-primary/5 rounded-2xl p-4 border border-white/5 w-full text-left font-sans">
-              <p className="text-[9px] text-primary/80 font-bold uppercase tracking-wider">Outbound Body</p>
+              <p className="text-[9px] text-[#86626E]/80 font-bold uppercase tracking-wider">Outbound Body</p>
               <p className="text-xs text-slate-200 mt-1 italic leading-relaxed font-medium">
                 {`"Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing VLAS!"`}
               </p>

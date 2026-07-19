@@ -87,25 +87,25 @@ export default function ServicesManager() {
                 <span className="text-xl font-bold text-primary">${service.price}</span>
               </div>
 
-              <p className="text-primary/80 text-sm line-clamp-2 mb-6 flex-1">
+              <p className="text-[#86626E]/80 text-sm line-clamp-2 mb-6 flex-1">
                 {service.description || 'No description provided.'}
               </p>
 
               <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
-                <div className="flex items-center gap-2 text-primary/70">
+                <div className="flex items-center gap-2 text-[#86626E]/70">
                   <span className="material-symbols-outlined text-sm">schedule</span>
                   <span className="text-xs font-semibold">{service.duration}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleOpenModal(service)}
-                    className="p-2 text-primary/70 hover:text-primary hover:bg-[#E7C8DD] rounded-lg transition-colors"
+                    className="p-2 text-[#86626E]/70 hover:text-primary hover:bg-[#E7C8DD] rounded-lg transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">edit</span>
                   </button>
                   <button
                     onClick={() => { if (window.confirm('Delete service?')) deleteService(service.id); }}
-                    className="p-2 text-primary/70 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                    className="p-2 text-[#86626E]/70 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">delete</span>
                   </button>
@@ -120,10 +120,10 @@ export default function ServicesManager() {
           onClick={() => handleOpenModal()}
           className="card-pro border-dashed border-slate-300 bg-transparent flex flex-col items-center justify-center p-10 gap-4 hover:bg-primary hover:border-primary transition-all group min-h-[350px]"
         >
-          <div className="w-16 h-16 rounded-full bg-primary border border-slate-200 flex items-center justify-center text-primary/70 group-hover:text-white group-hover:border-[#c89aad] transition-all shadow-sm">
+          <div className="w-16 h-16 rounded-full bg-primary border border-slate-200 flex items-center justify-center text-[#86626E]/70 group-hover:text-white group-hover:border-[#c89aad] transition-all shadow-sm">
             <span className="material-symbols-outlined text-3xl">add</span>
           </div>
-          <p className="text-sm font-bold text-primary/80 group-hover:text-primary transition-colors">Create New Service</p>
+          <p className="text-sm font-bold text-[#86626E]/80 group-hover:text-primary transition-colors">Create New Service</p>
         </button>
       </div>
 
@@ -137,32 +137,32 @@ export default function ServicesManager() {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Title*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Service Title*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">label</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">label</span>
                 <input required type="text" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="input-pro pl-12" placeholder="e.g. Skin Rejuvenation" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Category*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Category*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">category</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">category</span>
                 <input required type="text" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="input-pro pl-12" placeholder="e.g. Skincare" />
               </div>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Service Price ($)*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Service Price ($)*</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">payments</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">payments</span>
                 <input required type="number" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} className="input-pro pl-12" placeholder="150" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Expected Duration*</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Expected Duration*</label>
               <div className="relative flex items-center">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">timer</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">timer</span>
                 <input
                   required
                   type="number"
@@ -172,22 +172,22 @@ export default function ServicesManager() {
                   className="input-pro pl-12 pr-20"
                   placeholder="60"
                 />
-                <span className="absolute right-4 text-xs font-bold text-primary/70 uppercase">minutes</span>
+                <span className="absolute right-4 text-xs font-bold text-[#86626E]/70 uppercase">minutes</span>
               </div>
             </div>
           </div>
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Treatment Description</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Treatment Description</label>
             <div className="relative">
-              <span className="absolute left-4 top-4 material-symbols-outlined text-primary/70">description</span>
+              <span className="absolute left-4 top-4 material-symbols-outlined text-[#86626E]/70">description</span>
               <textarea rows="3" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="input-pro pl-12 resize-none pt-4" placeholder="Briefly describe the service benefits and procedure..." />
             </div>
           </div>
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Hero Image</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Hero Image</label>
             <div className="flex gap-4">
               <div className="flex-1 relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">link</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">link</span>
                 <input type="text" value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })} className="input-pro pl-12" placeholder="Image URL..." />
               </div>
               <div className="relative">
@@ -225,7 +225,7 @@ export default function ServicesManager() {
           </div>
 
           <div className="flex gap-6 pt-6">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-[#86626E]/80 hover:text-primary transition-colors">Cancel</button>
             <button
               type="submit"
               className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white"

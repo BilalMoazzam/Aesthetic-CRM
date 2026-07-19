@@ -114,7 +114,7 @@ export default function Signup() {
               <h1 className="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight leading-tight" style={inputStyle}>
                 Staff Registration
               </h1>
-              <p className="text-primary/70 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
+              <p className="text-[#86626E]/70 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1.5 sm:mt-2" style={inputStyle}>
                 Request Access Privilege
               </p>
             </div>
@@ -133,7 +133,7 @@ export default function Signup() {
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-primary mb-2" style={inputStyle}>Registration Submitted</h3>
-                  <p className="text-primary/80 text-xs sm:text-sm leading-relaxed max-w-[280px] sm:max-w-xs mx-auto" style={inputStyle}>
+                  <p className="text-[#86626E]/80 text-xs sm:text-sm leading-relaxed max-w-[280px] sm:max-w-xs mx-auto" style={inputStyle}>
                     Your credentials have been logged. An administrator must approve your account before you can access the platform.
                   </p>
                 </div>
@@ -166,11 +166,11 @@ export default function Signup() {
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" autoComplete="off">
                   {/* Full Name Input */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-[#86626E]/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                       Full Name <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative group">
-                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>badge</span>
+                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>badge</span>
                       <input 
                         required 
                         type="text" 
@@ -189,11 +189,11 @@ export default function Signup() {
 
                   {/* Username Input */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-[#86626E]/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                       Username <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative group">
-                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
+                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>person</span>
                       <input 
                         required 
                         type="text" 
@@ -212,11 +212,11 @@ export default function Signup() {
 
                   {/* Password Input */}
                   <div className="space-y-1.5 sm:space-y-2">
-                    <label className="text-[10px] sm:text-[11px] font-bold text-primary/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
+                    <label className="text-[10px] sm:text-[11px] font-bold text-[#86626E]/80 uppercase tracking-widest ml-0.5 sm:ml-1 block" style={inputStyle}>
                       Password <span className="text-rose-400">*</span>
                     </label>
                     <div className="relative group">
-                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
+                      <span className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 group-focus-within:text-primary transition-colors duration-300 text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>lock</span>
                       <input 
                         required 
                         type={showPassword ? 'text' : 'password'} 
@@ -234,7 +234,7 @@ export default function Signup() {
                         type="button"
                         tabIndex={-1}
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-primary/70 hover:text-primary transition-colors p-0.5"
+                        className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-[#86626E]/70 hover:text-primary transition-colors p-0.5"
                       >
                         <span className="material-symbols-outlined text-lg sm:text-xl" style={{ fontVariationSettings: "'FILL' 0, 'wght' 300" }}>
                           {showPassword ? 'visibility_off' : 'visibility'}
@@ -267,7 +267,7 @@ export default function Signup() {
 
                 {/* Login Link */}
                 <div className="mt-6 sm:mt-8 text-center">
-                  <p className="text-xs sm:text-sm text-primary/80 font-medium" style={inputStyle}>
+                  <p className="text-xs sm:text-sm text-[#86626E]/80 font-medium" style={inputStyle}>
                     Already have an account?{' '}
                     <Link 
                       to="/login" 
@@ -283,7 +283,7 @@ export default function Signup() {
 
             {/* Footer */}
             <div className="mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-100 text-center">
-              <p className="text-[9px] sm:text-[10px] text-primary/70 font-semibold uppercase tracking-[0.15em] sm:tracking-widest" style={inputStyle}>
+              <p className="text-[9px] sm:text-[10px] text-[#86626E]/70 font-semibold uppercase tracking-[0.15em] sm:tracking-widest" style={inputStyle}>
                 VLAS Core v3.2.0 • Admin Verification Flow
               </p>
             </div>

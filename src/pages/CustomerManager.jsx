@@ -16,7 +16,7 @@ const STATUS_COLORS = {
   pending: { bg: 'bg-amber-50', text: 'text-amber-700', dot: 'bg-amber-400' },
   completed: { bg: 'bg-[#E7C8DD]', text: 'text-primary', dot: 'bg-[#E7C8DD]0' },
   cancelled: { bg: 'bg-rose-50', text: 'text-rose-700', dot: 'bg-rose-500' },
-  'no-show': { bg: 'bg-primary', text: 'text-primary/80', dot: 'bg-slate-400' },
+  'no-show': { bg: 'bg-primary', text: 'text-[#86626E]/80', dot: 'bg-slate-400' },
 };
 
 export default function CustomerManager() {
@@ -183,7 +183,7 @@ export default function CustomerManager() {
                             </div>
                             <div>
                               <p className="text-sm font-bold text-white">{customer.name}</p>
-                              <p className="text-xs text-primary/70 mt-0.5">{customer.email || customer.phone || '—'}</p>
+                              <p className="text-xs text-[#86626E]/70 mt-0.5">{customer.email || customer.phone || '—'}</p>
                             </div>
                           </div>
                         </td>
@@ -194,14 +194,14 @@ export default function CustomerManager() {
                                 {custBookings.length} booking{custBookings.length !== 1 ? 's' : ''}
                               </div>
                               {recent && (
-                                <div className="text-[10px] text-primary/80 flex items-center gap-1.5">
+                                <div className="text-[10px] text-[#86626E]/80 flex items-center gap-1.5">
                                   <span className={`w-1.5 h-1.5 rounded-full ${STATUS_COLORS[recent.status]?.dot || 'bg-slate-400'}`} />
                                   {recent.date} · {recent.time} ({recent.status})
                                 </div>
                               )}
                             </div>
                           ) : (
-                            <span className="text-xs text-primary/70 italic">No bookings yet</span>
+                            <span className="text-xs text-[#86626E]/70 italic">No bookings yet</span>
                           )}
                         </td>
                         <td className="px-6 py-5">
@@ -232,7 +232,7 @@ export default function CustomerManager() {
                   })}
                   {filteredCustomers.length === 0 && (
                     <tr>
-                      <td colSpan="4" className="px-8 py-20 text-center text-primary/70 text-sm italic">
+                      <td colSpan="4" className="px-8 py-20 text-center text-[#86626E]/70 text-sm italic">
                         No customers found.
                       </td>
                     </tr>
@@ -264,11 +264,11 @@ export default function CustomerManager() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-primary rounded-2xl p-4 text-center border border-slate-100">
                   <p className="text-2xl font-black text-primary">{selectedBookings.length}</p>
-                  <p className="text-[10px] font-bold text-primary/70 uppercase tracking-wider mt-1">Total Bookings</p>
+                  <p className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-wider mt-1">Total Bookings</p>
                 </div>
                 <div className="bg-primary rounded-2xl p-4 text-center border border-slate-100">
                   <p className="text-2xl font-black text-primary">${totalSpend}</p>
-                  <p className="text-[10px] font-bold text-primary/70 uppercase tracking-wider mt-1">Total Spend</p>
+                  <p className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-wider mt-1">Total Spend</p>
                 </div>
               </div>
 
@@ -279,7 +279,7 @@ export default function CustomerManager() {
                     <span className="material-symbols-outlined text-lg">mail</span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] font-bold text-primary/70 uppercase tracking-widest">Email</p>
+                    <p className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-widest">Email</p>
                     <p className="text-xs font-bold text-primary truncate">{selectedCustomer.email || 'Not provided'}</p>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ export default function CustomerManager() {
                     <span className="material-symbols-outlined text-lg">phone</span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] font-bold text-primary/70 uppercase tracking-widest">Phone (WhatsApp)</p>
+                    <p className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-widest">Phone (WhatsApp)</p>
                     <p className="text-xs font-bold text-primary truncate">{selectedCustomer.phone || 'Not provided'}</p>
                     {selectedCustomer.phone && (
                       <a
@@ -305,7 +305,7 @@ export default function CustomerManager() {
               {/* Recent bookings preview */}
               {selectedBookings.length > 0 && (
                 <div>
-                  <p className="text-[10px] font-bold text-primary/70 uppercase tracking-widest mb-3">Recent Appointments</p>
+                  <p className="text-[10px] font-bold text-[#86626E]/70 uppercase tracking-widest mb-3">Recent Appointments</p>
                   <div className="space-y-2 max-h-36 overflow-y-auto pr-1 custom-scrollbar">
                     {selectedBookings.slice(0, 4).map((b, i) => {
                       const sc = STATUS_COLORS[b.status] || STATUS_COLORS.pending;
@@ -314,7 +314,7 @@ export default function CustomerManager() {
                           <span className={`w-2 h-2 rounded-full shrink-0 ${sc.dot}`} />
                           <div className="min-w-0 flex-1">
                             <p className="text-[10px] font-bold text-primary truncate">{getServiceName(b)}</p>
-                            <p className="text-[10px] text-primary/80">{b.date} · {b.time}</p>
+                            <p className="text-[10px] text-[#86626E]/80">{b.date} · {b.time}</p>
                           </div>
                           <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${sc.bg} ${sc.text} border border-current/10 shrink-0`}>
                             {b.status}
@@ -362,24 +362,24 @@ export default function CustomerManager() {
       >
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Full Name*</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Full Name*</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">person</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">person</span>
               <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="input-pro pl-12" placeholder="e.g. John Doe" />
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Email Address</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Email Address</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">mail</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">mail</span>
                 <input value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="input-pro pl-12" placeholder="john@example.com" type="email" />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Phone Number* (Primary Key)</label>
+              <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Phone Number* (Primary Key)</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">phone</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">phone</span>
                 <input
                   required
                   value={formData.phone}
@@ -394,13 +394,13 @@ export default function CustomerManager() {
                   title="Format: +92XXXXXXXXXX (10 digits after +92)"
                 />
               </div>
-              <p className="text-[10px] text-primary/70 ml-1">Format: +92XXXXXXXXXX — Phone is used as primary identifier & for WhatsApp messaging.</p>
+              <p className="text-[10px] text-[#86626E]/70 ml-1">Format: +92XXXXXXXXXX — Phone is used as primary identifier & for WhatsApp messaging.</p>
             </div>
           </div>
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Membership Tier</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Membership Tier</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70">stars</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70">stars</span>
               <select required value={formData.tier} onChange={e => setFormData({ ...formData, tier: e.target.value })} className="input-pro pl-12 appearance-none">
                 <option value="Regular">Regular</option>
                 <option value="Silver">Silver</option>
@@ -411,7 +411,7 @@ export default function CustomerManager() {
             </div>
           </div>
           <div className="flex gap-6 pt-4">
-            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80 hover:text-primary transition-colors">Cancel</button>
+            <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-[#86626E]/80 hover:text-primary transition-colors">Cancel</button>
             <button type="submit" className="flex-[2] btn-primary py-4 shadow-xl shadow-rose-sm bg-primary text-white">
               {editingId ? 'Update Profile' : 'Register Customer'}
             </button>
@@ -433,15 +433,15 @@ export default function CustomerManager() {
               <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
                 <div className="bg-primary rounded-2xl p-3 sm:p-4 text-center border border-slate-100">
                   <p className="text-lg sm:text-xl font-black text-white">{selectedBookings.length}</p>
-                  <p className="text-[9px] sm:text-[10px] font-bold text-primary/70 uppercase tracking-wider">Bookings</p>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-[#86626E]/70 uppercase tracking-wider">Bookings</p>
                 </div>
                 <div className="bg-primary rounded-2xl p-3 sm:p-4 text-center border border-slate-100">
                   <p className="text-lg sm:text-xl font-black text-primary">${totalSpend}</p>
-                  <p className="text-[9px] sm:text-[10px] font-bold text-primary/70 uppercase tracking-wider">Spend</p>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-[#86626E]/70 uppercase tracking-wider">Spend</p>
                 </div>
                 <div className="bg-primary rounded-2xl p-3 sm:p-4 text-center border border-slate-100">
                   <p className="text-lg sm:text-xl font-black text-primary">{selectedBookings.filter(b => b.status === 'completed').length}</p>
-                  <p className="text-[9px] sm:text-[10px] font-bold text-primary/70 uppercase tracking-wider">Done</p>
+                  <p className="text-[9px] sm:text-[10px] font-bold text-[#86626E]/70 uppercase tracking-wider">Done</p>
                 </div>
               </div>
               {/* Month filter */}
@@ -467,7 +467,7 @@ export default function CustomerManager() {
                   return (
                     <div key={i} className={`flex flex-col sm:flex-row gap-3 sm:gap-5 items-start sm:items-center p-4 sm:p-5 rounded-2xl border ${sc.bg}`}>
                       <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary flex items-center justify-center shadow-sm border border-current/10 shrink-0`}>
-                        <span className="material-symbols-outlined text-primary/80">spa</span>
+                        <span className="material-symbols-outlined text-[#86626E]/80">spa</span>
                       </div>
                       <div className="flex-1 min-w-0 w-full">
                         <div className="flex justify-between items-start gap-4 mb-1">
@@ -476,7 +476,7 @@ export default function CustomerManager() {
                             {booking.status}
                           </span>
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-primary/80">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#86626E]/80">
                           <span className="flex items-center gap-1">
                             <span className="material-symbols-outlined text-sm">calendar_today</span>
                             {booking.date}
@@ -501,7 +501,7 @@ export default function CustomerManager() {
                 })}
                 {filteredHistoryBookings.length === 0 && (
                   <div className="py-10 text-center">
-                    <p className="text-sm font-bold text-primary/70">No bookings found for this period.</p>
+                    <p className="text-sm font-bold text-[#86626E]/70">No bookings found for this period.</p>
                   </div>
                 )}
               </div>
@@ -509,7 +509,7 @@ export default function CustomerManager() {
           ) : (
             <div className="py-20 text-center">
               <span className="material-symbols-outlined text-5xl text-slate-200 block mb-4">history_toggle_off</span>
-              <p className="text-sm font-bold text-primary/70">No appointments found for this client.</p>
+              <p className="text-sm font-bold text-[#86626E]/70">No appointments found for this client.</p>
             </div>
           )}
           <button onClick={() => setIsHistoryModalOpen(false)} className="w-full btn-secondary py-4 mt-4">
@@ -527,7 +527,7 @@ export default function CustomerManager() {
       >
         <form onSubmit={handleSendMessage} className="space-y-6">
           <div className="space-y-3">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-widest ml-1">Message Content</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-widest ml-1">Message Content</label>
             <textarea
               required
               value={messageText}
@@ -537,7 +537,7 @@ export default function CustomerManager() {
             />
           </div>
           <div className="flex gap-6">
-            <button type="button" onClick={() => setIsMessageModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-primary/80">Cancel</button>
+            <button type="button" onClick={() => setIsMessageModalOpen(false)} className="flex-1 py-4 text-sm font-bold text-[#86626E]/80">Cancel</button>
             <button type="submit" className="flex-[2] btn-primary py-4 bg-primary text-white">
               Send via Neural Link
             </button>

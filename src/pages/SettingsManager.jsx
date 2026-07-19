@@ -107,7 +107,7 @@ export default function SettingsManager() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Business Name</label>
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Business Name</label>
                 <input
                   type="text"
                   value={formData.brandName}
@@ -117,7 +117,7 @@ export default function SettingsManager() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Logo URL</label>
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Logo URL</label>
                 <input
                   type="text"
                   value={formData.brandLogo}
@@ -139,7 +139,7 @@ export default function SettingsManager() {
             <div className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Working Day Start</label>
+                  <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Working Day Start</label>
                   <input
                     type="text"
                     value={formData.workingHoursStart}
@@ -149,7 +149,7 @@ export default function SettingsManager() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Working Day End</label>
+                  <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Working Day End</label>
                   <input
                     type="text"
                     value={formData.workingHoursEnd}
@@ -163,7 +163,7 @@ export default function SettingsManager() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center px-1">
-                    <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Buffer Between Sessions</label>
+                    <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider">Buffer Between Sessions</label>
                     <span className="text-sm font-bold text-primary">{formData.bufferTime} minutes</span>
                   </div>
                   <input
@@ -175,12 +175,12 @@ export default function SettingsManager() {
                     onChange={e => setFormData({ ...formData, bufferTime: parseInt(e.target.value) })}
                     className="w-full h-2 bg-primary rounded-lg appearance-none cursor-pointer accent-primary"
                   />
-                  <p className="text-[10px] text-primary/70 font-medium italic mt-1 px-1">Time allocated for room reset and documentation between clients.</p>
+                  <p className="text-[10px] text-[#86626E]/70 font-medium italic mt-1 px-1">Time allocated for room reset and documentation between clients.</p>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center px-1">
-                    <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Max Booking Window</label>
+                    <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider">Max Booking Window</label>
                     <span className="text-sm font-bold text-primary">{formData.bookingWindow} days</span>
                   </div>
                   <input
@@ -192,7 +192,7 @@ export default function SettingsManager() {
                     onChange={e => setFormData({ ...formData, bookingWindow: parseInt(e.target.value) })}
                     className="w-full h-2 bg-primary rounded-lg appearance-none cursor-pointer accent-primary"
                   />
-                  <p className="text-[10px] text-primary/70 font-medium italic mt-1 px-1">How many days in advance a client can book a service.</p>
+                  <p className="text-[10px] text-[#86626E]/70 font-medium italic mt-1 px-1">How many days in advance a client can book a service.</p>
                 </div>
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function SettingsManager() {
               <div className="flex items-center justify-between p-4 bg-primary rounded-2xl border border-slate-100">
                 <div>
                   <p className="text-sm font-bold text-primary">Enable Online Bookings</p>
-                  <p className="text-xs text-primary/80 mt-0.5">Allow clients to schedule via the public web app.</p>
+                  <p className="text-xs text-[#86626E]/80 mt-0.5">Allow clients to schedule via the public web app.</p>
                 </div>
                 <button
                   onClick={() => setFormData({ ...formData, onlineBookings: !formData.onlineBookings })}
@@ -220,7 +220,7 @@ export default function SettingsManager() {
               <div className="flex items-center justify-between p-4 bg-primary rounded-2xl border border-slate-100">
                 <div>
                   <p className="text-sm font-bold text-primary">Staff Overrides</p>
-                  <p className="text-xs text-primary/80 mt-0.5">Enable admins to bypass scheduling constraints.</p>
+                  <p className="text-xs text-[#86626E]/80 mt-0.5">Enable admins to bypass scheduling constraints.</p>
                 </div>
                 <button
                   onClick={() => setFormData({ ...formData, staffOverrides: !formData.staffOverrides })}
@@ -301,7 +301,7 @@ export default function SettingsManager() {
             </h3>
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Primary Color</label>
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider">Primary Color</label>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl border border-slate-200 p-1">
                     <input
@@ -320,7 +320,7 @@ export default function SettingsManager() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-primary/80 uppercase tracking-wider">Typography</label>
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider">Typography</label>
                 <select
                   value={formData.typography}
                   onChange={e => setFormData({ ...formData, typography: e.target.value })}
@@ -346,7 +346,7 @@ export default function SettingsManager() {
           </div>
           <div>
             <h3 className="text-sm font-bold text-primary">Fake Booking Generator</h3>
-            <p className="text-xs text-primary/80 mt-0.5">Create test bookings that appear on the admin calendar but <strong>don't block real client slots</strong>.</p>
+            <p className="text-xs text-[#86626E]/80 mt-0.5">Create test bookings that appear on the admin calendar but <strong>don't block real client slots</strong>.</p>
           </div>
           <span className="ml-auto text-[10px] font-black bg-orange-100 text-orange-700 px-3 py-1 rounded-full uppercase tracking-wider border border-orange-200">Admin Only</span>
         </div>
@@ -361,9 +361,9 @@ export default function SettingsManager() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Client Name */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Client Name (optional)</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Client Name (optional)</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 text-lg">person</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 text-lg">person</span>
               <input
                 type="text"
                 value={fakeForm.clientName}
@@ -376,9 +376,9 @@ export default function SettingsManager() {
 
           {/* Service */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Service (optional)</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Service (optional)</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 text-lg">medical_services</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 text-lg">medical_services</span>
               <select
                 value={fakeForm.serviceId}
                 onChange={e => setFakeForm({ ...fakeForm, serviceId: e.target.value })}
@@ -392,9 +392,9 @@ export default function SettingsManager() {
 
           {/* Date */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Date (optional)</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Date (optional)</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 text-lg">calendar_today</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 text-lg">calendar_today</span>
               <input
                 type="date"
                 value={fakeForm.date}
@@ -406,9 +406,9 @@ export default function SettingsManager() {
 
           {/* Time */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Time (optional)</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Time (optional)</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 text-lg">schedule</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 text-lg">schedule</span>
               <select
                 value={fakeForm.time}
                 onChange={e => setFakeForm({ ...fakeForm, time: e.target.value })}
@@ -422,9 +422,9 @@ export default function SettingsManager() {
 
           {/* Count */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-primary/80 uppercase tracking-wider ml-1">Number of Bookings</label>
+            <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Number of Bookings</label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/70 text-lg">numbers</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-[#86626E]/70 text-lg">numbers</span>
               <input
                 type="number"
                 min="1"
@@ -448,7 +448,7 @@ export default function SettingsManager() {
           </div>
         </div>
 
-        <p className="text-[10px] text-primary/70 mt-4 flex items-center gap-1.5">
+        <p className="text-[10px] text-[#86626E]/70 mt-4 flex items-center gap-1.5">
           <span className="material-symbols-outlined text-sm">info</span>
           Fake bookings are tagged with an orange <strong>Test</strong> badge on the calendar and excluded from client slot blocking. Use them to simulate busy days or test scheduling logic.
         </p>
