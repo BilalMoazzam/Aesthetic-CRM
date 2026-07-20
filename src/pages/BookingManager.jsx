@@ -284,7 +284,7 @@ export default function BookingManager() {
           onClick={() => setActiveTab('all')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-[#86626E]/80 border-[#86626E]' : 'text-[#86626E]/80 border-transparent'}`}
         >
-          AllBookings
+          All Bookings
         </button>
         <button
           onClick={() => setActiveTab('pending')}
