@@ -17,6 +17,7 @@ export default function ScheduleManager() {
     fetchCustomers,
     addBooking,
     addMessage,
+    dispatchNotifications,
     updateBooking,
     settings,
     addCustomer
@@ -265,13 +266,15 @@ export default function ScheduleManager() {
     });
 
     if (sendNotification) {
-      const smsMessage = `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing Vlas AESTHETIC!`;
-      addMessage({
-        clientName: formData.clientName,
-        clientPhone: formData.clientPhone,
-        clientEmail: formData.clientEmail,
-        messageType: 'SMS & Email',
-        content: smsMessage
+      dispatchNotifications({
+        clientDetails: {
+          name: formData.clientName,
+          email: formData.clientEmail,
+          phone: formData.clientPhone
+        },
+        serviceName: serviceTitle,
+        date: formData.date,
+        time: formData.time
       });
 
       setDispatchOverlay(true);
@@ -586,7 +589,11 @@ export default function ScheduleManager() {
 
                 {/* Grid Columns */}
                 {weekDays.map((date, dayIdx) => {
-                  const dateStr = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
+                  const year = date.getFullYear();
+                  const month = String(date.getMonth() + 1).padStart(2, '0');
+                  const day = String(date.getDate()).padStart(2, '0');
+                  const dateStr = `${year}-${month}-${day}`;
+                  
                   const dayBookings = bookings.filter(b => b.date === dateStr);
 
                   return (

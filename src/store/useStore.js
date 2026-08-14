@@ -111,7 +111,10 @@ const FALLBACK_SETTINGS = {
   "onlineBookings": true,
   "staffOverrides": false,
   "secondaryWash": "#0f172a",
-  "brandLogo": ""
+  "brandLogo": "",
+  "whatsappSenderNumber": "",
+  "senderEmailAddress": "",
+  "webhookUrl": ""
 };
 
 export const useStore = create((set, get) => ({
@@ -447,24 +450,30 @@ export const useStore = create((set, get) => ({
     }
   },
 
-  // ==========================================
-  // FETCH BOOKINGS
-  // ==========================================
+  // Normalize client details for compatibility with vlas-app
+  normalizeBooking: (b) => {
+    if (b.clientDetails && !b.clientDetails.name && b.clientDetails.firstName) {
+      b.clientDetails.name = `${b.clientDetails.firstName} ${b.clientDetails.lastName || ''}`.trim();
+    }
+    return b;
+  },
+
   fetchBookings: async () => {
     try {
       const res = await fetch(`${API_URL}/bookings`);
       if (!res.ok) throw new Error("API failed");
       const data = await res.json();
-      set({ bookings: data });
-      localStorage.setItem('vlas_bookings', JSON.stringify(data));
+      const normalizedData = data.map(get().normalizeBooking);
+      set({ bookings: normalizedData });
+      localStorage.setItem('vlas_bookings', JSON.stringify(normalizedData));
     } catch (e) {
       console.warn("Using offline fallback for bookings");
       const local = localStorage.getItem('vlas_bookings');
       if (local) {
-        set({ bookings: JSON.parse(local) });
+        set({ bookings: JSON.parse(local).map(get().normalizeBooking) });
       } else {
-        set({ bookings: FALLBACK_BOOKINGS });
-        localStorage.setItem('vlas_bookings', JSON.stringify(FALLBACK_BOOKINGS));
+        set({ bookings: FALLBACK_BOOKINGS.map(get().normalizeBooking) });
+        localStorage.setItem('vlas_bookings', JSON.stringify(FALLBACK_BOOKINGS.map(get().normalizeBooking)));
       }
     }
   },
@@ -494,20 +503,37 @@ export const useStore = create((set, get) => ({
     }
   },
 
-  updateBooking: async (id, booking) => {
+  updateBooking: async (id, bookingUpdate) => {
     try {
       const res = await fetch(`${API_URL}/bookings/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(booking)
+        body: JSON.stringify(bookingUpdate)
       });
       if (!res.ok) throw new Error("API failed");
+      
+      // Auto-responder trigger when admin confirms a pending booking
+      if (bookingUpdate.status === 'confirmed') {
+        const fullBooking = get().bookings.find(b => b.id === id);
+        if (fullBooking && fullBooking.status !== 'confirmed') {
+          get().dispatchNotifications({ ...fullBooking, ...bookingUpdate });
+        }
+      }
+
       get().fetchBookings();
     } catch (e) {
       console.warn("Offline: updated booking locally");
-      const current = get().bookings.map(b => b.id === id ? { ...b, ...booking } : b);
+      const current = get().bookings.map(b => b.id === id ? { ...b, ...bookingUpdate } : b);
       set({ bookings: current });
       localStorage.setItem('vlas_bookings', JSON.stringify(current));
+      
+      // Offline fallback trigger
+      if (bookingUpdate.status === 'confirmed') {
+        const fullBooking = get().bookings.find(b => b.id === id);
+        if (fullBooking && fullBooking.status !== 'confirmed') {
+          get().dispatchNotifications({ ...fullBooking, ...bookingUpdate });
+        }
+      }
     }
   },
 
@@ -804,6 +830,92 @@ export const useStore = create((set, get) => ({
       set({ messages: current });
       localStorage.setItem('vlas_messages', JSON.stringify(current));
     }
+  },
+
+  // ==========================================
+  // DISPATCH NOTIFICATIONS (WhatsApp + Email)
+  // ==========================================
+  dispatchNotifications: async (booking) => {
+    const settings = get().settings || {};
+    const client = booking.clientDetails || {};
+    const clientName = client.name || 'Valued Client';
+    const clientEmail = client.email || '';
+    const clientPhone = client.phone || '';
+    const serviceName = booking.serviceName || booking.cartItems?.map(i => i.name).join(' + ') || 'Appointment';
+    const date = booking.date || '';
+    const time = booking.time || '';
+    const brandName = settings.brandName || 'VLAS AESTHETIC';
+
+    const messageBody = `Hello ${clientName},\n\nYour booking has been confirmed!\n\nService: ${serviceName}\nDate: ${date}\nTime: ${time}\n\nThank you for choosing ${brandName}.`;
+
+    // 1) WhatsApp — open wa.me link with pre-filled message
+    if (clientPhone) {
+      try {
+        const digits = clientPhone.replace(/\D/g, '');
+        const waMessage = `*Booking Confirmed* ✅\n\n*Name:* ${clientName}\n*Service:* ${serviceName}\n*Date:* ${date}\n*Time:* ${time}\n\nThank you for choosing ${brandName}! 💫`;
+        const waUrl = `https://wa.me/${digits}?text=${encodeURIComponent(waMessage)}`;
+        window.open(waUrl, '_blank', 'noopener,noreferrer');
+      } catch (err) {
+        console.warn('WhatsApp dispatch failed:', err);
+      }
+    }
+
+    // 2) Email — open default mail client with pre-filled content
+    if (clientEmail) {
+      try {
+        const subject = `Booking Confirmed: ${serviceName} — ${brandName}`;
+        const body = `Hello ${clientName},\n\nYour booking has been confirmed!\n\nDetails:\nService: ${serviceName}\nDate: ${date}\nTime: ${time}\n\nPlease arrive 15 minutes before your scheduled time.\n\nThank you for choosing ${brandName}.`;
+        const mailtoUrl = `mailto:${clientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.open(mailtoUrl, '_blank');
+      } catch (err) {
+        console.warn('Email dispatch failed:', err);
+      }
+    }
+
+    // 3) Webhook — fire configured API (n8n, Zapier, etc.) to handle ACTUAL sending (if set)
+    if (settings.webhookUrl) {
+      try {
+        await fetch(settings.webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'booking_confirmed',
+            senderWhatsApp: settings.whatsappSenderNumber || '',
+            senderEmail: settings.senderEmailAddress || '',
+            recipient: {
+              name: clientName,
+              email: clientEmail,
+              phone: clientPhone
+            },
+            booking: {
+              serviceName,
+              date,
+              time,
+              totalPrice: booking.totalPrice || 0
+            }
+          })
+        });
+      } catch (err) {
+        console.warn('Webhook dispatch failed:', err);
+      }
+    } else {
+      console.warn("No webhook URL configured.");
+    }
+
+    // 4) Log the message in the outbound communications store
+    get().addMessage({
+      type: 'notification',
+      channel: clientPhone ? 'WhatsApp + Email' : 'Email',
+      recipient: clientName,
+      recipientEmail: clientEmail,
+      recipientPhone: clientPhone,
+      service: serviceName,
+      date,
+      time,
+      content: messageBody
+    });
+
+    console.log(`✅ Notifications dispatched for ${clientName} — ${serviceName} on ${date} at ${time}`);
   },
 
   // ==========================================

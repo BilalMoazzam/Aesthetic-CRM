@@ -14,7 +14,10 @@ export default function SettingsManager() {
     secondaryWash: '#f8fafc',
     typography: 'Inter',
     brandName: 'VLAS Clinic',
-    brandLogo: ''
+    brandLogo: '',
+    whatsappSenderNumber: '',
+    senderEmailAddress: '',
+    webhookUrl: ''
   });
   const [isSaved, setIsSaved] = useState(false);
 
@@ -228,6 +231,46 @@ export default function SettingsManager() {
                 >
                   <div className={`absolute top-1 left-1 w-4 h-4 bg-primary rounded-full transition-transform ${formData.staffOverrides ? 'translate-x-6' : 'translate-x-0'}`} />
                 </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Communication Settings */}
+          <div className="card-pro p-8">
+            <h3 className="text-sm font-bold text-primary mb-8 flex items-center gap-2">
+              <span className="material-symbols-outlined text-base text-primary">campaign</span>
+              Communication Settings
+            </h3>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">WhatsApp Sender Number</label>
+                <input
+                  type="text"
+                  value={formData.whatsappSenderNumber}
+                  onChange={e => setFormData({ ...formData, whatsappSenderNumber: e.target.value })}
+                  className="input-pro"
+                  placeholder="+923001234567"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Sender Email Address</label>
+                <input
+                  type="email"
+                  value={formData.senderEmailAddress}
+                  onChange={e => setFormData({ ...formData, senderEmailAddress: e.target.value })}
+                  className="input-pro"
+                  placeholder="hello@vlasclinic.com"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-[#86626E]/80 uppercase tracking-wider ml-1">Webhook URL (n8n / API)</label>
+                <input
+                  type="url"
+                  value={formData.webhookUrl}
+                  onChange={e => setFormData({ ...formData, webhookUrl: e.target.value })}
+                  className="input-pro"
+                  placeholder="https://n8n.example.com/webhook/..."
+                />
               </div>
             </div>
           </div>

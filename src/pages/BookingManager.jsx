@@ -16,6 +16,7 @@ export default function BookingManager() {
     updateBooking,
     deleteBooking,
     addMessage,
+    dispatchNotifications,
     settings,
     deals,
     addCustomer
@@ -227,14 +228,7 @@ export default function BookingManager() {
       addBooking(bookingData);
 
       if (sendNotification) {
-        const smsMessage = `Dear ${formData.clientName}, your booking for ${serviceTitle} on ${formData.date} at ${formData.time} is booked. Thank you for choosing Vlas AESTHETIC!`;
-        addMessage({
-          clientName: formData.clientName,
-          clientPhone: formData.clientPhone,
-          clientEmail: formData.clientEmail,
-          messageType: 'SMS & Email',
-          content: smsMessage
-        });
+        dispatchNotifications(bookingData);
 
         // Trigger SMS Dispatched overlay notification
         setDispatchOverlay(true);
