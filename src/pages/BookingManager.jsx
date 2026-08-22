@@ -268,7 +268,7 @@ export default function BookingManager() {
           className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
-          Nepntment
+          Newpntment
         </button>
       </div>
 
