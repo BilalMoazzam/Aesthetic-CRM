@@ -265,9 +265,10 @@ export default function BookingManager() {
         </div>
         <button
           onClick={() => handleOpenModal()}
+          className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
-          NewApotmnt
+          NewAppointment
         </button>
       </div>
 
