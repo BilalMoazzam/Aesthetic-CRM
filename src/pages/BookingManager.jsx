@@ -267,7 +267,7 @@ export default function BookingManager() {
           onClick={() => handleOpenModal()}
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
-          NewApotment
+          NewApotmnt
         </button>
       </div>
 
