@@ -268,7 +268,7 @@ export default function BookingManager() {
           className="btn-primary shadow-lg shadow-rose-sm w-full md:w-auto bg-primary text-white"
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
-          New Appointment
+          NewAppointment
         </button>
       </div>
 
@@ -278,7 +278,7 @@ export default function BookingManager() {
           onClick={() => setActiveTab('all')}
           className={`pb-4 px-2 text-sm font-bold whitespace-nowrap border-b-2 transition-all ${activeTab === 'all' ? 'text-[#86626E]/80 border-[#86626E]' : 'text-[#86626E]/80 border-transparent'}`}
         >
-          All Bookings
+          AllBookings
         </button>
         <button
           onClick={() => setActiveTab('pending')}
