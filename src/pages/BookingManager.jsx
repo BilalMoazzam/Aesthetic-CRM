@@ -269,7 +269,7 @@ export default function BookingManager() {
         >
           <span className="material-symbols-outlined text-xl">add_circle</span>
           NewAppin
-        </button
+        </butto
       </div>
 
       {/* Tabs */}
